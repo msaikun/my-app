@@ -1,14 +1,14 @@
-import { Formik } from "formik";
-import { signInFormSchema } from "./validation";
+import { Formik }                          from "formik";
+import { signInFormSchema }                from "./validation";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import CardHeader from "@material-ui/core/CardHeader";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
+import TextField                           from "@material-ui/core/TextField";
+import Card                                from "@material-ui/core/Card";
+import CardContent                         from "@material-ui/core/CardContent";
+import CardActions                         from "@material-ui/core/CardActions";
+import CardHeader                          from "@material-ui/core/CardHeader";
+import Button                              from "@material-ui/core/Button";
+import Grid                                from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,28 +17,31 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     loginBtn: {
       marginTop: theme.spacing(2),
-      flexGrow: 1,
-      background: "#ed4161",
+      background: "#000",
+      '&:hover': {
+        background: "#e33141",
+        fontWeight: 600,
+      }
+    },
+    loginInput: {
+      marginTop: 30,
     },
     header: {
       textAlign: "center",
       background: "#000",
       color: "#fff",
+      textTransform: "uppercase",
     },
     card: {
       marginTop: theme.spacing(12),
       minWidth: 600,
-      minHeight: 300,
-      // [theme.breakpoints.only('xs')]: {
-      //   width: 600,
-      // },
+      minHeight: 320,
       [theme.breakpoints.up("md")]: {
         width: 700,
-        height: 450,
+        height: 400,
       },
       [theme.breakpoints.up("lg")]: {
         width: 800,
-        height: 550,
       },
     },
     buttonWrapper: {
@@ -89,6 +92,7 @@ function Login() {
                       error={Boolean(touched.email || errors.email)}
                       type={`email`}
                       name={`email`}
+                      className={classes.loginInput}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.email}
@@ -103,6 +107,7 @@ function Login() {
                       error={Boolean(touched.password || errors.password)}
                       type={`password`}
                       name={`password`}
+                      className={classes.loginInput}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.password}
