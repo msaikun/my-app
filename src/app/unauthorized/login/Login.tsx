@@ -1,5 +1,6 @@
 import { Formik }                          from "formik";
 import { signInFormSchema }                from "./validation";
+import { Navigate }                        from "react-router-dom";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField                           from "@material-ui/core/TextField";
@@ -63,6 +64,7 @@ function Login() {
         validateOnBlur
         onSubmit={(values) => {
           console.log(values);
+          <Navigate to="/contacts" />;
         }}
         validationSchema={signInFormSchema}
       >
