@@ -1,59 +1,38 @@
-import { Formik }                          from "formik";
-import { signInFormSchema }                from "./validation";
-import { Navigate }                        from "react-router-dom";
+import { Formik }            from "formik";
+import { signInFormSchema }  from "./validation";
+import { Navigate }          from "react-router-dom";
+import styled                from "styled-components";
+import Card                  from "@material-ui/core/Card";
+import CardContent           from "@material-ui/core/CardContent";
+import Grid                  from "@material-ui/core/Grid";
+import { 
+  ButtonWrapper,
+  PageHeader,
+  PageInput,
+  PageForm,
+  SubmitBtn
+}                            from "../../../shared/styles";
+// import { breakpoint } from "styled-components-breakpoint";
 
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import TextField                           from "@material-ui/core/TextField";
-import Card                                from "@material-ui/core/Card";
-import CardContent                         from "@material-ui/core/CardContent";
-import CardActions                         from "@material-ui/core/CardActions";
-import CardHeader                          from "@material-ui/core/CardHeader";
-import Button                              from "@material-ui/core/Button";
-import Grid                                from "@material-ui/core/Grid";
+const LoginPageCard = styled(Card)`
+  && {
+    margin-top: 100px;
+    min-width: 600px;
+    min-height: 320px;
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      margin: `${theme.spacing(0)} auto`,
-    },
-    loginBtn: {
-      marginTop: theme.spacing(2),
-      background: "#000",
-      '&:hover': {
-        background: "#e33141",
-        fontWeight: 600,
-      }
-    },
-    loginInput: {
-      marginTop: 30,
-    },
-    header: {
-      textAlign: "center",
-      background: "#000",
-      color: "#fff",
-      textTransform: "uppercase",
-    },
-    card: {
-      marginTop: theme.spacing(12),
-      minWidth: 600,
-      minHeight: 320,
-      [theme.breakpoints.up("md")]: {
-        width: 700,
-        height: 400,
-      },
-      [theme.breakpoints.up("lg")]: {
-        width: 800,
-      },
-    },
-    buttonWrapper: {
-      justifyContent: "center",
-    },
-  })
-);
+    @media (min-width: 900px) {
+      width: 700px;
+      height: 400px;
+    }
+
+    @media (min-width: 1200px) {
+      width: 800px;
+    }
+  }
+`;
+//Add breakpoints instead of media-queries
 
 function Login() {
-  const classes = useStyles();
-
   return (
     <>
       <Formik
@@ -78,7 +57,7 @@ function Login() {
           handleSubmit,
           dirty,
         }) => (
-          <form className={classes.container} onSubmit={handleSubmit}>
+          <PageForm onSubmit={handleSubmit}>
             <Grid
               container
               direction="column"
@@ -86,15 +65,14 @@ function Login() {
               alignItems="center"
               spacing={2}
             >
-              <Card className={classes.card}>
-                <CardHeader className={classes.header} title="Sign In" />
+              <LoginPageCard>
+                <PageHeader title="Sign In" />
                 <CardContent>
                   <Grid item xs={12}>
-                    <TextField
+                    <PageInput
                       error={Boolean(touched.email || errors.email)}
                       type={`email`}
                       name={`email`}
-                      className={classes.loginInput}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.email}
@@ -105,11 +83,10 @@ function Login() {
                   </Grid>
 
                   <Grid item xs={12}>
-                    <TextField
+                    <PageInput
                       error={Boolean(touched.password || errors.password)}
                       type={`password`}
                       name={`password`}
-                      className={classes.loginInput}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.password}
@@ -120,30 +97,21 @@ function Login() {
                   </Grid>
                 </CardContent>
 
-                <CardActions className={classes.buttonWrapper}>
-                  <Grid
-                    item
-                    xs={12}
-                    md={4}
-                    lg={5}
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <Button
+                <ButtonWrapper>
+                  <Grid item xs={12} md={4} lg={5}>
+                    <SubmitBtn
                       variant="contained"
                       fullWidth
-                      color="primary"
-                      className={classes.loginBtn}
-                      disabled={!isValid && !dirty}
+                      disabled={!isValid || !dirty}
                       type={`submit`}
                     >
                       Log In
-                    </Button>
+                    </SubmitBtn>
                   </Grid>
-                </CardActions>
-              </Card>
+                </ButtonWrapper>
+              </LoginPageCard>
             </Grid>
-          </form>
+          </PageForm>
         )}
       </Formik>
     </>

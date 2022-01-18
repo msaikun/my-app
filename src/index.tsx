@@ -1,19 +1,15 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React                              from "react";
+import ReactDOM                           from "react-dom";
+import { BrowserRouter }                  from "react-router-dom";
 import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import Login from "./app/unauthorized/login/Login";
-import Contacts from './app/contacts/Contacts';
+import App                                from "./App";
+import reportWebVitals                    from "./reportWebVitals";
+import { AuthRoutes } from "./app/authorized/AuthorizedRoutes";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="contacts" element={<Contacts />} />
-      </Routes>
+      <AuthRoutes />
       <App />
     </BrowserRouter>
   </React.StrictMode>,
