@@ -1,18 +1,22 @@
-import { Box, Card, CardContent, Fab }       from "@material-ui/core";
-import EditIcon                              from "@mui/icons-material/Edit";
-import DeleteIcon                            from "@mui/icons-material/Delete";
-import MenuBlock                             from "./../../menu/Menu";
-import styled                                from 'styled-components';
+import * as React                        from "react";
+import { Link }                          from "react-router-dom";
+import MenuBlock                         from "./../../menu/Menu";
+import styled                            from "styled-components";
+import ModalWindow                       from "../../modalWindow/ModalWindow";
+import { Box, Card, CardContent, Fab }   from "@material-ui/core";
+import EditIcon                          from "@mui/icons-material/Edit";
+import DeleteIcon                        from "@mui/icons-material/Delete";
+import ModalUnstyled                     from "@mui/base/ModalUnstyled";
 import {
   BaseBtnStyles,
   UserContainer,
   UserAllInfo,
   UserMainInfo,
-  ContactAvatar 
-}                                            from "../../../shared/styles";
+  ContactAvatar,
+}                                        from "../../../shared/styles";
 
 const ImportantContactInfo = styled.span`
-  font-weight: 500,
+  font-weight: 600;
 `;
 
 const ChangeContactContainer = styled(CardContent)`&& {
@@ -25,12 +29,12 @@ const ChangeContactContainer = styled(CardContent)`&& {
 
 const ButtonsContainer = styled(Box)`&& {
   display: flex;
-  border: 2px dashed #f7f2f2;
+  border: 2px dashed #f2f2f2;
   padding: 5px;
 }`;
 
 const ContactName = styled.h3`
-  font-weight: 500,
+  font-weight: 500;
 `;
 
 const ButtonContainer = styled(Box)`&& {
@@ -47,9 +51,36 @@ const DeleteBtn = styled(Fab)`&& {
   margin-right: 5px;
   margin-left: 10px;
   ${BaseBtnStyles}
-}`;
+`;
+
+const StyledModal = styled(ModalUnstyled)`
+  position: fixed;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Backdrop = styled("div")`
+  z-index: -1;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-tap-highlight-color: transparent;
+`;
 
 export default function ContactId() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <>
       <MenuBlock />
@@ -58,12 +89,16 @@ export default function ContactId() {
           <ContactName>Parker Rowe</ContactName>
           <ButtonsContainer>
             <ButtonContainer>
-              <EditBtn
-                color="primary"
-                aria-label="edit"
-              >
-                <EditIcon />
-              </EditBtn>
+              <Link to="/contacts/:contactId/edit">
+                <EditBtn
+                  color="primary"
+                  aria-label="edit"
+                  type="button"
+                >
+                  <EditIcon />
+                </EditBtn>
+              </Link>
+
               <p>Edit Contact</p>
             </ButtonContainer>
 
@@ -71,10 +106,21 @@ export default function ContactId() {
               <DeleteBtn
                 color="primary"
                 aria-label="delete"
+                type="button"
+                onClick={handleOpen}
               >
                 <DeleteIcon />
               </DeleteBtn>
               <p>Delete Contact</p>
+              <StyledModal
+                aria-labelledby="unstyled-modal-title"
+                aria-describedby="unstyled-modal-description"
+                open={open}
+                onClose={handleClose}
+                BackdropComponent={Backdrop}
+              >
+                <ModalWindow />
+              </StyledModal>
             </ButtonContainer>
           </ButtonsContainer>
         </ChangeContactContainer>
@@ -83,9 +129,7 @@ export default function ContactId() {
       <Card>
         <UserContainer>
           <UserAllInfo>
-            <ContactAvatar
-              sx={{ width: 56, height: 56 }}
-            />
+            <ContactAvatar sx={{ width: 56, height: 56 }} />
             <UserMainInfo>
               <div>
                 <ImportantContactInfo>Phone: </ImportantContactInfo>

@@ -1,4 +1,5 @@
 import * as React                                       from "react";
+import { Link }                                         from "react-router-dom";
 import styled                                           from "styled-components";
 import { Menu, MenuItem, ListItemIcon }                 from "@mui/material";
 import { Box, Avatar, Divider, IconButton, Typography } from "@mui/material";
@@ -12,7 +13,20 @@ const MenuEl = styled(Box)`&& {
 }`;
 
 const UserAvatar = styled(Avatar)`&& {
-  marginRight: 10px;
+  margin-right: 10px;
+}`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  text-align: center;
+  padding: 10px;
+`;
+
+const AddAnotherAcc = styled(MenuItem)`&& {
+  padding-bottom: 7px;
+  padding-top: 7px;
 }`;
 
 export default function MenuBlock() {
@@ -28,7 +42,7 @@ export default function MenuBlock() {
   return (
     <>
       <MenuEl
-        sx={{ display: "flex", alignItems: "center", justifyContent: "end" }}
+        sx={{ display: "flex", alignItems: "center", justifyContent: "end"}}
       >
         <IconButton
           onClick={handleClick}
@@ -38,7 +52,7 @@ export default function MenuBlock() {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
-          <UserAvatar></UserAvatar>
+          <UserAvatar />
         </IconButton>
         <Typography sx={{ minWidth: 100 }}>User Name</Typography>
       </MenuEl>
@@ -77,25 +91,30 @@ export default function MenuBlock() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
+        <Wrapper>
         <MenuItem>
-          <Avatar /> Profile
+          <UserAvatar /> Profile
         </MenuItem>
+        </Wrapper>
         <Divider />
 
-        <MenuItem>
+        <Wrapper>
+        <AddAnotherAcc>
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
           Add another account
-        </MenuItem>
+        </AddAnotherAcc>
         <MenuItem>
           <ListItemIcon>
-            <Logout fontSize="small" />
+            <Link to="/"> 
+              <Logout fontSize="small" />
+            </Link>
           </ListItemIcon>
           Logout
         </MenuItem>
+        </Wrapper>
       </Menu>
-      <br />
     </>
   );
 }

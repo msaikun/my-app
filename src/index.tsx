@@ -1,16 +1,25 @@
-import React                              from "react";
-import ReactDOM                           from "react-dom";
-import { BrowserRouter }                  from "react-router-dom";
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 import "./index.css";
-import App                                from "./App";
-import reportWebVitals                    from "./reportWebVitals";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 import { AuthRoutes } from "./app/authorized/AuthorizedRoutes";
+import { MuiThemeProvider } from "@material-ui/core";
+import { ThemeProvider } from "styled-components";
+import { muiTheme, theme } from "./shared/theme";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthRoutes />
-      <App />
+      <MuiThemeProvider theme={muiTheme}>
+        <ThemeProvider theme={{ ...muiTheme, ...theme }}>
+          {/* <QueryClientProvider client={queryClient}> */}
+            <AuthRoutes />
+            <App />
+          {/* </QueryClientProvider> */}
+        </ThemeProvider>
+      </MuiThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

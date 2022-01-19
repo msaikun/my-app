@@ -1,12 +1,9 @@
 import { useEffect }              from "react";
 import styled                     from "styled-components";
-
 import { Card, CardContent, Fab } from "@material-ui/core";
-
 import AddIcon                    from "@mui/icons-material/Add";
 import EditIcon                   from "@mui/icons-material/Edit";
 import FavoriteIcon               from "@mui/icons-material/Favorite";
-
 import { getUser }                from "./../../api/api";
 import MenuBlock                  from "../menu/Menu";
 import {
@@ -65,7 +62,6 @@ export default function Contacts() {
   return (
     <>
       <MenuBlock />
-
       <Card>
         <AddUserContainer>
           <h3>CONTACTS</h3>

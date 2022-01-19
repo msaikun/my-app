@@ -1,10 +1,12 @@
-import { Formik }                     from "formik";
-import MenuBlock                      from "./../../menu/Menu";
-import { contactFormSchema }          from "./validation";
-import { Navigate }                   from "react-router-dom";
-import styled                         from "styled-components";
-import { Card, CardContent, Grid }    from "@material-ui/core";
-import Switch                         from '@mui/material/Switch';
+import { Formik } from "formik";
+import MenuBlock from "./../../menu/Menu";
+import { contactFormSchema } from "../create/validation";
+import { Navigate } from "react-router-dom";
+import styled from "styled-components";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Grid from "@material-ui/core/Grid";
+import Switch from "@mui/material/Switch";
 import {
   ButtonWrapper,
   PageHeader,
@@ -14,7 +16,7 @@ import {
   SwitchWrapper,
   SwitchesGroup,
   SwitchElem
-}                                     from "../../../shared/styles";
+} from "../../../shared/styles";
 
 const CreateUserPageCard = styled(Card)`&& {
   margin-top: 100px;
@@ -29,7 +31,6 @@ const CreateUserPageCard = styled(Card)`&& {
     max-width: 800px;
   }
 }`;
-
 
 export default function Create() {
   return (
@@ -69,7 +70,7 @@ export default function Create() {
               spacing={2}
             >
               <CreateUserPageCard>
-                <PageHeader title="Create New Contact" />
+                <PageHeader title="Parker Rowe" />
                 <CardContent>
                   <Grid item xs={12}>
                     <PageInput
@@ -151,6 +152,12 @@ export default function Create() {
                         label="Add To Favourites"
                         labelPlacement="end"
                       />
+                      <SwitchElem
+                        value="end"
+                        control={<Switch color="primary" />}
+                        label="Is Blocked"
+                        labelPlacement="end"
+                      />
                     </SwitchesGroup>
                   </SwitchWrapper>
                 </Grid>
@@ -169,7 +176,7 @@ export default function Create() {
                       disabled={!isValid && !dirty}
                       type={`submit`}
                     >
-                      Submit
+                      Save
                     </Btn>
                   </Grid>
                 </ButtonWrapper>

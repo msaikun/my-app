@@ -10,27 +10,23 @@ import {
   PageHeader,
   PageInput,
   PageForm,
-  SubmitBtn
-}                            from "../../../shared/styles";
-// import { breakpoint } from "styled-components-breakpoint";
+  Btn
+}                           from "../../../shared/styles";
 
-const LoginPageCard = styled(Card)`
-  && {
-    margin-top: 100px;
-    min-width: 600px;
-    min-height: 320px;
+const LoginPageCard = styled(Card)`&& {
+  margin-top: 100px;
+  min-width: 600px;
+  min-height: 320px;
 
-    @media (min-width: 900px) {
-      width: 700px;
-      height: 400px;
-    }
-
-    @media (min-width: 1200px) {
-      width: 800px;
-    }
+  ${ ({ theme: { breakpoints } }: any) => breakpoints.up('md') } {
+    max-width: 700px;
+    max-height: 400px;
   }
-`;
-//Add breakpoints instead of media-queries
+
+  ${ ({ theme: { breakpoints } }: any) => breakpoints.up('ld') } {
+    max-width: 800px;
+  }
+}`;
 
 function Login() {
   return (
@@ -98,15 +94,20 @@ function Login() {
                 </CardContent>
 
                 <ButtonWrapper>
-                  <Grid item xs={12} md={4} lg={5}>
-                    <SubmitBtn
+                  <Grid
+                    item
+                    xs={12}
+                    md={4}
+                    lg={5}
+                  >
+                    <Btn
                       variant="contained"
                       fullWidth
                       disabled={!isValid || !dirty}
                       type={`submit`}
                     >
                       Log In
-                    </SubmitBtn>
+                    </Btn>
                   </Grid>
                 </ButtonWrapper>
               </LoginPageCard>

@@ -1,4 +1,4 @@
-const url = 'https://61e029ae0f3bdb0017934e25.mockapi.io/api/v1/';
+const url = 'https://61e029ae0f3bdb0017934e25.mockapi.io/api/v1/login';
 
 export const getUser = () => {
   return fetch(`${url}`)
