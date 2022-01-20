@@ -1,19 +1,19 @@
-import * as React                        from "react";
-import { Link }                          from "react-router-dom";
-import MenuBlock                         from "./../../menu/Menu";
-import styled                            from "styled-components";
-import ModalWindow                       from "../../modalWindow/ModalWindow";
-import { Box, Card, CardContent, Fab }   from "@material-ui/core";
-import EditIcon                          from "@mui/icons-material/Edit";
-import DeleteIcon                        from "@mui/icons-material/Delete";
-import ModalUnstyled                     from "@mui/base/ModalUnstyled";
+import * as React                        from 'react';
+import { Link }                          from 'react-router-dom';
+import styled                            from 'styled-components';
+import { MenuBlock }                     from '../../menu/Menu';
+import { DeleteContact }                 from '../deleteContact-modal/DeleteContact';
+import { Box, Card, CardContent, Fab }   from '@material-ui/core';
+import EditIcon                          from '@mui/icons-material/Edit';
+import DeleteIcon                        from '@mui/icons-material/Delete';
+import ModalUnstyled                     from '@mui/base/ModalUnstyled';
 import {
   BaseBtnStyles,
   UserContainer,
   UserAllInfo,
   UserMainInfo,
   ContactAvatar,
-}                                        from "../../../shared/styles";
+}                                        from '../../../../shared/styles';
 
 const ImportantContactInfo = styled.span`
   font-weight: 600;
@@ -65,7 +65,7 @@ const StyledModal = styled(ModalUnstyled)`
   justify-content: center;
 `;
 
-const Backdrop = styled("div")`
+const Backdrop = styled('div')`
   z-index: -1;
   position: fixed;
   right: 0;
@@ -76,7 +76,7 @@ const Backdrop = styled("div")`
   -webkit-tap-highlight-color: transparent;
 `;
 
-export default function ContactId() {
+export const ContactIdPage = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -89,11 +89,11 @@ export default function ContactId() {
           <ContactName>Parker Rowe</ContactName>
           <ButtonsContainer>
             <ButtonContainer>
-              <Link to="/contacts/:contactId/edit">
+              <Link to='/contacts/:contactId/edit'>
                 <EditBtn
-                  color="primary"
-                  aria-label="edit"
-                  type="button"
+                  color='primary'
+                  aria-label='edit'
+                  type='button'
                 >
                   <EditIcon />
                 </EditBtn>
@@ -104,22 +104,22 @@ export default function ContactId() {
 
             <ButtonContainer>
               <DeleteBtn
-                color="primary"
-                aria-label="delete"
-                type="button"
+                color='primary'
+                aria-label='delete'
+                type='button'
                 onClick={handleOpen}
               >
                 <DeleteIcon />
               </DeleteBtn>
               <p>Delete Contact</p>
               <StyledModal
-                aria-labelledby="unstyled-modal-title"
-                aria-describedby="unstyled-modal-description"
+                aria-labelledby='unstyled-modal-title'
+                aria-describedby='unstyled-modal-description'
                 open={open}
                 onClose={handleClose}
                 BackdropComponent={Backdrop}
               >
-                <ModalWindow />
+                <DeleteContact />
               </StyledModal>
             </ButtonContainer>
           </ButtonsContainer>

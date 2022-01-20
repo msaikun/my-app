@@ -7,7 +7,7 @@ import {
   ButtonWrapper,
   PageHeader,
   Btn,
-}                      from "../../shared/styles";
+}                      from "../../../../shared/styles";
 
 const DeletePageCard = styled(Card)`&& {
   margin-top: 100px;
@@ -31,7 +31,7 @@ const DeleteContactWarning = styled(CardContent)`&& {
   text-transform: uppercase;
 }`;
 
-export default function ModalWindow() {
+export const DeleteContact = () => {
   return (
     <Grid
       container

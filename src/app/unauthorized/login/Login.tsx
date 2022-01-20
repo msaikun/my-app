@@ -1,34 +1,38 @@
-import { Formik }            from "formik";
-import { signInFormSchema }  from "./validation";
-import { Navigate }          from "react-router-dom";
-import styled                from "styled-components";
-import Card                  from "@material-ui/core/Card";
-import CardContent           from "@material-ui/core/CardContent";
-import Grid                  from "@material-ui/core/Grid";
-import { 
+import { Formik }                from "formik";
+import styled                    from "styled-components";
+import Card                      from "@material-ui/core/Card";
+import CardContent               from "@material-ui/core/CardContent";
+import Grid                      from "@material-ui/core/Grid";
+import {
   ButtonWrapper,
   PageHeader,
   PageInput,
   PageForm,
-  Btn
-}                           from "../../../shared/styles";
+  Btn,
+}                                from "../../../shared/styles";
+import { signInFormSchema }      from "./validation";
+import { signIn }                from "./queries";
 
-const LoginPageCard = styled(Card)`&& {
-  margin-top: 100px;
-  min-width: 600px;
-  min-height: 320px;
+const LoginPageCard = styled(Card)`
+  && {
+    margin-top: 100px;
+    min-width: 600px;
+    min-height: 320px;
 
-  ${ ({ theme: { breakpoints } }: any) => breakpoints.up('md') } {
-    max-width: 700px;
-    max-height: 400px;
+    ${({ theme: { breakpoints } }: any) => breakpoints.up("md")} {
+      max-width: 700px;
+      max-height: 400px;
+    }
+
+    ${({ theme: { breakpoints } }: any) => breakpoints.up("ld")} {
+      max-width: 800px;
+    }
   }
+`;
 
-  ${ ({ theme: { breakpoints } }: any) => breakpoints.up('ld') } {
-    max-width: 800px;
-  }
-}`;
+export const Login = () => {
+  // const navigate = useNavigate();
 
-function Login() {
   return (
     <>
       <Formik
@@ -37,10 +41,7 @@ function Login() {
           password: "",
         }}
         validateOnBlur
-        onSubmit={(values) => {
-          console.log(values);
-          <Navigate to="/contacts" />;
-        }}
+        onSubmit={signIn}
         validationSchema={signInFormSchema}
       >
         {({
@@ -94,12 +95,7 @@ function Login() {
                 </CardContent>
 
                 <ButtonWrapper>
-                  <Grid
-                    item
-                    xs={12}
-                    md={4}
-                    lg={5}
-                  >
+                  <Grid item xs={12} md={4} lg={5}>
                     <Btn
                       variant="contained"
                       fullWidth
@@ -117,6 +113,4 @@ function Login() {
       </Formik>
     </>
   );
-}
-
-export default Login;
+};

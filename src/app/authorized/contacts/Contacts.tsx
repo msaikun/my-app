@@ -1,18 +1,16 @@
-import { useEffect }              from "react";
-import styled                     from "styled-components";
-import { Card, CardContent, Fab } from "@material-ui/core";
-import AddIcon                    from "@mui/icons-material/Add";
-import EditIcon                   from "@mui/icons-material/Edit";
-import FavoriteIcon               from "@mui/icons-material/Favorite";
-import { getUser }                from "./../../api/api";
-import MenuBlock                  from "../menu/Menu";
+import styled                     from 'styled-components';
+import { Card, CardContent, Fab } from '@material-ui/core';
+import AddIcon                    from '@mui/icons-material/Add';
+import EditIcon                   from '@mui/icons-material/Edit';
+import FavoriteIcon               from '@mui/icons-material/Favorite';
+import { MenuBlock }              from '../menu/Menu';
 import {
   BaseBtnStyles,
   UserContainer,
   UserAllInfo,
   UserMainInfo,
   ContactAvatar
-}                                from "../../shared/styles";
+}                                from '../../../shared/styles';
 
 const AddUserContainer = styled(CardContent)`&& {
   display: flex;
@@ -50,15 +48,7 @@ const EditBtn = styled(Fab)`&& {
   ${BaseBtnStyles}
 }`;
 
-export default function Contacts() {
-  useEffect(() => {
-    findUser();
-  });
-
-  const findUser = async () => {
-    const result = await getUser();
-    console.log(result);
-  };
+export const Contacts = () => {
   return (
     <>
       <MenuBlock />
@@ -66,7 +56,7 @@ export default function Contacts() {
         <AddUserContainer>
           <h3>CONTACTS</h3>
           <AddUser>
-            <AddBtn color="primary" aria-label="add">
+            <AddBtn color='primary' aria-label='add'>
               <AddIcon />
             </AddBtn>
             <p>Add New</p>
@@ -91,8 +81,8 @@ export default function Contacts() {
               </UserMainInfo>
             </UserAllInfo>
             <EditBtn
-              color="secondary"
-              aria-label="edit"
+              color='secondary'
+              aria-label='edit'
             >
               <EditIcon />
             </EditBtn>
@@ -118,8 +108,8 @@ export default function Contacts() {
               </UserMainInfo>
             </UserAllInfo>
             <EditBtn
-              color="secondary"
-              aria-label="edit"
+              color='secondary'
+              aria-label='edit'
             >
               <EditIcon />
             </EditBtn>
@@ -141,8 +131,8 @@ export default function Contacts() {
               </UserMainInfo>
             </UserAllInfo>
             <EditBtn
-              color="secondary"
-              aria-label="edit"
+              color='secondary'
+              aria-label='edit'
             >
               <EditIcon />
             </EditBtn>

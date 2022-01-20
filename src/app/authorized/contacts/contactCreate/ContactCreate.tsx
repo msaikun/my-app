@@ -1,9 +1,9 @@
-import { Formik }                     from "formik";
-import MenuBlock                      from "./../../menu/Menu";
-import { contactFormSchema }          from "./validation";
-import { Navigate }                   from "react-router-dom";
-import styled                         from "styled-components";
-import { Card, CardContent, Grid }    from "@material-ui/core";
+import { Formik }                     from 'formik';
+import { MenuBlock }                  from '../../menu/Menu';
+import { contactFormSchema }          from './validation';
+import { Navigate }                   from 'react-router-dom';
+import styled                         from 'styled-components';
+import { Card, CardContent, Grid }    from '@material-ui/core';
 import Switch                         from '@mui/material/Switch';
 import {
   ButtonWrapper,
@@ -14,7 +14,7 @@ import {
   SwitchWrapper,
   SwitchesGroup,
   SwitchElem
-}                                     from "../../../shared/styles";
+}                                     from '../../../../shared/styles';
 
 const CreateUserPageCard = styled(Card)`&& {
   margin-top: 100px;
@@ -31,22 +31,22 @@ const CreateUserPageCard = styled(Card)`&& {
 }`;
 
 
-export default function Create() {
+export const ContactCreate = () => {
   return (
     <>
       <MenuBlock />
       <Formik
         initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          description: "",
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          description: '',
         }}
         validateOnBlur
         onSubmit={(values) => {
           console.log(values);
-          <Navigate to="/contacts" />;
+          <Navigate to='/contacts' />;
         }}
         validationSchema={contactFormSchema}
       >
@@ -63,13 +63,13 @@ export default function Create() {
           <PageForm onSubmit={handleSubmit}>
             <Grid
               container
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
+              direction='column'
+              justifyContent='center'
+              alignItems='center'
               spacing={2}
             >
               <CreateUserPageCard>
-                <PageHeader title="Create New Contact" />
+                <PageHeader title='Create New Contact' />
                 <CardContent>
                   <Grid item xs={12}>
                     <PageInput
@@ -79,7 +79,7 @@ export default function Create() {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.firstName}
-                      placeholder="First Name"
+                      placeholder='First Name'
                       helperText={errors.firstName}
                       fullWidth
                     />
@@ -93,7 +93,7 @@ export default function Create() {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.lastName}
-                      placeholder="Last Name"
+                      placeholder='Last Name'
                       helperText={errors.lastName}
                       fullWidth
                     />
@@ -107,7 +107,7 @@ export default function Create() {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.email}
-                      placeholder="Email"
+                      placeholder='Email'
                       helperText={errors.email}
                       fullWidth
                     />
@@ -121,7 +121,7 @@ export default function Create() {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.phone}
-                      placeholder="Phone Number"
+                      placeholder='Phone Number'
                       helperText={errors.phone}
                       fullWidth
                     />
@@ -135,7 +135,7 @@ export default function Create() {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.description}
-                      placeholder="Description"
+                      placeholder='Description'
                       helperText={errors.description}
                       fullWidth
                     />
@@ -144,12 +144,12 @@ export default function Create() {
 
                 <Grid item xs={12}>
                   <SwitchWrapper>
-                    <SwitchesGroup aria-label="position" row>
+                    <SwitchesGroup aria-label='position' row>
                       <SwitchElem
-                        value="end"
-                        control={<Switch color="primary" />}
-                        label="Add To Favourites"
-                        labelPlacement="end"
+                        value='end'
+                        control={<Switch color='primary' />}
+                        label='Add To Favourites'
+                        labelPlacement='end'
                       />
                     </SwitchesGroup>
                   </SwitchWrapper>
@@ -163,9 +163,9 @@ export default function Create() {
                     lg={5}
                   >
                     <Btn
-                      variant="contained"
+                      variant='contained'
                       fullWidth
-                      color="primary"
+                      color='primary'
                       disabled={!isValid && !dirty}
                       type={`submit`}
                     >

@@ -1,10 +1,10 @@
-import * as React                                       from "react";
-import { Link }                                         from "react-router-dom";
-import styled                                           from "styled-components";
-import { Menu, MenuItem, ListItemIcon }                 from "@mui/material";
-import { Box, Avatar, Divider, IconButton, Typography } from "@mui/material";
-import PersonAdd                                        from "@mui/icons-material/PersonAdd";
-import Logout                                           from "@mui/icons-material/Logout";
+import * as React                                       from 'react';
+import { Link }                                         from 'react-router-dom';
+import styled                                           from 'styled-components';
+import { Menu, MenuItem, ListItemIcon }                 from '@mui/material';
+import { Box, Avatar, Divider, IconButton, Typography } from '@mui/material';
+import PersonAdd                                        from '@mui/icons-material/PersonAdd';
+import Logout                                           from '@mui/icons-material/Logout';
 
 const MenuEl = styled(Box)`&& {
   height: 70px;
@@ -29,7 +29,7 @@ const AddAnotherAcc = styled(MenuItem)`&& {
   padding-top: 7px;
 }`;
 
-export default function MenuBlock() {
+export const MenuBlock = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -42,15 +42,15 @@ export default function MenuBlock() {
   return (
     <>
       <MenuEl
-        sx={{ display: "flex", alignItems: "center", justifyContent: "end"}}
+        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end'}}
       >
         <IconButton
           onClick={handleClick}
-          size="small"
+          size='small'
           sx={{ ml: 2 }}
-          aria-controls={open ? "account-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
+          aria-controls={open ? 'account-menu' : undefined}
+          aria-haspopup='true'
+          aria-expanded={open ? 'true' : undefined}
         >
           <UserAvatar />
         </IconButton>
@@ -58,7 +58,7 @@ export default function MenuBlock() {
       </MenuEl>
       <Menu
         anchorEl={anchorEl}
-        id="account-menu"
+        id='account-menu'
         open={open}
         onClose={handleClose}
         onClick={handleClose}
@@ -88,8 +88,8 @@ export default function MenuBlock() {
             },
           },
         }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <Wrapper>
         <MenuItem>
@@ -101,14 +101,14 @@ export default function MenuBlock() {
         <Wrapper>
         <AddAnotherAcc>
           <ListItemIcon>
-            <PersonAdd fontSize="small" />
+            <PersonAdd fontSize='small' />
           </ListItemIcon>
           Add another account
         </AddAnotherAcc>
         <MenuItem>
           <ListItemIcon>
-            <Link to="/"> 
-              <Logout fontSize="small" />
+            <Link to='/'> 
+              <Logout fontSize='small' />
             </Link>
           </ListItemIcon>
           Logout

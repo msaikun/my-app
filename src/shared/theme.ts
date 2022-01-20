@@ -1,6 +1,7 @@
-import { createMuiTheme } from "@material-ui/core";
+// import { createMuiTheme } from "@material-ui/core";
+import { createTheme } from '@material-ui/core/styles'
 
-export const muiTheme = createMuiTheme();
+export const muiTheme = createTheme();
 
 export type TThemeColor =
   | 'primary'
