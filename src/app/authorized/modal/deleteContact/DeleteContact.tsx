@@ -7,20 +7,22 @@ import {
   ButtonWrapper,
   PageHeader,
   Btn,
-}                      from "../../../../shared/styles";
+}                      from "../../../shared/styles";
 
 const DeletePageCard = styled(Card)`&& {
   margin-top: 100px;
-  min-width: 600px;
-  min-height: 300px;
 
-  ${({ theme: { breakpoints } }: any) => breakpoints.up("md")} {
-    max-width: 700px;
-    max-height: 320px;
+  ${({ theme: { breakpoints } }: any) => breakpoints.up("xs")} {
+    min-width: 500px;
+    min-height: 280px;
   }
 
-  ${({ theme: { breakpoints } }: any) => breakpoints.up("ld")} {
-    max-width: 800px;
+  ${({ theme: { breakpoints } }: any) => breakpoints.up("md")} {
+    max-width: 600px;
+  }
+
+  ${({ theme: { breakpoints } }: any) => breakpoints.up("lg")} {
+    max-width: 700px;
   }
 }`;
 
@@ -38,7 +40,6 @@ export const DeleteContact = () => {
       direction="column"
       justifyContent="center"
       alignItems="center"
-      spacing={2}
     >
       <DeletePageCard>
         <PageHeader title="Delete Contact" />
@@ -51,7 +52,6 @@ export const DeleteContact = () => {
             item
             xs={4}
             md={5}
-            lg={6}
           >
             <Btn
               variant="contained"
@@ -66,7 +66,6 @@ export const DeleteContact = () => {
             item
             xs={4}
             md={5}
-            lg={6}
           >
             <Btn
               variant="contained"

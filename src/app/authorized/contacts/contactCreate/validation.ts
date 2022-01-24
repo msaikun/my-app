@@ -1,5 +1,5 @@
 import * as Yup       from 'yup';
-import { rules } from '../../../../shared/rules';
+import { rules } from '../../../shared/rules';
 
 export const contactFormSchema = Yup.object().shape({
   firstName: rules.firstName,

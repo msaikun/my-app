@@ -1,36 +1,24 @@
-import { Formik } from 'formik';
-import { MenuBlock } from '../../menu/Menu';
-import { contactFormSchema } from '../contactCreate/validation';
-import { Navigate } from 'react-router-dom';
-import styled from 'styled-components';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Grid from '@material-ui/core/Grid';
-import Switch from '@mui/material/Switch';
+import { Navigate }          from "react-router-dom";
+import { Formik }            from "formik";
 import {
   ButtonWrapper,
   PageHeader,
   PageForm,
   Btn,
+  PageCheckboxWrapper,
+  CheckboxEl,
   PageInput,
-  SwitchWrapper,
-  SwitchesGroup,
-  SwitchElem
-} from '../../../../shared/styles';
+  UserPageCard,
+  PageElementWrapper,
+}                            from "../../../shared/styles";
+import { TextInputField }    from "../../../shared/formFields/TextInputField/TextInputField";
+import { MenuBlock }         from "../../menu/Menu";
+import { contactFormSchema } from "../contactCreate/validation";
+import { pink }              from "@mui/material/colors";
+import CardContent           from "@material-ui/core/CardContent";
+import Grid                  from "@material-ui/core/Grid";
 
-const CreateUserPageCard = styled(Card)`&& {
-  margin-top: 100px;
-  min-width: 600px;
-  min-height: 620px;
-
-  ${ ({ theme: { breakpoints } }: any) => breakpoints.up('md') } {
-    max-width: 700px;
-  }
-
-  ${ ({ theme: { breakpoints } }: any) => breakpoints.up('ld') } {
-    max-width: 800px;
-  }
-}`;
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 export const ContactEdit = () => {
   return (
@@ -38,153 +26,136 @@ export const ContactEdit = () => {
       <MenuBlock />
       <Formik
         initialValues={{
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          description: '',
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          description: "",
         }}
         validateOnBlur
         onSubmit={(values) => {
           console.log(values);
-          <Navigate to='/contacts' />;
+          <Navigate to="/contacts" />;
         }}
         validationSchema={contactFormSchema}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          isValid,
-          handleSubmit,
-          dirty,
-        }) => (
+        {({ values, handleChange, isValid, handleSubmit, dirty }) => (
           <PageForm onSubmit={handleSubmit}>
             <Grid
               container
-              direction='column'
-              justifyContent='center'
-              alignItems='center'
-              spacing={2}
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
             >
-              <CreateUserPageCard>
-                <PageHeader title='Parker Rowe' />
+              <UserPageCard>
+                <PageHeader title="Parker Rowe" />
                 <CardContent>
-                  <Grid item xs={12}>
-                    <PageInput
-                      error={Boolean(touched.firstName || errors.firstName)}
-                      type={`text`}
-                      name={`firstName`}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.firstName}
-                      placeholder='First Name'
-                      helperText={errors.firstName}
-                      fullWidth
-                    />
-                  </Grid>
+                  <PageElementWrapper>
+                    <Grid
+                      item
+                      xs={12}
+                      lg={6}
+                    >
+                      <PageInput
+                        type={`text`}
+                        name={`firstName`}
+                        onChange={handleChange}
+                        value={values.firstName}
+                        placeholder="First Name"
+                        component={TextInputField}
+                      />
+                    </Grid>
 
-                  <Grid item xs={12}>
-                    <PageInput
-                      error={Boolean(touched.lastName || errors.lastName)}
-                      type={`text`}
-                      name={`lastName`}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.lastName}
-                      placeholder='Last Name'
-                      helperText={errors.lastName}
-                      fullWidth
-                    />
-                  </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      lg={6}
+                    >
+                      <PageInput
+                        type={`text`}
+                        name={`lastName`}
+                        onChange={handleChange}
+                        value={values.lastName}
+                        placeholder="Last Name"
+                        component={TextInputField}
+                      />
+                    </Grid>
+                  </PageElementWrapper>
 
-                  <Grid item xs={12}>
-                    <PageInput
-                      error={Boolean(errors.email)}
-                      type={`email`}
-                      name={`email`}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.email}
-                      placeholder='Email'
-                      helperText={errors.email}
-                      fullWidth
-                    />
-                  </Grid>
+                  <PageElementWrapper>
+                    <Grid item xs={12}>
+                      <PageInput
+                        type={`email`}
+                        name={`email`}
+                        onChange={handleChange}
+                        value={values.email}
+                        placeholder="Email"
+                        component={TextInputField}
+                      />
+                    </Grid>
 
-                  <Grid item xs={12}>
-                    <PageInput
-                      error={Boolean(touched.phone || errors.phone)}
-                      type={`tel`}
-                      name={`phone`}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.phone}
-                      placeholder='Phone Number'
-                      helperText={errors.phone}
-                      fullWidth
-                    />
-                  </Grid>
+                    <Grid item xs={12}>
+                      <PageInput
+                        type={`tel`}
+                        name={`phone`}
+                        onChange={handleChange}
+                        value={values.phone}
+                        placeholder="Phone"
+                        component={TextInputField}
+                      />
+                    </Grid>
+                  </PageElementWrapper>
 
-                  <Grid item xs={12}>
-                    <PageInput
-                      error={Boolean(errors.description)}
-                      type={`text`}
-                      name={`description`}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.description}
-                      placeholder='Description'
-                      helperText={errors.description}
-                      fullWidth
-                    />
-                  </Grid>
+                  <PageElementWrapper>
+                    <Grid item xs={12}>
+                      <PageInput
+                        type={`text`}
+                        name={`description`}
+                        onChange={handleChange}
+                        value={values.description}
+                        placeholder="Description"
+                        component={TextInputField}
+                      />
+                    </Grid>
+                  </PageElementWrapper>
                 </CardContent>
 
-                <Grid item xs={12}>
-                  <SwitchWrapper>
-                    <SwitchesGroup aria-label='position' row>
-                      <SwitchElem
-                        value='end'
-                        control={<Switch color='primary' />}
-                        label='Add To Favourites'
-                        labelPlacement='end'
-                      />
-                      <SwitchElem
-                        value='end'
-                        control={<Switch color='primary' />}
-                        label='Is Blocked'
-                        labelPlacement='end'
-                      />
-                    </SwitchesGroup>
-                  </SwitchWrapper>
-                </Grid>
+                <PageCheckboxWrapper>
+                  <CheckboxEl
+                    {...label}
+                    defaultChecked
+                    sx={{
+                      color: pink[800],
+                      "&.Mui-checked": {
+                        color: pink[600],
+                      },
+                    }}
+                  />
+                  <p>Add To Favourites</p>
+                </PageCheckboxWrapper>
 
                 <ButtonWrapper>
                   <Grid
                     item
-                    xs={12}
-                    md={4}
-                    lg={5}
+                    xs={4}
+                    lg={3}
                   >
                     <Btn
-                      variant='contained'
+                      variant="contained"
                       fullWidth
-                      color='primary'
-                      disabled={!isValid && !dirty}
+                      color="primary"
+                      disabled={!isValid || !dirty}
                       type={`submit`}
                     >
                       Save
                     </Btn>
                   </Grid>
                 </ButtonWrapper>
-              </CreateUserPageCard>
+              </UserPageCard>
             </Grid>
           </PageForm>
         )}
       </Formik>
     </>
   );
-}
+};

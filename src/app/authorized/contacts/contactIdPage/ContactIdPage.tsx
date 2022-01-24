@@ -1,40 +1,43 @@
 import * as React                        from 'react';
 import { Link }                          from 'react-router-dom';
-import styled                            from 'styled-components';
 import { MenuBlock }                     from '../../menu/Menu';
-import { DeleteContact }                 from '../deleteContact-modal/DeleteContact';
-import { Box, Card, CardContent, Fab }   from '@material-ui/core';
-import EditIcon                          from '@mui/icons-material/Edit';
-import DeleteIcon                        from '@mui/icons-material/Delete';
-import ModalUnstyled                     from '@mui/base/ModalUnstyled';
+import { DeleteContact }                 from '../../modal/deleteContact/DeleteContact';
 import {
   BaseBtnStyles,
   UserContainer,
   UserAllInfo,
   UserMainInfo,
   ContactAvatar,
-}                                        from '../../../../shared/styles';
+}                                        from '../../../shared/styles';
+import styled                            from 'styled-components';
+import { Box, CardContent, Fab }         from '@material-ui/core';
+import EditIcon                          from '@mui/icons-material/Edit';
+import DeleteIcon                        from '@mui/icons-material/Delete';
+import ModalUnstyled                     from '@mui/base/ModalUnstyled';
 
 const ImportantContactInfo = styled.span`
   font-weight: 600;
 `;
 
 const ChangeContactContainer = styled(CardContent)`&& {
+  margin: 15px;
+  padding-right: 25px;
   display: flex;
   justify-content: space-between;
-  margin-left: 15;
-  padding-right: 25;
+  align-items: center;
   font-weight: 500;
+  background-color: white;
+  border: 1px solid #aaabaa;
 }`;
 
 const ButtonsContainer = styled(Box)`&& {
   display: flex;
-  border: 2px dashed #f2f2f2;
   padding: 5px;
+  border: 2px dashed #f2f2f2;
 }`;
 
 const ContactName = styled.h3`
-  font-weight: 500;
+  font-weight: 600;
 `;
 
 const ButtonContainer = styled(Box)`&& {
@@ -65,9 +68,9 @@ const StyledModal = styled(ModalUnstyled)`
   justify-content: center;
 `;
 
-const Backdrop = styled('div')`
-  z-index: -1;
+const Backdrop = styled.div`
   position: fixed;
+  z-index: -1;
   right: 0;
   bottom: 0;
   top: 0;
@@ -84,7 +87,6 @@ export const ContactIdPage = () => {
   return (
     <>
       <MenuBlock />
-      <Card>
         <ChangeContactContainer>
           <ContactName>Parker Rowe</ContactName>
           <ButtonsContainer>
@@ -124,9 +126,8 @@ export const ContactIdPage = () => {
             </ButtonContainer>
           </ButtonsContainer>
         </ChangeContactContainer>
-      </Card>
 
-      <Card>
+      <div>
         <UserContainer>
           <UserAllInfo>
             <ContactAvatar sx={{ width: 56, height: 56 }} />
@@ -151,7 +152,7 @@ export const ContactIdPage = () => {
             </UserMainInfo>
           </UserAllInfo>
         </UserContainer>
-      </Card>
+      </div>
       <br />
     </>
   );

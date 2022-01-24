@@ -3,12 +3,12 @@ import ReactDOM                             from "react-dom";
 import { BrowserRouter }                    from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import "./index.css";
-import App                                  from "./App";
 import reportWebVitals                      from "./reportWebVitals";
 import { MuiThemeProvider }                 from "@material-ui/core";
 import { ThemeProvider }                    from "styled-components";
-import { muiTheme, theme }                  from "./shared/theme";
+import { muiTheme, theme }                  from "./app/shared/theme";
 import { AppRoutes }                        from "./app/AppRoutes";
+import { BaseStyles } from "./app/shared/baseStyle";
 
 const queryClient = new QueryClient();
 
@@ -17,9 +17,9 @@ ReactDOM.render(
     <MuiThemeProvider theme={muiTheme}>
       <ThemeProvider theme={{ ...muiTheme, ...theme }}>
         <QueryClientProvider client={queryClient}>
+        <BaseStyles />
           <BrowserRouter>
             <AppRoutes />
-            <App />
           </BrowserRouter>
         </QueryClientProvider>
       </ThemeProvider>

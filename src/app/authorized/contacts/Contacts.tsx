@@ -1,8 +1,9 @@
 import styled                     from 'styled-components';
-import { Card, CardContent, Fab } from '@material-ui/core';
+import { CardContent, Fab } from '@material-ui/core';
 import AddIcon                    from '@mui/icons-material/Add';
 import EditIcon                   from '@mui/icons-material/Edit';
 import FavoriteIcon               from '@mui/icons-material/Favorite';
+import DeleteIcon                        from '@mui/icons-material/Delete';
 import { MenuBlock }              from '../menu/Menu';
 import {
   BaseBtnStyles,
@@ -10,19 +11,23 @@ import {
   UserAllInfo,
   UserMainInfo,
   ContactAvatar
-}                                from '../../../shared/styles';
+}                                 from '../../shared/styles';
 
 const AddUserContainer = styled(CardContent)`&& {
   display: flex;
   justify-content: space-between;
-  padding-right: 25px;
+  align-items: center;
+  padding: 10px;
+  margin: 15px;
+  border: 1px solid #aaabaa;
+  background-color: white;
+  font-size: 19px;
 }`;
 
 const AddUser = styled.div`
   display: flex;
   align-items: center;
   padding: 5px;
-  border: 2px dashed #f7f2f2;
   fontWeight: 500;
 `;
 
@@ -44,15 +49,21 @@ const LikeBtn = styled(FavoriteIcon)`&& {
 }`;
 
 const EditBtn = styled(Fab)`&& {
-  margin: 15px 5px;
+  // margin: 15px 5px;
   ${BaseBtnStyles}
 }`;
+
+const DeleteBtn = styled(Fab)`&& {
+  // margin-right: 5px;
+  margin-left: 10px;
+  ${BaseBtnStyles}
+`;
 
 export const Contacts = () => {
   return (
     <>
       <MenuBlock />
-      <Card>
+      <div>
         <AddUserContainer>
           <h3>CONTACTS</h3>
           <AddUser>
@@ -63,7 +74,6 @@ export const Contacts = () => {
           </AddUser>
         </AddUserContainer>
 
-        <Card>
           <UserContainer>
             <UserAllInfo>
               <ContactAvatar
@@ -80,17 +90,24 @@ export const Contacts = () => {
                 <p>948-295-0517</p>
               </UserMainInfo>
             </UserAllInfo>
+            <div>
             <EditBtn
               color='secondary'
               aria-label='edit'
             >
               <EditIcon />
-            </EditBtn>
+            </EditBtn>        
+            <DeleteBtn
+                color='primary'
+                aria-label='delete'
+                type='button'
+                // onClick={handleOpen}
+              >
+                <DeleteIcon />
+              </DeleteBtn>
+            </div>
           </UserContainer>
-        </Card>
-        <br />
 
-        <Card>
           <UserContainer>
             <UserAllInfo>
               <ContactAvatar
@@ -107,17 +124,24 @@ export const Contacts = () => {
                 <p>793-487-5353</p>
               </UserMainInfo>
             </UserAllInfo>
+            <div>
             <EditBtn
               color='secondary'
               aria-label='edit'
             >
               <EditIcon />
             </EditBtn>
+            <DeleteBtn
+                color='primary'
+                aria-label='delete'
+                type='button'
+                // onClick={handleOpen}
+              >
+                <DeleteIcon />
+              </DeleteBtn>
+            </div>
           </UserContainer>
-        </Card>
-        <br />
 
-        <Card>
           <UserContainer>
             <UserAllInfo>
               <ContactAvatar
@@ -130,15 +154,25 @@ export const Contacts = () => {
                 <p>784-307-0995</p>
               </UserMainInfo>
             </UserAllInfo>
+            <div>
             <EditBtn
               color='secondary'
               aria-label='edit'
             >
               <EditIcon />
             </EditBtn>
+
+            <DeleteBtn
+                color='primary'
+                aria-label='delete'
+                type='button'
+                // onClick={handleOpen}
+              >
+                <DeleteIcon />
+              </DeleteBtn>
+            </div>
           </UserContainer>
-        </Card>
-      </Card>
+        </div>
     </>
   );
 }
