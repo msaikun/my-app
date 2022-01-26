@@ -1,45 +1,56 @@
-import { Navigate }          from "react-router-dom";
-import { Formik }            from "formik";
+import { useNavigate, useParams }                 from "react-router-dom";
+import { Formik }                                 from "formik";
+import { contactFormSchema }                      from "../ContactCreate/validation";
+import { MenuBlock }                              from "../../menu/Menu";
+import { useContactInfo, useUpdateContactInfo }   from "../queries";
 import {
   ButtonWrapper,
   PageHeader,
   PageForm,
   Btn,
   PageCheckboxWrapper,
+  PageCheckBoxesWrapper,
   CheckboxEl,
   PageInput,
   UserPageCard,
   PageElementWrapper,
-}                            from "../../../shared/styles";
-import { TextInputField }    from "../../../shared/formFields/TextInputField/TextInputField";
-import { MenuBlock }         from "../../menu/Menu";
-import { contactFormSchema } from "../contactCreate/validation";
-import { pink }              from "@mui/material/colors";
-import CardContent           from "@material-ui/core/CardContent";
-import Grid                  from "@material-ui/core/Grid";
+}                                                 from "../../../shared/styles";
+import { TextInputField }                         from "../../../shared/formFields/TextInputField/TextInputField";
+import { IContact }                               from "../../../shared/interfaces";
+import { pink }                                   from "@mui/material/colors";
+import CardContent                                from "@material-ui/core/CardContent";
+import Grid                                       from "@material-ui/core/Grid";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 export const ContactEdit = () => {
+  const { contactId } = useParams();
+  const { data } = useContactInfo(contactId);
+  const { mutate: updateContact } = useUpdateContactInfo();
+  const navigate = useNavigate();
+  const onUpdate = (values: IContact) => {
+    updateContact(values, {
+      onSuccess: () => navigate("/contacts"),
+    });
+  };
+
   return (
     <>
       <MenuBlock />
-      <Formik
+      {data && <Formik
         initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          description: "",
+          id: `${data.id}`,
+          firstName: `${data.firstName}`,
+          lastName: `${data.lastName}`,
+          email: `${data.email || ""}`,
+          phone: `${data.phone}`,
+          description: `${data.description}`,
         }}
         validateOnBlur
-        onSubmit={(values) => {
-          console.log(values);
-          <Navigate to="/contacts" />;
-        }}
         validationSchema={contactFormSchema}
+        onSubmit={onUpdate}
       >
-        {({ values, handleChange, isValid, handleSubmit, dirty }) => (
+        {({ values,  handleChange, isValid, handleSubmit, dirty }) => (
           <PageForm onSubmit={handleSubmit}>
             <Grid
               container
@@ -66,6 +77,8 @@ export const ContactEdit = () => {
                       />
                     </Grid>
 
+                    <Grid item lg={1}></Grid>
+
                     <Grid
                       item
                       xs={12}
@@ -83,7 +96,7 @@ export const ContactEdit = () => {
                   </PageElementWrapper>
 
                   <PageElementWrapper>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} lg={6}>
                       <PageInput
                         type={`email`}
                         name={`email`}
@@ -94,7 +107,9 @@ export const ContactEdit = () => {
                       />
                     </Grid>
 
-                    <Grid item xs={12}>
+                    <Grid item lg={1}></Grid>
+
+                    <Grid item xs={12} lg={6}>
                       <PageInput
                         type={`tel`}
                         name={`phone`}
@@ -120,6 +135,7 @@ export const ContactEdit = () => {
                   </PageElementWrapper>
                 </CardContent>
 
+                <PageCheckBoxesWrapper>
                 <PageCheckboxWrapper>
                   <CheckboxEl
                     {...label}
@@ -134,6 +150,21 @@ export const ContactEdit = () => {
                   <p>Add To Favourites</p>
                 </PageCheckboxWrapper>
 
+                <PageCheckboxWrapper>
+                    <CheckboxEl
+                      {...label}
+                      defaultChecked
+                      sx={{
+                        color: pink[800],
+                        "&.Mui-checked": {
+                          color: pink[600],
+                        },
+                      }}
+                    />
+                    <p>Is Blocked</p>
+                  </PageCheckboxWrapper>
+                </PageCheckBoxesWrapper>
+
                 <ButtonWrapper>
                   <Grid
                     item
@@ -144,7 +175,7 @@ export const ContactEdit = () => {
                       variant="contained"
                       fullWidth
                       color="primary"
-                      disabled={!isValid || !dirty}
+                      disabled={!isValid && !dirty}
                       type={`submit`}
                     >
                       Save
@@ -155,7 +186,7 @@ export const ContactEdit = () => {
             </Grid>
           </PageForm>
         )}
-      </Formik>
+      </Formik>}
     </>
   );
 };

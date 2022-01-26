@@ -1,7 +1,8 @@
-import { Formik }              from "formik";
-import { contactFormSchema }   from "./validation";
-import { Navigate }            from "react-router-dom";
-import { MenuBlock }           from "../../menu/Menu";
+import { useNavigate }             from "react-router-dom";
+import { Formik }                  from "formik";
+import { contactFormSchema }       from "./validation";
+import { useContactCreate }        from "../queries";
+import { MenuBlock }               from "../../menu/Menu";
 import {
   ButtonWrapper,
   PageHeader,
@@ -13,17 +14,23 @@ import {
   PageCheckBoxesWrapper,
   UserPageCard,
   PageElementWrapper,
-  // PageInputWrapper
-}                              from "../../../shared/styles";
-import { TextInputField }      from "../../../shared/formFields/TextInputField/TextInputField";
-import { pink }                from "@mui/material/colors";
-import { CardContent, Grid }   from "@material-ui/core";
-
-//Для інпутів зникли марджини! Пофіксити! Також в компоненті Контакт Едіт!
+}                                  from "../../../shared/styles";
+import { TextInputField }          from "../../../shared/formFields/TextInputField/TextInputField";
+import { IContact }                from "../../../shared/interfaces";
+import { pink }                    from "@mui/material/colors";
+import { CardContent, Grid }       from "@material-ui/core";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 export const ContactCreate = () => {
+  const { mutate: contact } = useContactCreate();
+  const navigate = useNavigate();
+  const onCreate = (values: IContact) => {
+    contact(values, {
+      onSuccess: () => navigate("/contacts"),
+    });
+  };
+
   return (
     <>
       <MenuBlock />
@@ -34,12 +41,11 @@ export const ContactCreate = () => {
           email: "",
           phone: "",
           description: "",
+          isFavourite: false,
+          id: "",
         }}
         validateOnBlur
-        onSubmit={(values) => {
-          console.log(values);
-          <Navigate to="/contacts" />;
-        }}
+        onSubmit={onCreate}
         validationSchema={contactFormSchema}
       >
         {({ values, handleChange, isValid, handleSubmit, dirty }) => (
@@ -49,7 +55,6 @@ export const ContactCreate = () => {
               direction="column"
               justifyContent="center"
               alignItems="center"
-              spacing={2}
             >
               <UserPageCard>
                 <PageHeader title="Create New Contact" />
@@ -69,6 +74,8 @@ export const ContactCreate = () => {
                         component={TextInputField}
                       />
                     </Grid>
+
+                    <Grid item lg={1}></Grid>
 
                     <Grid
                       item
@@ -102,6 +109,8 @@ export const ContactCreate = () => {
                       />
                     </Grid>
 
+                    <Grid item lg={1}></Grid>
+                    
                     <Grid
                       item
                       xs={12}
@@ -145,20 +154,6 @@ export const ContactCreate = () => {
                       }}
                     />
                     <p>Add To Favourites</p>
-                  </PageCheckboxWrapper>
-
-                  <PageCheckboxWrapper>
-                    <CheckboxEl
-                      {...label}
-                      defaultChecked
-                      sx={{
-                        color: pink[800],
-                        "&.Mui-checked": {
-                          color: pink[600],
-                        },
-                      }}
-                    />
-                    <p>Is Blocked</p>
                   </PageCheckboxWrapper>
                 </PageCheckBoxesWrapper>
 

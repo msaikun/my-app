@@ -51,7 +51,6 @@ export const Login = () => {
     password: "",
   };
 
-
   return (
     <>
       <Formik
@@ -104,7 +103,12 @@ export const Login = () => {
                 </CardContent>
 
                 <ButtonWrapper>
-                  <Grid item xs={8} md={4} lg={5}>
+                  <Grid
+                    item
+                    xs={8}
+                    md={4}
+                    lg={5}
+                  >
                     <Btn
                       variant="contained"
                       fullWidth

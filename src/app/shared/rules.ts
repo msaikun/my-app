@@ -14,11 +14,11 @@ export const rules = {
     .matches(/^[aA-zZ\s]+$/, 'Please enter valid last name')
     .max(20, 'Last Name must to 20 symbols')
     .required('Last Name is required'),
-  phone: Yup.number()
-    .typeError("That doesn't look like a phone number")
-    .integer("A phone number can't include a decimal point")
+  phone: Yup.string()
+    .matches(/^[0-9\s, -]+$/, "That doesn't look like a phone number")
     .min(8, 'A phone number must be greater than or equal to 8')
     .required('A phone number is required'),
   description: Yup.string()
+    .required('Description is required')
     .max(250, 'Description must to 250 symbols')
 };

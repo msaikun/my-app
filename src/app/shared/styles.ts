@@ -7,7 +7,7 @@ import { CardContent }                              from "@material-ui/core";
 import { Avatar }                                   from "@mui/material";
 import Checkbox                                     from "@mui/material/Checkbox";
 import Card                                         from "@material-ui/core/Card";
-
+import ModalUnstyled               from "@mui/base/ModalUnstyled";
 
 export const ButtonWrapper = styled(CardActions)`&& {
   justify-content: center;
@@ -25,7 +25,7 @@ export const PageForm = styled.form`
 `;
 
 export const Btn = styled(Button)`&& {
-  margin-top: 30px;
+  margin-top: 15px;
   margin-bottom: 40px;
   background-color: #000;
   color: #fff;
@@ -50,6 +50,7 @@ export const BaseBtnStyles = css`
 export const UserContainer = styled(CardContent)`&& {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 15px;
   background-color: #fff;
   border: 1px solid #aaabaa;
@@ -57,6 +58,7 @@ export const UserContainer = styled(CardContent)`&& {
 
 export const UserAllInfo = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 export const UserMainInfo = styled.div`
@@ -78,18 +80,20 @@ export const TextInputWrapper = styled.div<{ hasLabel?: boolean, hasValue?: bool
 export const PageCheckboxWrapper = styled.div`
   display: flex;
   align-items: center;
+  margin-left: 5px;
+  margin-right: 10px;
+
+  ${({ theme: { breakpoints } }: any) => breakpoints.up("lg")} {
+    margin-left: 35px;
+  }
 `;
 
 export const CheckboxEl = styled(Checkbox)`&& {
   margin-right: 5px;
-
-  ${({ theme: { breakpoints } }: any) => breakpoints.up("lg")} {
-    margin-left: 40px;
-  }
 }`;
 
 export const PageInput = styled(FastField)`&& {
-  margin-top: 20px;
+  margin-top: 30px;
 }`;
 
 export const PageInputWrapper = styled(Avatar)`&& {
@@ -107,6 +111,8 @@ export const PageElementWrapper = styled.div`&& {
 
 export const PageCheckBoxesWrapper = styled.div`&& {
   display: flex;
+  margin-left: 10px;
+  margin-top: 10px;
 }`;
 
 export const UserPageCard = styled(Card)`&& {
@@ -126,3 +132,26 @@ export const UserPageCard = styled(Card)`&& {
   height: 500px;
   }
 }`;
+
+export const Backdrop = styled.div`
+position: fixed;
+z-index: -1;
+right: 0;
+bottom: 0;
+top: 0;
+left: 0;
+background-color: rgba(0, 0, 0, 0.1);
+-webkit-tap-highlight-color: transparent;
+`;
+
+export const StyledModal = styled(ModalUnstyled)`
+position: fixed;
+z-index: 1;
+right: 0;
+bottom: 0;
+top: 0;
+left: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+`;

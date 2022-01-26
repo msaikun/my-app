@@ -1,39 +1,61 @@
-import styled          from "styled-components";
-import Card            from "@material-ui/core/Card";
-import CardContent     from "@material-ui/core/CardContent";
-import Grid            from "@material-ui/core/Grid";
-import DeleteIcon      from "@mui/icons-material/Delete";
-import {
-  ButtonWrapper,
-  PageHeader,
-  Btn,
-}                      from "../../../shared/styles";
+import { MouseEventHandler } from "react";
+import { useNavigate } from "react-router-dom";
+import { useContactDelete } from "../../contacts/queries";
+import styled from "styled-components";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Grid from "@material-ui/core/Grid";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { ButtonWrapper, PageHeader, Btn } from "../../../shared/styles";
 
-const DeletePageCard = styled(Card)`&& {
-  margin-top: 100px;
+const DeletePageCard = styled(Card)`
+  && {
+    margin-top: 100px;
 
-  ${({ theme: { breakpoints } }: any) => breakpoints.up("xs")} {
-    min-width: 500px;
-    min-height: 280px;
+    ${({ theme: { breakpoints } }: any) => breakpoints.up("xs")} {
+      min-width: 500px;
+      min-height: 250px;
+    }
+
+    ${({ theme: { breakpoints } }: any) => breakpoints.up("md")} {
+      max-width: 600px;
+    }
+
+    ${({ theme: { breakpoints } }: any) => breakpoints.up("lg")} {
+      max-width: 700px;
+    }
   }
+`;
 
-  ${({ theme: { breakpoints } }: any) => breakpoints.up("md")} {
-    max-width: 600px;
+const DeleteContactWarning = styled(CardContent)`
+  && {
+    padding-top: 40px;
+    text-align: center;
+    font-weight: 600;
+    text-transform: uppercase;
   }
+`;
 
-  ${({ theme: { breakpoints } }: any) => breakpoints.up("lg")} {
-    max-width: 700px;
-  }
-}`;
+export const DeleteContact = ({
+  id,
+  onClose,
+}: {
+  id: string;
+  onClose: (e: React.MouseEvent<HTMLElement>) => void;
+}) => {
+  const { mutate: deleteContact } = useContactDelete();
+  const navigate = useNavigate();
+  const onDelete: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
 
-const DeleteContactWarning = styled(CardContent)`&& {
-  padding-top: 40px;
-  text-align: center;
-  font-weight: 600;
-  text-transform: uppercase;
-}`;
+    deleteContact(id, {
+      onSuccess: () => {
+        navigate("/contacts");
+        onClose(e);
+      },
+    });
+  };
 
-export const DeleteContact = () => {
   return (
     <Grid
       container
@@ -48,30 +70,24 @@ export const DeleteContact = () => {
         </DeleteContactWarning>
 
         <ButtonWrapper>
-          <Grid
-            item
-            xs={4}
-            md={5}
-          >
+          <Grid item xs={4}>
             <Btn
               variant="contained"
               fullWidth
               type={`button`}
+              onClick={onClose}
             >
               Cancel
             </Btn>
           </Grid>
-
-          <Grid 
-            item
-            xs={4}
-            md={5}
-          >
+          <Grid item xs={1}></Grid>
+          <Grid item xs={4}>
             <Btn
               variant="contained"
               fullWidth
               type={`button`}
               startIcon={<DeleteIcon />}
+              onClick={onDelete}
             >
               Delete
             </Btn>
@@ -80,4 +96,4 @@ export const DeleteContact = () => {
       </DeletePageCard>
     </Grid>
   );
-}
+};
