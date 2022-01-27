@@ -24,6 +24,10 @@ const UserAvatar = styled(Avatar)`&& {
   margin-right: 10px;
 }`;
 
+const MenuSettingsIcon = styled(ListItemIcon)`&& {
+  margin-top: 5px;
+}`;
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,9 +36,13 @@ const Wrapper = styled.div`
   padding: 10px;
 `;
 
+const MenuSettingText = styled.p`
+  padding-right: 101px;
+`;
+
 const AddAnotherAcc = styled(MenuItem)`&& {
-  padding-bottom: 7px;
-  padding-top: 7px;
+  padding-bottom: 4px;
+  padding-top: 4px;
 }`;
 
 export const MenuBlock = () => {
@@ -81,8 +89,6 @@ export const MenuBlock = () => {
             '& .MuiAvatar-root': {
               width: 32,
               height: 32,
-              ml: -0.5,
-              mr: 1,
             },
             '&:before': {
               content: '""',
@@ -104,26 +110,26 @@ export const MenuBlock = () => {
         <Wrapper>
           <MenuItem>
             <UserAvatar /> 
-            <p>Profile</p>
+            <MenuSettingText>Profile</MenuSettingText>
           </MenuItem>
         </Wrapper>
         <Divider />
 
         <Wrapper>
-          <AddAnotherAcc>
+          <MenuItem>
             <ListItemIcon>
               <PersonAdd fontSize="small" />
             </ListItemIcon>
-            Add another account
-          </AddAnotherAcc>
+            <AddAnotherAcc>Add another account</AddAnotherAcc>
+          </MenuItem>
           
           <MenuItem>
-            <ListItemIcon>
+            <MenuSettingsIcon>
               <Link to="/">
                 <Logout fontSize="small" />
               </Link>
-            </ListItemIcon>
-            <p>Logout</p>
+            </MenuSettingsIcon>
+            <MenuSettingText>Logout</MenuSettingText>
           </MenuItem>
         </Wrapper>
       </Menu>

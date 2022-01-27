@@ -3,7 +3,7 @@ import styled, { css }                                        from 'styled-compo
 import { CardHeader, CardActions, Button, CardContent, Card } from '@material-ui/core/';
 import { Avatar }                                             from '@mui/material';
 import Checkbox                                               from '@mui/material/Checkbox';
-import ModalUnstyled                                          from '@mui/base/ModalUnstyled';
+import { ModalUnstyled }                                      from '@mui/base/';
 import FavoriteIcon                                           from '@mui/icons-material/Favorite';
 
 export const ButtonWrapper = styled(CardActions)`&& {

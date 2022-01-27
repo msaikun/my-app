@@ -36,7 +36,7 @@ const AddUser = styled.div`
   display: flex;
   align-items: center;
   padding: 5px;
-  fontweight: 500;
+  font-weight: 500;
 `;
 
 const AddBtn = styled(Fab)`&& {
@@ -74,7 +74,6 @@ export const Contacts = () => {
   const [selectedContactId, setSelectedContactId] = useState<string>();
   const [open, setOpen] = useState(false);
   const { data } = useContactsInfo();
-
   const navigate = useNavigate();
   const navigateToContact = (id: string) => navigate(`/contacts/${id}`);
   const navigateToContactEdit = (id: string) => {
@@ -89,6 +88,7 @@ export const Contacts = () => {
     setSelectedContactId(id);
     setOpen(true);
   };
+  
   const handleClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     // eslint-disable-next-line no-debugger
     debugger;
