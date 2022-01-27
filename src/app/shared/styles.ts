@@ -156,4 +156,5 @@ export const StyledModal = styled(ModalUnstyled)`
 export const LikeBtn = styled(FavoriteIcon)`&& {
   padding-left: 5px;
   color: #e33141;
+  height: 20px;
 }`;

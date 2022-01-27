@@ -7,6 +7,7 @@ label, footer, header, menu, nav, section {
 	margin: 0;
 	padding: 0;
 	vertical-align: baseline;
+  box-sizing: border-box;
 }
 
 ol, ul {

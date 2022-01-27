@@ -4,7 +4,6 @@ import styled                                           from 'styled-components'
 import {
   Menu,
   MenuItem,
-  ListItemIcon,
   Box,
   Avatar,
   Divider,
@@ -24,9 +23,9 @@ const UserAvatar = styled(Avatar)`&& {
   margin-right: 10px;
 }`;
 
-const MenuSettingsIcon = styled(ListItemIcon)`&& {
+const MenuSettingsIconWrapper = styled.div`
   margin-top: 5px;
-}`;
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -37,13 +36,20 @@ const Wrapper = styled.div`
 `;
 
 const MenuSettingText = styled.p`
-  padding-right: 101px;
+  padding-right: 95px;
 `;
 
-const AddAnotherAcc = styled(MenuItem)`&& {
+const LogoutSettingText = styled.p`
+  padding-right: 101px;
+  margin-left: 10px;
+`;
+
+const AddAnotherAcc = styled.p`
   padding-bottom: 4px;
   padding-top: 4px;
-}`;
+  margin-left: 10px;
+  margin-bottom: 5px;
+`;
 
 export const MenuBlock = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -117,19 +123,19 @@ export const MenuBlock = () => {
 
         <Wrapper>
           <MenuItem>
-            <ListItemIcon>
+            <div>
               <PersonAdd fontSize="small" />
-            </ListItemIcon>
+            </div>
             <AddAnotherAcc>Add another account</AddAnotherAcc>
           </MenuItem>
           
           <MenuItem>
-            <MenuSettingsIcon>
+            <MenuSettingsIconWrapper>
               <Link to="/">
                 <Logout fontSize="small" />
               </Link>
-            </MenuSettingsIcon>
-            <MenuSettingText>Logout</MenuSettingText>
+            </MenuSettingsIconWrapper>
+            <LogoutSettingText>Logout</LogoutSettingText>
           </MenuItem>
         </Wrapper>
       </Menu>

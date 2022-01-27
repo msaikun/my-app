@@ -4,6 +4,7 @@ import styled                      from 'styled-components';
 import { Box, CardContent, Fab }   from '@material-ui/core';
 import EditIcon                    from '@mui/icons-material/Edit';
 import DeleteIcon                  from '@mui/icons-material/Delete';
+import BlockIcon                   from '@mui/icons-material/Block';
 import { useContactInfo }          from '../queries';
 import { MenuBlock }               from '../../Menu/Menu';
 import { DeleteContactModal }      from '../../modal/DeleteContactModal/DeleteContactModal';
@@ -45,6 +46,9 @@ const ButtonsContainer = styled(Box)`&& {
   border: 2px dashed #f2f2f2;
 }`;
 
+const ContactContainer = styled.div`
+  display: flex;
+`
 const ContactName = styled.h3`
   padding-left: 15px;
   font-weight: 600;
@@ -80,10 +84,13 @@ export const ContactPage = () => {
       {data && (
         <div key={data.id}>
           <ChangeContactContainer>
+            <ContactContainer>
             <ContactName>
               {data.firstName} {data.lastName}
-              <span>{data.isFavourite && <LikeBtn />}</span>
             </ContactName>
+            <span>{data.isFavourite && <LikeBtn />}</span>
+            <span>{data.isBlocked && <BlockIcon fontSize="small" />}</span>
+            </ContactContainer>
 
             <ButtonsContainer>
               <ButtonContainer>
@@ -117,7 +124,7 @@ export const ContactPage = () => {
                   onClose={handleClose}
                   BackdropComponent={Backdrop}
                 >
-                  <DeleteContactModal id={data.id} onClose={handleClose} />
+                  <div><DeleteContactModal id={data.id} onClose={handleClose} /></div>
                 </StyledModal>
               </ButtonContainer>
             </ButtonsContainer>

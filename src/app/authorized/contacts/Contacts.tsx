@@ -1,13 +1,19 @@
-import React, { useState }               from 'react';
-import { Link, useNavigate }             from 'react-router-dom';
-import AddIcon                           from '@mui/icons-material/Add';
-import styled                            from 'styled-components';
-import { CardContent, Fab }              from '@material-ui/core';
-import EditIcon                          from '@mui/icons-material/Edit';
-import DeleteIcon                        from '@mui/icons-material/Delete';
-import { MenuBlock }                     from '../Menu/Menu';
-import { DeleteContactModal }            from '../modal/DeleteContactModal/DeleteContactModal';
-import { useContactsInfo }               from './queries';
+import React, { useState }                   from 'react';
+import { Link, useNavigate }                 from 'react-router-dom';
+import AddIcon                               from '@mui/icons-material/Add';
+import styled                                from 'styled-components';
+import { CardContent, Fab }                  from '@material-ui/core';
+import EditIcon                              from '@mui/icons-material/Edit';
+import DeleteIcon                            from '@mui/icons-material/Delete';
+import BlockIcon                             from '@mui/icons-material/Block';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Button from '@mui/material/Button';
+import { MenuBlock }                         from '../Menu/Menu';
+import { DeleteContactModal }                from '../modal/DeleteContactModal/DeleteContactModal';
+import { useContactsInfo }                   from './queries';
 import {
   BaseRoundBtnStyles,
   UserContainer,
@@ -17,8 +23,8 @@ import {
   Backdrop,
   StyledModal,
   LikeBtn,
-}                                       from '../../shared/styles';
-import { IContact }                     from '../../shared/interfaces';
+}                                           from '../../shared/styles';
+import { IContact }                         from '../../shared/interfaces';
 
 const AddUserContainer = styled(CardContent)`&& {
   display: flex;
@@ -70,15 +76,28 @@ const UserContainerStyled = styled(UserContainer)`&& {
   }
 }`;
 
+const SelectWrapper = styled.div`&& {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  margin-left: 30px;
+}`;
+
 export const Contacts = () => {
   const [selectedContactId, setSelectedContactId] = useState<string>();
   const [open, setOpen] = useState(false);
+  const [sortBy, setSortBy] = useState<string | number>('');
+  const [selectOpen, setSelectOpen] = useState(false);
   const { data } = useContactsInfo();
   const navigate = useNavigate();
   const navigateToContact = (id: string) => navigate(`/contacts/${id}`);
   const navigateToContactEdit = (id: string) => {
     navigate(`/contacts/${id}/edit`);
   };
+
+  const handleChange = (event: SelectChangeEvent<typeof sortBy>) => setSortBy(event.target.value);
+  const handleSelectClose = () => setSelectOpen(false);
+  const handleSelectOpen = () => setSelectOpen(true);
 
   const handleOpen = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -88,20 +107,28 @@ export const Contacts = () => {
     setSelectedContactId(id);
     setOpen(true);
   };
-  
+
   const handleClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    // eslint-disable-next-line no-debugger
-    debugger;
     e.stopPropagation();
     setOpen(false);
     setSelectedContactId('');
   };
+  
+  // useEffect(() => {
+  //   if (!handleOpen) {
+  //     setOpen(open);
+  //   }
+  // }, [open]);
+
+  // Fix rerending contacts page after deleting contact!!!!! 
+  // Contact disappears only after the page is reloaded
 
   return (
     <>
       <MenuBlock />
       <AddUserContainer>
         <h3>CONTACTS</h3>
+
         <AddUser>
           <Link to="/contacts/create">
             <AddBtn color="primary" aria-label="add">
@@ -112,6 +139,36 @@ export const Contacts = () => {
         </AddUser>
       </AddUserContainer>
 
+{/* Fix the look of select on page, add functionality!!!! */}
+
+      <SelectWrapper>
+        <Button
+          sx={{ display: 'block', mt: 1, ml: 1 }}
+          onClick={handleSelectOpen}
+        >
+          Contacts
+        </Button>
+
+        <FormControl sx={{ m: 0, minWidth: 150 }}>
+          <InputLabel id="demo-controlled-open-select-label">SORT BY</InputLabel>
+
+          <Select
+            labelId="demo-controlled-open-select-label"
+            id="demo-controlled-open-select"
+            open={selectOpen}
+            onClose={handleSelectClose}
+            onOpen={handleSelectOpen}
+            value={sortBy}
+            label="Users Soted By"
+            onChange={handleChange}
+          >
+            <MenuItem value="all">All</MenuItem>
+            <MenuItem value="favourities">Favourities</MenuItem>
+            <MenuItem value="blocked">Blocked</MenuItem>
+          </Select>
+        </FormControl>
+      </SelectWrapper>
+
       {data?.map(
         ({
           id,
@@ -120,6 +177,7 @@ export const Contacts = () => {
           lastName,
           avatar,
           isFavourite,
+          isBlocked,
           email,
         }: IContact) => (
           <UserContainerStyled key={id} onClick={() => navigateToContact(id)}>
@@ -129,7 +187,8 @@ export const Contacts = () => {
               <UserMainInfo>
                 <UserName>
                   <h4>{firstName} {lastName}</h4>
-                  <span>{isFavourite && <LikeBtn />}</span>
+                  <span>{isFavourite && <LikeBtn fontSize="medium"/>}</span>
+                  <span>{isBlocked && <BlockIcon fontSize="small" />}</span>
                 </UserName>
 
                 <p>{email}</p>
@@ -167,7 +226,7 @@ export const Contacts = () => {
                 onClose={handleClose}
                 BackdropComponent={Backdrop}
               >
-                <DeleteContactModal id={id} onClose={handleClose} />
+                <div><DeleteContactModal id={id} onClose={handleClose} /></div>
               </StyledModal>
             </div>
           </UserContainerStyled>

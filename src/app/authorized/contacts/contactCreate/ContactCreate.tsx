@@ -149,7 +149,9 @@ export const ContactCreate = () => {
                   <PageCheckboxWrapper>
                     <CheckboxEl
                       {...label}
-                      defaultChecked
+                      name="isFavourite"
+                      onChange={handleChange}
+                      value={values.isFavourite}
                       sx={{
                         color: pink[800],
                         '&.Mui-checked': {

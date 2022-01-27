@@ -14,7 +14,7 @@ export const contactInfo = (id: any): AxiosResponse<IContact> | any => axios.get
 export const useContactInfo = (id: any) => useQuery('CONTACT_INFO', () => contactInfo(id));
 
 
-export const contactCreate = (data: IContact): AxiosResponse<IContact> | any => axios.post<IContact>("/api/v1/contacts", {data})
+export const contactCreate = (data: IContact): AxiosResponse<IContact> | any => axios.post<IContact>("/api/v1/contacts", data)
   .then((response) => response)
 
 export const useContactCreate = () => useMutation('CONTACT_CREATE', contactCreate)
@@ -25,6 +25,6 @@ export const contactDelete = (id: string): AxiosResponse<any> | any => axios.del
 export const useContactDelete = () => useMutation('CONTACT_DELETE', contactDelete);
 
 
-export const updateContactInfo = (data: IContact): AxiosResponse<IContact> | any => axios.put<IContact>(`/api/v1/contacts/${data.id}`, {data})
+export const updateContactInfo = (data: IContact): AxiosResponse<IContact> | any => axios.put<IContact>(`/api/v1/contacts/${data.id}`, data)
 
 export const useUpdateContactInfo = () => useMutation('CONTACT_EDIT', updateContactInfo)

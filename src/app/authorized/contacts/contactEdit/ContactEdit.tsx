@@ -34,15 +34,17 @@ export const ContactEdit = () => {
     });
   };
 
-  const initialValues = {
+  const initialValues = data && {
     id: `${data.id}`,
     firstName: `${data.firstName}`,
     lastName: `${data.lastName}`,
     email: `${data.email || ''}`,
     phone: `${data.phone}`,
     description: `${data.description}`,
-  };
-
+    isFavourite: false,
+    isBlocked: false,
+  }
+  
   return (
     <>
       <MenuBlock />
@@ -151,7 +153,9 @@ export const ContactEdit = () => {
                     <PageCheckboxWrapper>
                       <CheckboxEl
                         {...label}
-                        defaultChecked
+                        name="isFavourite"
+                        onChange={handleChange}
+                        defaultChecked={Boolean(data.isFavourite)}
                         sx={{
                           color: pink[800],
                           '&.Mui-checked': {
@@ -165,7 +169,9 @@ export const ContactEdit = () => {
                     <PageCheckboxWrapper>
                       <CheckboxEl
                         {...label}
-                        defaultChecked
+                        name="isBlocked"
+                        onChange={handleChange}
+                        defaultChecked={Boolean(data.isBlocked)}
                         sx={{
                           color: pink[800],
                           '&.Mui-checked': {
