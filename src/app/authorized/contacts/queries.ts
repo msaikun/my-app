@@ -1,72 +1,30 @@
-import axios, { AxiosResponse } from "axios";
-import { useMutation, useQuery } from "react-query";
-import { IContact } from "../../shared/interfaces";
+import axios, { AxiosResponse }    from 'axios';
+import { useMutation, useQuery }   from 'react-query';
+import { IContact }                from '../../shared/interfaces';
 
-export const ContactsInfo = (): AxiosResponse<IContact[]> | any => {
-  return axios
-    .get<IContact[]>("/api/v1/contacts")
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-}
+export const contactsInfo = (): AxiosResponse<IContact[]> | any => axios.get<IContact[]>('/api/v1/contacts')
+  .then((response) => response.data)
 
-export const useContactsInfo = () => useQuery('CONTACTS_INFO', () => ContactsInfo());
+export const useContactsInfo = () => useQuery('CONTACTS_INFO', () => contactsInfo());
 
-export const ContactInfo = (id: any): AxiosResponse<IContact> | any => {
-  return axios
-    .get<IContact>(`/api/v1/contacts/${id}`)
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-}
 
-export const useContactInfo = (id: any) => useQuery('CONTACT_INFO', () => ContactInfo(id));
+export const contactInfo = (id: any): AxiosResponse<IContact> | any => axios.get<IContact>(`/api/v1/contacts/${id}`)
+  .then((response) => response.data)
 
-export const contactCreate = (data: IContact): AxiosResponse<IContact> | any => {
-  const { id, createdAt, firstName, phone, lastName, avatar, description, isFavourite, email } = data;
+export const useContactInfo = (id: any) => useQuery('CONTACT_INFO', () => contactInfo(id));
 
-  return axios
-    .post<IContact>("/api/v1/contacts", {
-      id, createdAt, firstName, phone, lastName, avatar, description, isFavourite, email
-    })
-    .then((response) => {
-      localStorage.setItem('token', 'true');
-      return response;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-}
 
-export const contactDelete = (id: string): AxiosResponse<any> | any => {
-  return axios
-    .delete(`/api/v1/contacts/${id}`)
-}
+export const contactCreate = (data: IContact): AxiosResponse<IContact> | any => axios.post<IContact>("/api/v1/contacts", {data})
+  .then((response) => response)
+
+export const useContactCreate = () => useMutation('CONTACT_CREATE', contactCreate)
+
+
+export const contactDelete = (id: string): AxiosResponse<any> | any => axios.delete(`/api/v1/contacts/${id}`)
 
 export const useContactDelete = () => useMutation('CONTACT_DELETE', contactDelete);
 
 
-export const useContactCreate = () => useMutation('CONTACT_CREATE', contactCreate)
-
-export const updateContactInfo = (data: IContact): AxiosResponse<IContact> | any => {
-  const { id, createdAt, firstName, phone, lastName, avatar, description, isFavourite, email } = data;
-
-  return axios
-    .put<IContact>(`/api/v1/contacts/${id}`, {
-      id, createdAt, firstName, phone, lastName, avatar, description, isFavourite, email
-    })
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-}
+export const updateContactInfo = (data: IContact): AxiosResponse<IContact> | any => axios.put<IContact>(`/api/v1/contacts/${data.id}`, {data})
 
 export const useUpdateContactInfo = () => useMutation('CONTACT_EDIT', updateContactInfo)

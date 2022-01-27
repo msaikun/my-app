@@ -1,10 +1,10 @@
-import { FieldProps, getIn }                  from "formik";
-import React, { FC, FocusEvent, useCallback } from "react";
-import { TextInput }                          from "../../inputs/TextInput/TextInput";
+import { FieldProps, getIn }                  from 'formik';
+import React, { FC, FocusEvent, useCallback } from 'react';
+import { TextInput }                          from '../../inputs/TextInput/TextInput';
 
 interface ITextInputFieldProps extends FieldProps {
-  id?: string;
-  required?: boolean;
+  id: string;
+  required: boolean;
 }
 
 const styles = {
@@ -50,7 +50,7 @@ export const TextInputField: FC<ITextInputFieldProps> = ({
       id={props.id || field.name}
       required={!!required}
       error={touched && !!error}
-      helperText={(touched && error) || ""}
+      helperText={(touched && error) || ''}
       onBlur={handleBlur}
     />
   );

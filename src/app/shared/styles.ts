@@ -1,13 +1,10 @@
-import { FastField }                                from "formik";
-import styled, { css }                              from "styled-components";
-import CardActions                                  from "@material-ui/core/CardActions";
-import CardHeader                                   from "@material-ui/core/CardHeader";
-import { Button }                                   from "@material-ui/core";
-import { CardContent }                              from "@material-ui/core";
-import { Avatar }                                   from "@mui/material";
-import Checkbox                                     from "@mui/material/Checkbox";
-import Card                                         from "@material-ui/core/Card";
-import ModalUnstyled               from "@mui/base/ModalUnstyled";
+import { FastField }                                          from 'formik';
+import styled, { css }                                        from 'styled-components';
+import { CardHeader, CardActions, Button, CardContent, Card } from '@material-ui/core/';
+import { Avatar }                                             from '@mui/material';
+import Checkbox                                               from '@mui/material/Checkbox';
+import ModalUnstyled                                          from '@mui/base/ModalUnstyled';
+import FavoriteIcon                                           from '@mui/icons-material/Favorite';
 
 export const ButtonWrapper = styled(CardActions)`&& {
   justify-content: center;
@@ -36,7 +33,7 @@ export const Btn = styled(Button)`&& {
   }
 }`;
 
-export const BaseBtnStyles = css`
+export const BaseRoundBtnStyles = css`
   height: 40px;
   width: 40px;
   background: #e33141;
@@ -71,9 +68,9 @@ export const ContactAvatar = styled(Avatar)`&& {
 
 export const TextInputWrapper = styled.div<{ hasLabel?: boolean, hasValue?: boolean, fullWidth?: boolean }>`&& {
   .MuiOutlinedInput-root {
-    margin-top: ${ ({ hasLabel }) => hasLabel ? 30 : 0 }px;
-    background: ${ ({ hasValue }) => hasValue ? '#cbb48a21' : '#fafafa' };
-     ${ ({ hasValue }) => hasValue ? '#e1e1e1' : 'transparent' }
+    margin-top: ${({ hasLabel }) => hasLabel ? 30 : 0}px;
+    background: ${({ hasValue }) => hasValue ? '#cbb48a21' : '#fafafa'};
+     ${({ hasValue }) => hasValue ? '#e1e1e1' : 'transparent'}
   }
 }`;
 
@@ -83,7 +80,7 @@ export const PageCheckboxWrapper = styled.div`
   margin-left: 5px;
   margin-right: 10px;
 
-  ${({ theme: { breakpoints } }: any) => breakpoints.up("lg")} {
+  ${({ theme: { breakpoints } }: any) => breakpoints.up('lg')} {
     margin-left: 35px;
   }
 `;
@@ -101,7 +98,7 @@ export const PageInputWrapper = styled(Avatar)`&& {
 }`;
 
 export const PageElementWrapper = styled.div`&& {
-  ${({ theme: { breakpoints } }: any) => breakpoints.up("lg")} {
+  ${({ theme: { breakpoints } }: any) => breakpoints.up('lg')} {
     display: flex;
     justify-content: space-between;
     margin-left: 30px;
@@ -118,40 +115,45 @@ export const PageCheckBoxesWrapper = styled.div`&& {
 export const UserPageCard = styled(Card)`&& {
   margin-top: 100px;
 
-  ${({ theme: { breakpoints } }: any) => breakpoints.up("xs")} {
+  ${({ theme: { breakpoints } }: any) => breakpoints.up('xs')} {
     width: 450px;
     height: 670px;
   }
 
-  ${({ theme: { breakpoints } }: any) => breakpoints.up("md")} {
+  ${({ theme: { breakpoints } }: any) => breakpoints.up('md')} {
     width: 550px;
   }
 
-  ${({ theme: { breakpoints } }: any) => breakpoints.up("lg")} {
-  width: 800px;
-  height: 500px;
+  ${({ theme: { breakpoints } }: any) => breakpoints.up('lg')} {
+    width: 800px;
+    height: 500px;
   }
 }`;
 
 export const Backdrop = styled.div`
-position: fixed;
-z-index: -1;
-right: 0;
-bottom: 0;
-top: 0;
-left: 0;
-background-color: rgba(0, 0, 0, 0.1);
--webkit-tap-highlight-color: transparent;
+  position: fixed;
+  z-index: -1;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  -webkit-tap-highlight-color: transparent;
 `;
 
 export const StyledModal = styled(ModalUnstyled)`
-position: fixed;
-z-index: 1;
-right: 0;
-bottom: 0;
-top: 0;
-left: 0;
-display: flex;
-align-items: center;
-justify-content: center;
+  position: fixed;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
+
+export const LikeBtn = styled(FavoriteIcon)`&& {
+  padding-left: 5px;
+  color: #e33141;
+}`;

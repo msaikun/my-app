@@ -1,8 +1,16 @@
 import * as React                                       from 'react';
 import { Link }                                         from 'react-router-dom';
 import styled                                           from 'styled-components';
-import { Menu, MenuItem, ListItemIcon }                 from '@mui/material';
-import { Box, Avatar, Divider, IconButton, Typography } from '@mui/material';
+import {
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  Box,
+  Avatar,
+  Divider,
+  IconButton,
+  Typography
+}                                                       from '@mui/material';
 import PersonAdd                                        from '@mui/icons-material/PersonAdd';
 import Logout                                           from '@mui/icons-material/Logout';
 
@@ -32,6 +40,7 @@ const AddAnotherAcc = styled(MenuItem)`&& {
 export const MenuBlock = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -42,48 +51,49 @@ export const MenuBlock = () => {
   return (
     <>
       <MenuEl
-        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end'}}
+        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}
       >
         <IconButton
           onClick={handleClick}
-          size='small'
+          size="small"
           sx={{ ml: 2 }}
           aria-controls={open ? 'account-menu' : undefined}
-          aria-haspopup='true'
+          aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
         >
           <UserAvatar />
         </IconButton>
         <Typography sx={{ minWidth: 100 }}>User Name</Typography>
       </MenuEl>
+
       <Menu
         anchorEl={anchorEl}
-        id='account-menu'
+        id="account-menu"
         open={open}
         onClose={handleClose}
         onClick={handleClose}
         PaperProps={{
           elevation: 0,
           sx: {
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
-            "& .MuiAvatar-root": {
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            mt: 1.8,
+            '& .MuiAvatar-root': {
               width: 32,
               height: 32,
               ml: -0.5,
               mr: 1,
             },
-            "&:before": {
+            '&:before': {
               content: '""',
-              display: "block",
-              position: "absolute",
+              display: 'block',
+              position: 'absolute',
               top: 0,
-              right: 14,
+              right: 25,
               width: 10,
               height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
               zIndex: 0,
             },
           },
@@ -92,29 +102,31 @@ export const MenuBlock = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <Wrapper>
-        <MenuItem>
-          <UserAvatar /> Profile
-        </MenuItem>
+          <MenuItem>
+            <UserAvatar /> 
+            <p>Profile</p>
+          </MenuItem>
         </Wrapper>
         <Divider />
 
         <Wrapper>
-        <AddAnotherAcc>
-          <ListItemIcon>
-            <PersonAdd fontSize='small' />
-          </ListItemIcon>
-          Add another account
-        </AddAnotherAcc>
-        <MenuItem>
-          <ListItemIcon>
-            <Link to='/'> 
-              <Logout fontSize='small' />
-            </Link>
-          </ListItemIcon>
-          Logout
-        </MenuItem>
+          <AddAnotherAcc>
+            <ListItemIcon>
+              <PersonAdd fontSize="small" />
+            </ListItemIcon>
+            Add another account
+          </AddAnotherAcc>
+          
+          <MenuItem>
+            <ListItemIcon>
+              <Link to="/">
+                <Logout fontSize="small" />
+              </Link>
+            </ListItemIcon>
+            <p>Logout</p>
+          </MenuItem>
         </Wrapper>
       </Menu>
     </>
   );
-}
+};

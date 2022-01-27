@@ -3,6 +3,13 @@ export interface ILoginForm {
   password: string;
 }
 
+export interface ITokens {
+  expireDate: Date;
+  type: string;
+  accessToken: string;
+  refreshToken: string;
+}
+
 export interface IContact {
   id: string;
   createdAt?: Date;

@@ -1,72 +1,56 @@
-import { useNavigate }        from "react-router-dom";
-import { FastField, Formik }  from "formik";
-import styled                 from "styled-components";
-import Card                   from "@material-ui/core/Card";
-import CardContent            from "@material-ui/core/CardContent";
-import Grid                   from "@material-ui/core/Grid";
-import {
-  ButtonWrapper,
-  PageHeader,
-  PageForm,
-  Btn,
-}                             from "../../shared/styles";
-import { ILoginForm }         from "../../shared/interfaces";
-import { TextInputField }     from "../../shared/formFields/TextInputField/TextInputField";
-import { signInFormSchema }   from "./validation";
-import { useSignIn }          from "./queries";
+import { useNavigate }                              from 'react-router-dom';
+import { FastField, Formik }                        from 'formik';
+import styled                                       from 'styled-components';
+import { CardContent, Card, Grid }                  from '@material-ui/core/';
+import { ButtonWrapper, PageHeader, PageForm, Btn } from '../../shared/styles';
+import { ILoginForm }                               from '../../shared/interfaces';
+import { TextInputField }                           from '../../shared/formFields/TextInputField/TextInputField';
+import { signInFormSchema }                         from './validation';
+import { useSignIn }                                from './queries';
 
-const LoginPageCard = styled(Card)`
-  && {
-    margin-top: 100px;
-    min-width: 400px;
-    min-height: 400px;
+const LoginPageCard = styled(Card)`&& {
+  margin-top: 100px;
+  min-width: 400px;
+  min-height: 400px;
 
-    ${({ theme: { breakpoints } }: any) => breakpoints.up("md")} {
-      width: 500px;
-    }
-
-    ${({ theme: { breakpoints } }: any) => breakpoints.up("lg")} {
-      width: 550px;
-    }
+  ${({ theme: { breakpoints } }: any) => breakpoints.up('md')} {
+    width: 500px;
   }
-`;
 
-const PageInput = styled(FastField)`
-  && {
-    margin-top: 20px;
-    margin-bottom: 10px;
+  ${({ theme: { breakpoints } }: any) => breakpoints.up('lg')} {
+    width: 550px;
   }
-`;
+}`;
+
+const PageInput = styled(FastField)`&& {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}`;
 
 export const Login = () => {
   const { mutate: login, isLoading } = useSignIn();
   const navigate = useNavigate();
+
   const onSubmit = (values: ILoginForm) => {
     login(values, {
-      onSuccess: () => navigate("/contacts"),
+      onSuccess: () => navigate('/contacts'),
     });
   };
+
   const initialValues = {
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   };
 
   return (
-    <>
-      <Formik
+    <Formik
         enableReinitialize
         initialValues={initialValues as any}
         validateOnBlur
         onSubmit={onSubmit}
         validationSchema={signInFormSchema}
       >
-        {({
-          values,
-          handleChange,
-          isValid,
-          handleSubmit,
-          dirty,
-        }) => (
+        {({ values, handleChange, isValid, handleSubmit, dirty }) => (
           <PageForm onSubmit={handleSubmit}>
             <Grid
               container
@@ -76,29 +60,30 @@ export const Login = () => {
             >
               <LoginPageCard>
                 <PageHeader title="Sign In" />
+
                 <CardContent>
                   <div>
-                  <Grid item xs={12}>
-                    <PageInput
-                      type={`email`}
-                      name={`email`}
-                      onChange={handleChange}
-                      value={values.email}
-                      placeholder="Email"
-                      component={TextInputField}
-                    />
-                  </Grid>
+                    <Grid item xs={12}>
+                      <PageInput
+                        type="email"
+                        name="email"
+                        onChange={handleChange}
+                        value={values.email}
+                        placeholder="Email"
+                        component={TextInputField}
+                      />
+                    </Grid>
 
-                  <Grid item xs={12}>
-                    <PageInput
-                      type={`password`}
-                      name={`password`}
-                      onChange={handleChange}
-                      value={values.password}
-                      placeholder="Password"
-                      component={TextInputField}
-                    />
-                  </Grid>
+                    <Grid item xs={12}>
+                      <PageInput
+                        type="password"
+                        name="password"
+                        onChange={handleChange}
+                        value={values.password}
+                        placeholder="Password"
+                        component={TextInputField}
+                      />
+                    </Grid>
                   </div>
                 </CardContent>
 
@@ -113,7 +98,7 @@ export const Login = () => {
                       variant="contained"
                       fullWidth
                       disabled={!isValid || !dirty || isLoading}
-                      type={`submit`}
+                      type="submit"
                     >
                       Log In
                     </Btn>
@@ -124,6 +109,5 @@ export const Login = () => {
           </PageForm>
         )}
       </Formik>
-    </>
   );
 };

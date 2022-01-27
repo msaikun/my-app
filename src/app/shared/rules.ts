@@ -15,7 +15,7 @@ export const rules = {
     .max(20, 'Last Name must to 20 symbols')
     .required('Last Name is required'),
   phone: Yup.string()
-    .matches(/^[0-9\s, -]+$/, "That doesn't look like a phone number")
+    .matches(/^[0-9+\s, -]+$/, 'That does not look like a phone number')
     .min(8, 'A phone number must be greater than or equal to 8')
     .required('A phone number is required'),
   description: Yup.string()

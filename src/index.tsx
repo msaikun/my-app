@@ -1,15 +1,15 @@
-import React                                from "react";
-import ReactDOM                             from "react-dom";
-import { BrowserRouter }                    from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
-import axios                                from "axios";
-import "./index.css";
-import reportWebVitals                      from "./reportWebVitals";
-import { MuiThemeProvider }                 from "@material-ui/core";
-import { ThemeProvider }                    from "styled-components";
-import { muiTheme, theme }                  from "./app/shared/theme";
-import { AppRoutes }                        from "./app/AppRoutes";
-import { BaseStyles } from "./app/shared/baseStyle";
+import React                                from 'react';
+import ReactDOM                             from 'react-dom';
+import { BrowserRouter }                    from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import axios                                from 'axios';
+import './index.css';
+import { MuiThemeProvider }                 from '@material-ui/core';
+import { ThemeProvider }                    from 'styled-components';
+import reportWebVitals                      from './reportWebVitals';
+import { BaseStyles }                       from './app/shared/baseStyle';
+import { muiTheme, theme }                  from './app/shared/theme';
+import { AppRoutes }                        from './app/AppRoutes';
 
 axios.defaults.baseURL = 'https://61e029ae0f3bdb0017934e25.mockapi.io';
 
@@ -28,7 +28,7 @@ ReactDOM.render(
       </ThemeProvider>
     </MuiThemeProvider>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
