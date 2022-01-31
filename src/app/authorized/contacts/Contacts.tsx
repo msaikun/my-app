@@ -8,7 +8,6 @@ import DeleteIcon                            from '@mui/icons-material/Delete';
 import BlockIcon                             from '@mui/icons-material/Block';
 import { InputLabel, MenuItem, FormControl } from '@mui/material/';
 import Select, { SelectChangeEvent }         from '@mui/material/Select';
-import Button                                from '@mui/material/Button';
 import { MenuBlock }                         from '../Menu/Menu';
 import { DeleteContactModal }                from '../modal/DeleteContactModal/DeleteContactModal';
 import { useContactsInfo }                   from './queries';
@@ -78,7 +77,14 @@ const SelectWrapper = styled.div`&& {
   display: flex;
   flex-direction: column;
   width: 200px;
-  margin-left: 30px;
+}`;
+
+const FlexItem = styled(MenuItem)`&& {
+  display: flex;
+}`
+
+const SelectInputsLabel = styled(InputLabel)`&& {
+  left: -4px;
 }`;
 
 export const Contacts = () => {
@@ -113,9 +119,11 @@ export const Contacts = () => {
   };
   
   // useEffect(() => {
-  //   if (!handleOpen) {
-  //     setOpen(open);
-  //   }
+  //   // eslint-disable-next-line no-debugger
+  //   // debugger;
+  //   // eslint-disable-next-line no-console
+  //   console.log(data);
+  //   setUpdate(!update);
   // }, [open]);
 
   // Fix rerending contacts page after deleting contact!!!!! 
@@ -125,7 +133,26 @@ export const Contacts = () => {
     <>
       <MenuBlock />
       <AddUserContainer>
-        <h3>CONTACTS</h3>
+        <SelectWrapper>
+          <FormControl sx={{ m: 1, minWidth: 150 }}>
+            <SelectInputsLabel id="demo-controlled-open-select-label">Show</SelectInputsLabel>
+
+            <Select
+              labelId="demo-controlled-open-select-label"
+              id="demo-controlled-open-select"
+              open={selectOpen}
+              onClose={handleSelectClose}
+              onOpen={handleSelectOpen}
+              value={sortBy}
+              label="Age"
+              onChange={handleChange}
+            >
+              <FlexItem value="all">All contacts</FlexItem>
+              <FlexItem value="favorites">Favorites contacts</FlexItem>
+              <FlexItem value="blocked">Blocked contacts</FlexItem>
+            </Select>
+          </FormControl>
+        </SelectWrapper>
 
         <AddUser>
           <Link to="/contacts/create">
@@ -138,34 +165,6 @@ export const Contacts = () => {
       </AddUserContainer>
 
 {/* Fix the look of select on page, add functionality!!!! */}
-
-      <SelectWrapper>
-        <Button
-          sx={{ display: 'block', mt: 1, ml: 1 }}
-          onClick={handleSelectOpen}
-        >
-          Contacts
-        </Button>
-
-        <FormControl sx={{ m: 0, minWidth: 150 }}>
-          <InputLabel id="demo-controlled-open-select-label">SORT BY</InputLabel>
-
-          <Select
-            labelId="demo-controlled-open-select-label"
-            id="demo-controlled-open-select"
-            open={selectOpen}
-            onClose={handleSelectClose}
-            onOpen={handleSelectOpen}
-            value={sortBy}
-            label="Users Soted By"
-            onChange={handleChange}
-          >
-            <MenuItem value="all">All</MenuItem>
-            <MenuItem value="favourities">Favourities</MenuItem>
-            <MenuItem value="blocked">Blocked</MenuItem>
-          </Select>
-        </FormControl>
-      </SelectWrapper>
 
       {data?.map(
         ({

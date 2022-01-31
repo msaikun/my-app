@@ -11,6 +11,7 @@ import { BaseStyles }                       from './app/shared/baseStyle';
 import { muiTheme, theme }                  from './app/shared/theme';
 import { AppRoutes }                        from './app/AppRoutes';
 
+
 axios.defaults.baseURL = 'https://61e029ae0f3bdb0017934e25.mockapi.io';
 
 const queryClient = new QueryClient();

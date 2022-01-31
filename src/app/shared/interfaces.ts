@@ -3,6 +3,15 @@ export interface ILoginForm {
   password: string;
 }
 
+export interface IUser {
+  id: string;
+  email: string;
+  role: string;
+  accountType?: string;
+  firstName: string;
+  lastName: string;
+}
+
 export interface ITokens {
   expireDate: Date;
   type: string;
@@ -21,4 +30,9 @@ export interface IContact {
   isFavourite?: boolean;
   isBlocked?: boolean;
   email?: string;
+}
+
+export interface IAuthResponse {
+  user: IUser;
+  tokens: ITokens;
 }

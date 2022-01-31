@@ -1,6 +1,7 @@
 import axios, { AxiosResponse }    from 'axios';
-import { useMutation, useQuery }   from 'react-query';
+import { useMutation, useQuery, useQueryClient }   from 'react-query';
 import { IContact }                from '../../shared/interfaces';
+// import { queryClient }             from '../../../index';
 
 export const contactsInfo = (): AxiosResponse<IContact[]> | any => axios.get<IContact[]>('/api/v1/contacts')
   .then((response) => response.data)
@@ -22,7 +23,12 @@ export const useContactCreate = () => useMutation('CONTACT_CREATE', contactCreat
 
 export const contactDelete = (id: string): AxiosResponse<any> | any => axios.delete(`/api/v1/contacts/${id}`)
 
-export const useContactDelete = () => useMutation('CONTACT_DELETE', contactDelete);
+export const useContactDelete = () => useMutation('CONTACT_DELETE', contactDelete, {
+  onSuccess: () => {
+    const queryClient = useQueryClient();
+    queryClient.invalidateQueries('contactDelete')
+  }
+});
 
 
 export const updateContactInfo = (data: IContact): AxiosResponse<IContact> | any => axios.put<IContact>(`/api/v1/contacts/${data.id}`, data)

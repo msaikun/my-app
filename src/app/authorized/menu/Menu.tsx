@@ -12,6 +12,7 @@ import {
 }                                                       from '@mui/material';
 import PersonAdd                                        from '@mui/icons-material/PersonAdd';
 import Logout                                           from '@mui/icons-material/Logout';
+import { IUser } from '../../shared/interfaces';
 
 const MenuEl = styled(Box)`&& {
   height: 70px;
@@ -51,7 +52,12 @@ const AddAnotherAcc = styled.p`
   margin-bottom: 5px;
 `;
 
+const MenuNameWrapper = styled(Typography)`&& {
+  padding-right: 15px;
+}`;
+
 export const MenuBlock = () => {
+  const {firstName, lastName}: IUser = localStorage.user && JSON.parse(localStorage.user);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -77,7 +83,7 @@ export const MenuBlock = () => {
         >
           <UserAvatar />
         </IconButton>
-        <Typography sx={{ minWidth: 100 }}>User Name</Typography>
+        <MenuNameWrapper sx={{ minWidth: 100 }}>{firstName} {lastName}</MenuNameWrapper>
       </MenuEl>
 
       <Menu
@@ -86,6 +92,7 @@ export const MenuBlock = () => {
         open={open}
         onClose={handleClose}
         onClick={handleClose}
+        variant= 'menu'
         PaperProps={{
           elevation: 0,
           sx: {

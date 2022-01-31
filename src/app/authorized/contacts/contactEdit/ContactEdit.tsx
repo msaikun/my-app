@@ -41,13 +41,14 @@ export const ContactEdit = () => {
     email: `${data.email || ''}`,
     phone: `${data.phone}`,
     description: `${data.description}`,
-    isFavourite: false,
-    isBlocked: false,
+    isFavourite: Boolean(data.isFavourite),
+    isBlocked: Boolean(data.isBlocked),
   }
   
   return (
     <>
       <MenuBlock />
+  
       {data && (
         <Formik
           initialValues={initialValues}
