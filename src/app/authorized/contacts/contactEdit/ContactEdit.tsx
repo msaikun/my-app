@@ -1,10 +1,11 @@
+import { useEffect }                            from 'react';
 import { useNavigate, useParams }               from 'react-router-dom';
+import { useDispatch, useSelector }             from 'react-redux';
 import { Formik }                               from 'formik';
 import { pink }                                 from '@mui/material/colors';
 import { CardContent, Grid }                    from '@material-ui/core/';
 import { contactFormSchema }                    from '../ContactCreate/validation';
 import { MenuBlock }                            from '../../Menu/Menu';
-import { useContactInfo, useUpdateContactInfo } from '../queries';
 import {
   ButtonWrapper,
   PageHeader,
@@ -18,40 +19,34 @@ import {
   PageElementWrapper,
 }                                              from '../../../shared/styles';
 import { TextInputField }                      from '../../../shared/formFields/TextInputField/TextInputField';
-import { IContact }                            from '../../../shared/interfaces';
+import { IContact, IState }                    from '../../../shared/interfaces';
+import { editContact, getContacts }            from '../../../../store/actions';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 export const ContactEdit = () => {
   const { contactId } = useParams();
-  const { data } = useContactInfo(contactId);
-  const { mutate: updateContact } = useUpdateContactInfo();
+  const data = useSelector((state: IState) => state.contactsReducer.contacts)
+  const contact = data && data.find(item => item.id === contactId);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getContacts()) 
+  }, [dispatch]);
 
   const onUpdate = (values: IContact) => {
-    updateContact(values, {
-      onSuccess: () => navigate('/contacts'),
-    });
+    dispatch(editContact(values, contactId));
+    navigate('/contacts');
   };
-
-  const initialValues = data && {
-    id: `${data.id}`,
-    firstName: `${data.firstName}`,
-    lastName: `${data.lastName}`,
-    email: `${data.email || ''}`,
-    phone: `${data.phone}`,
-    description: `${data.description}`,
-    isFavourite: Boolean(data.isFavourite),
-    isBlocked: Boolean(data.isBlocked),
-  }
   
   return (
     <>
       <MenuBlock />
   
-      {data && (
+      {contact && (
         <Formik
-          initialValues={initialValues}
+          initialValues={contact}
           validateOnBlur
           validationSchema={contactFormSchema}
           onSubmit={onUpdate}
@@ -156,7 +151,7 @@ export const ContactEdit = () => {
                         {...label}
                         name="isFavourite"
                         onChange={handleChange}
-                        defaultChecked={Boolean(data.isFavourite)}
+                        defaultChecked={Boolean(contact.isFavourite)}
                         sx={{
                           color: pink[800],
                           '&.Mui-checked': {
@@ -172,7 +167,7 @@ export const ContactEdit = () => {
                         {...label}
                         name="isBlocked"
                         onChange={handleChange}
-                        defaultChecked={Boolean(data.isBlocked)}
+                        defaultChecked={Boolean(contact.isBlocked)}
                         sx={{
                           color: pink[800],
                           '&.Mui-checked': {

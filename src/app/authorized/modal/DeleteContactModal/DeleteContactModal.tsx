@@ -1,10 +1,11 @@
-import React, { MouseEventHandler }       from 'react';
-import { useNavigate }                    from 'react-router-dom';
-import styled                             from 'styled-components';
-import { Card, CardContent, Grid }        from '@material-ui/core/';
-import DeleteIcon                         from '@mui/icons-material/Delete';
-import { useContactDelete }               from '../../Contacts/queries';
-import { ButtonWrapper, PageHeader, Btn } from '../../../shared/styles';
+import React, { MouseEventHandler, useEffect }       from 'react';
+import { useDispatch }                               from 'react-redux';
+import { useNavigate }                               from 'react-router-dom';
+import styled                                        from 'styled-components';
+import { Card, CardContent, Grid }                   from '@material-ui/core/';
+import DeleteIcon                                    from '@mui/icons-material/Delete';
+import { ButtonWrapper, PageHeader, Btn }            from '../../../shared/styles';
+import { deleteContact, getContacts }                from '../../../../store/actions';
 
 const DeletePageCard = styled(Card)`&& {
   margin-top: 100px;
@@ -38,18 +39,18 @@ export const DeleteContactModal = ({
   // eslint-disable-next-line no-unused-vars
   onClose: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }) => {
-  const { mutate: deleteContact } = useContactDelete();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getContacts());
+  }, [dispatch]);
 
   const onDelete: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
-
-    deleteContact(id, {
-      onSuccess: () => {
-        navigate('/contacts');
-        onClose(e);
-      },
-    });
+    dispatch(deleteContact(id));
+    onClose(e);
+    navigate('/contacts');
   };
 
   return (

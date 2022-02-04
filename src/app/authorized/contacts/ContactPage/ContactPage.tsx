@@ -1,13 +1,13 @@
-import { useState }                from 'react';
-import { Link, useParams }         from 'react-router-dom';
-import styled                      from 'styled-components';
-import { Box, CardContent, Fab }   from '@material-ui/core';
-import EditIcon                    from '@mui/icons-material/Edit';
-import DeleteIcon                  from '@mui/icons-material/Delete';
-import BlockIcon                   from '@mui/icons-material/Block';
-import { useContactInfo }          from '../queries';
-import { MenuBlock }               from '../../Menu/Menu';
-import { DeleteContactModal }      from '../../modal/DeleteContactModal/DeleteContactModal';
+import { useState, useEffect }      from 'react';
+import { Link, useParams }          from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import styled                       from 'styled-components';
+import { Box, CardContent, Fab }    from '@material-ui/core';
+import EditIcon                     from '@mui/icons-material/Edit';
+import DeleteIcon                   from '@mui/icons-material/Delete';
+import BlockIcon                    from '@mui/icons-material/Block';
+import { MenuBlock }                from '../../Menu/Menu';
+import { DeleteContactModal }       from '../../modal/DeleteContactModal/DeleteContactModal';
 import {
   BaseRoundBtnStyles,
   UserContainer,
@@ -17,7 +17,9 @@ import {
   Backdrop,
   StyledModal,
   LikeBtn,
-}                                  from '../../../shared/styles';
+}                                   from '../../../shared/styles';
+import { IState }                   from '../../../shared/interfaces';
+import { getContacts }              from '../../../../store/actions';
 
 const ElementsWrapper = styled(UserContainer)`&& {
   display: flex;
@@ -73,7 +75,13 @@ const DeleteBtn = styled(Fab)`&& {
 export const ContactPage = () => {
   const [open, setOpen] = useState(false);
   const { contactId } = useParams();
-  const { data } = useContactInfo(contactId);
+  const data = useSelector((state: IState) => state.contactsReducer.contacts);
+  const contact = data && data.find(item => item.id === contactId);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getContacts());
+  }, [dispatch]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -81,20 +89,20 @@ export const ContactPage = () => {
   return (
     <>
       <MenuBlock />
-      {data && (
-        <div key={data.id}>
+      {contact && (
+        <div key={contact.id}>
           <ChangeContactContainer>
             <ContactContainer>
             <ContactName>
-              {data.firstName} {data.lastName}
+              {contact.firstName} {contact.lastName}
             </ContactName>
-            <span>{data.isFavourite && <LikeBtn />}</span>
-            <span>{data.isBlocked && <BlockIcon fontSize="small" />}</span>
+            <span>{contact.isFavourite && <LikeBtn />}</span>
+            <span>{contact.isBlocked && <BlockIcon fontSize="small" />}</span>
             </ContactContainer>
 
             <ButtonsContainer>
               <ButtonContainer>
-                <Link to={`/contacts/${data.id}/edit`}>
+                <Link to={`/contacts/${contact.id}/edit`}>
                   <EditBtn
                     color="primary"
                     aria-label="edit"
@@ -124,7 +132,7 @@ export const ContactPage = () => {
                   onClose={handleClose}
                   BackdropComponent={Backdrop}
                 >
-                  <div><DeleteContactModal id={data.id} onClose={handleClose} /></div>
+                  <div><DeleteContactModal id={contact.id} onClose={handleClose} /></div>
                 </StyledModal>
               </ButtonContainer>
             </ButtonsContainer>
@@ -132,25 +140,25 @@ export const ContactPage = () => {
 
           <ElementsWrapper>
             <UserAllInfo>
-              <ContactAvatar sx={{ width: 56, height: 56 }} src={data.avatar} />
+              <ContactAvatar sx={{ width: 56, height: 56 }} src={contact.avatar} />
               
               <UserMainInfo>
                 <div>
                   <ImportantContactInfo>Phone: </ImportantContactInfo>
-                  <span>{data.phone}</span>
+                  <span>{contact.phone}</span>
                 </div>
 
-                {data.email && (
+                {contact.email && (
                 <div>
                   <ImportantContactInfo>Email: </ImportantContactInfo>
-                  <span>{data.email}</span>
+                  <span>{contact.email}</span>
                 </div>
                 )}
 
                 <div>
                   <ImportantContactInfo>Description: </ImportantContactInfo>
-                  <span>{data.description}</span>
-                  </div>
+                  <span>{contact.description}</span>
+                </div>
               </UserMainInfo>
             </UserAllInfo>
           </ElementsWrapper>

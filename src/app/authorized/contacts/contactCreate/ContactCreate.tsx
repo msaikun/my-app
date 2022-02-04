@@ -1,10 +1,11 @@
-import { useNavigate }               from 'react-router-dom';
-import { Formik }                    from 'formik';
-import { pink }                      from '@mui/material/colors';
-import { CardContent, Grid }         from '@material-ui/core';
-import { contactFormSchema }         from './validation';
-import { useContactCreate }          from '../queries';
-import { MenuBlock }                 from '../../Menu/Menu';
+import { useEffect }                          from 'react';
+import { useNavigate }                        from 'react-router-dom';
+import { useDispatch }                        from 'react-redux';
+import { Formik }                             from 'formik';
+import { pink }                               from '@mui/material/colors';
+import { CardContent, Grid }                  from '@material-ui/core';
+import { contactFormSchema }                  from './validation';
+import { MenuBlock }                          from '../../Menu/Menu';
 import {
   ButtonWrapper,
   PageHeader,
@@ -16,9 +17,10 @@ import {
   PageCheckBoxesWrapper,
   UserPageCard,
   PageElementWrapper,
-}                                   from '../../../shared/styles';
-import { TextInputField }           from '../../../shared/formFields/TextInputField/TextInputField';
-import { IContact }                 from '../../../shared/interfaces';
+}                                             from '../../../shared/styles';
+import { TextInputField }                     from '../../../shared/formFields/TextInputField/TextInputField';
+import { IContact }                           from '../../../shared/interfaces';
+import { createContact, getContacts }         from '../../../../store/actions';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -33,18 +35,22 @@ const initialValues = {
 };
 
 export const ContactCreate = () => {
-  const { mutate: contact } = useContactCreate();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    dispatch(getContacts());
+  }, [dispatch]);
+
   const onCreate = (values: IContact) => {
-    contact(values, {
-      onSuccess: () => navigate('/contacts'),
-    });
+    dispatch(createContact(values));
+    navigate('/contacts');
   };
 
   return (
     <>
       <MenuBlock />
+
       <Formik
         initialValues={initialValues}
         validateOnBlur
@@ -64,9 +70,9 @@ export const ContactCreate = () => {
 
                 <CardContent>
                   <PageElementWrapper>
-                    <Grid
-                      item
-                      xs={12}
+                    <Grid 
+                      item 
+                      xs={12} 
                       lg={6}
                     >
                       <PageInput

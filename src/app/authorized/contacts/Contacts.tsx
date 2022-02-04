@@ -1,8 +1,9 @@
-import React, { useState }                   from 'react';
+import React, { useState, useEffect }        from 'react';
 import { Link, useNavigate }                 from 'react-router-dom';
-import AddIcon                               from '@mui/icons-material/Add';
+import { useDispatch, useSelector }          from 'react-redux';
 import styled                                from 'styled-components';
 import { CardContent, Fab }                  from '@material-ui/core';
+import AddIcon                               from '@mui/icons-material/Add';
 import EditIcon                              from '@mui/icons-material/Edit';
 import DeleteIcon                            from '@mui/icons-material/Delete';
 import BlockIcon                             from '@mui/icons-material/Block';
@@ -10,7 +11,6 @@ import { InputLabel, MenuItem, FormControl } from '@mui/material/';
 import Select, { SelectChangeEvent }         from '@mui/material/Select';
 import { MenuBlock }                         from '../Menu/Menu';
 import { DeleteContactModal }                from '../modal/DeleteContactModal/DeleteContactModal';
-import { useContactsInfo }                   from './queries';
 import {
   BaseRoundBtnStyles,
   UserContainer,
@@ -21,7 +21,8 @@ import {
   StyledModal,
   LikeBtn,
 }                                           from '../../shared/styles';
-import { IContact }                         from '../../shared/interfaces';
+import { IContact, IState }                 from '../../shared/interfaces';
+import { getContacts }                      from '../../../store/actions/index';
 
 const AddUserContainer = styled(CardContent)`&& {
   display: flex;
@@ -92,12 +93,17 @@ export const Contacts = () => {
   const [open, setOpen] = useState(false);
   const [sortBy, setSortBy] = useState<string | number>('');
   const [selectOpen, setSelectOpen] = useState(false);
-  const { data } = useContactsInfo();
   const navigate = useNavigate();
   const navigateToContact = (id: string) => navigate(`/contacts/${id}`);
   const navigateToContactEdit = (id: string) => {
     navigate(`/contacts/${id}/edit`);
   };
+  const dispatch = useDispatch();
+  const data = useSelector((state: IState) => state.contactsReducer.contacts);
+
+  useEffect(() => {
+    dispatch(getContacts()) ;
+  }, [dispatch, open]);
 
   const handleChange = (event: SelectChangeEvent<typeof sortBy>) => setSortBy(event.target.value);
   const handleSelectClose = () => setSelectOpen(false);
@@ -117,21 +123,11 @@ export const Contacts = () => {
     setOpen(false);
     setSelectedContactId('');
   };
-  
-  // useEffect(() => {
-  //   // eslint-disable-next-line no-debugger
-  //   // debugger;
-  //   // eslint-disable-next-line no-console
-  //   console.log(data);
-  //   setUpdate(!update);
-  // }, [open]);
-
-  // Fix rerending contacts page after deleting contact!!!!! 
-  // Contact disappears only after the page is reloaded
 
   return (
     <>
       <MenuBlock />
+
       <AddUserContainer>
         <SelectWrapper>
           <FormControl sx={{ m: 1, minWidth: 150 }}>
@@ -160,11 +156,10 @@ export const Contacts = () => {
               <AddIcon />
             </AddBtn>
           </Link>
+  
           <p>Add New</p>
         </AddUser>
       </AddUserContainer>
-
-{/* Fix the look of select on page, add functionality!!!! */}
 
       {data?.map(
         ({

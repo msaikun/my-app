@@ -4,12 +4,12 @@ export interface ILoginForm {
 }
 
 export interface IUser {
-  id: string;
-  email: string;
-  role: string;
+  id?: string;
+  email?: string;
+  role?: string;
   accountType?: string;
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
 }
 
 export interface ITokens {
@@ -35,4 +35,20 @@ export interface IContact {
 export interface IAuthResponse {
   user: IUser;
   tokens: ITokens;
+}
+
+export interface IContactsState {
+  contacts: IContact[];
+}
+
+export interface IState {
+  contactsReducer: IContactsState;
+}
+
+export interface IUserState {
+  user: IUser
+}
+
+export interface IUserStates {
+  userReducer: IUserState;
 }

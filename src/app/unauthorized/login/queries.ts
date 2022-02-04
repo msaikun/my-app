@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
-import { useMutation } from 'react-query';
+import axios, { AxiosResponse }                      from 'axios';
+import { useMutation }                               from 'react-query';
 import { IAuthResponse, ILoginForm, ITokens, IUser } from '../../shared/interfaces';
 
 const tokenType = 'Bearer';

@@ -1,5 +1,6 @@
-import * as React                                       from 'react';
+import React, { useEffect }                             from 'react';
 import { Link }                                         from 'react-router-dom';
+import { useDispatch, useSelector }                     from 'react-redux';
 import styled                                           from 'styled-components';
 import {
   Menu,
@@ -12,7 +13,7 @@ import {
 }                                                       from '@mui/material';
 import PersonAdd                                        from '@mui/icons-material/PersonAdd';
 import Logout                                           from '@mui/icons-material/Logout';
-import { IUser } from '../../shared/interfaces';
+import { getUser }                                      from '../../../store/actions';
 
 const MenuEl = styled(Box)`&& {
   height: 70px;
@@ -57,9 +58,16 @@ const MenuNameWrapper = styled(Typography)`&& {
 }`;
 
 export const MenuBlock = () => {
-  const {firstName, lastName}: IUser = localStorage.user && JSON.parse(localStorage.user);
+  // const {firstName, lastName}: IUser = localStorage.user && JSON.parse(localStorage.user);
+  // Тут повинна спитати як правильно витягати юзера
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const data = useSelector(() => JSON.parse(localStorage.user))
+  const dispatch = useDispatch()
+  
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -83,7 +91,7 @@ export const MenuBlock = () => {
         >
           <UserAvatar />
         </IconButton>
-        <MenuNameWrapper sx={{ minWidth: 100 }}>{firstName} {lastName}</MenuNameWrapper>
+        <MenuNameWrapper sx={{ minWidth: 100 }}>{data.firstName} {data.lastName}</MenuNameWrapper>
       </MenuEl>
 
       <Menu
