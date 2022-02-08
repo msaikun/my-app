@@ -20,7 +20,7 @@ import {
 }                                             from '../../../shared/styles';
 import { TextInputField }                     from '../../../shared/formFields/TextInputField/TextInputField';
 import { IContact }                           from '../../../shared/interfaces';
-import { createContact, getContacts }         from '../../../../store/actions';
+import { createContact }         from '../../../../store/actions';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -39,7 +39,7 @@ export const ContactCreate = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getContacts());
+    // dispatch(getContacts());
   }, [dispatch]);
 
   const onCreate = (values: IContact) => {

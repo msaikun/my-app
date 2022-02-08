@@ -1,5 +1,10 @@
-import { IContactsState } from '../../app/shared/interfaces';
-import { CREATE_CONTACT, DELETE_CONTACT, EDIT_CONTACT, GET_CONTACTS } from '../actions/types';
+import { IContactsState }         from '../../app/shared/interfaces';
+import {
+  DELETE_CONTACT_SUCCESSFULLY,
+  EDIT_CONTACT_SUCCESSFULLY,
+  CREATE_CONTACT_SUCCESSFULLY,
+  GET_CONTACTS_SUCCESSFULLY
+}                                 from '../actions/types';
 
 const initialState: IContactsState = {
   contacts: []
@@ -8,13 +13,13 @@ const initialState: IContactsState = {
 // eslint-disable-next-line default-param-last
 function contactsReducer(state = initialState, action: any) {
   switch (action.type) {
-    case GET_CONTACTS:
-      return { ...state, contacts: action.payload };
-    case CREATE_CONTACT:
-      return { ...state, contacts: action.payload };
-    case DELETE_CONTACT:
-      return { ...state, contacts: state.contacts.filter(contact => contact !== action.payload) };
-    case EDIT_CONTACT:
+    case DELETE_CONTACT_SUCCESSFULLY:
+      return { ...state, contacts: state.contacts.filter(contact => contact.id !== action.payload) };
+    case EDIT_CONTACT_SUCCESSFULLY:
+      return { ...state, contacts: state.contacts.map(contact => contact.id === action.payload.id ? action.payload : contact) };
+    case CREATE_CONTACT_SUCCESSFULLY:
+      return { ...state, contacts: [...state.contacts, action.payload] };
+    case GET_CONTACTS_SUCCESSFULLY:
       return { ...state, contacts: action.payload };
     default:
       return state;

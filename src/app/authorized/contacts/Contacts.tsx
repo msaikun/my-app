@@ -90,7 +90,7 @@ const SelectInputsLabel = styled(InputLabel)`&& {
 
 export const Contacts = () => {
   const [selectedContactId, setSelectedContactId] = useState<string>();
-  const [open, setOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [sortBy, setSortBy] = useState<string | number>('');
   const [selectOpen, setSelectOpen] = useState(false);
   const navigate = useNavigate();
@@ -102,25 +102,25 @@ export const Contacts = () => {
   const data = useSelector((state: IState) => state.contactsReducer.contacts);
 
   useEffect(() => {
-    dispatch(getContacts()) ;
-  }, [dispatch, open]);
+    dispatch(getContacts());
+  }, [dispatch, modalOpen]);
 
   const handleChange = (event: SelectChangeEvent<typeof sortBy>) => setSortBy(event.target.value);
   const handleSelectClose = () => setSelectOpen(false);
   const handleSelectOpen = () => setSelectOpen(true);
 
   const handleOpen = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     id: string
   ) => {
-    e.stopPropagation();
+    event.stopPropagation();
     setSelectedContactId(id);
-    setOpen(true);
+    setModalOpen(true);
   };
 
-  const handleClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.stopPropagation();
-    setOpen(false);
+  const handleClose = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.stopPropagation();
+    setModalOpen(false);
     setSelectedContactId('');
   };
 
@@ -167,9 +167,9 @@ export const Contacts = () => {
           firstName,
           phone,
           lastName,
-          avatar,
           isFavourite,
           isBlocked,
+          avatar,
           email,
         }: IContact) => (
           <UserContainerStyled key={id} onClick={() => navigateToContact(id)}>
@@ -214,7 +214,7 @@ export const Contacts = () => {
               <StyledModal
                 aria-labelledby="unstyled-modal-title"
                 aria-describedby="unstyled-modal-description"
-                open={open && selectedContactId === id}
+                open={modalOpen && selectedContactId === id}
                 onClose={handleClose}
                 BackdropComponent={Backdrop}
               >

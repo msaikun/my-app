@@ -13,7 +13,7 @@ import {
 }                                                       from '@mui/material';
 import PersonAdd                                        from '@mui/icons-material/PersonAdd';
 import Logout                                           from '@mui/icons-material/Logout';
-import { getUser }                                      from '../../../store/actions';
+// import { getUser }                                      from '../../../store/actions';
 
 const MenuEl = styled(Box)`&& {
   height: 70px;
@@ -62,11 +62,11 @@ export const MenuBlock = () => {
   // Тут повинна спитати як правильно витягати юзера
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const data = useSelector(() => JSON.parse(localStorage.user))
-  const dispatch = useDispatch()
+  const data = useSelector(() => JSON.parse(localStorage.user));
+  const dispatch = useDispatch();
   
   useEffect(() => {
-    dispatch(getUser());
+    // dispatch(getUser());
   }, [dispatch]);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {

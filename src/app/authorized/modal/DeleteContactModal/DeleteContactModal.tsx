@@ -46,10 +46,10 @@ export const DeleteContactModal = ({
     dispatch(getContacts());
   }, [dispatch]);
 
-  const onDelete: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.stopPropagation();
+  const onDelete: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
     dispatch(deleteContact(id));
-    onClose(e);
+    onClose(event);
     navigate('/contacts');
   };
 

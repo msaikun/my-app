@@ -1,12 +1,27 @@
-import axios                                   from 'axios';
-import { Dispatch }                            from 'redux';
-import { IContact, IUser }                     from '../../app/shared/interfaces';
-import { GET_CONTACTS, GET_USER, LOG_IN }      from './types';
+import axios                   from 'axios';
+import { Dispatch }            from 'redux';
+import { IContact, IUser }     from '../../app/shared/interfaces';
+import {
+  GET_USER,
+  LOG_IN,
+  DELETE_CONTACT_SUCCESSFULLY,
+  EDIT_CONTACT_SUCCESSFULLY,
+  CREATE_CONTACT_SUCCESSFULLY,
+  GET_CONTACTS_SUCCESSFULLY,
+}                             from './types';
+
+export const getContactsSuccesfully = (contacts: IContact[]) => ({
+  type: GET_CONTACTS_SUCCESSFULLY,
+  payload: contacts,
+})
 
 export const getContacts = () => (dispatch: Dispatch) =>
   axios
-    .get<IContact[]>('/api/v1/contacts')
-    .then((res) => dispatch({ type: GET_CONTACTS, payload: res.data }));
+    .get('/api/v1/contacts')
+    .then((response) => {
+      dispatch(getContactsSuccesfully(response.data))
+    })
+
 
 export const getUser = () => (dispatch: Dispatch) =>
   axios
@@ -20,16 +35,47 @@ export const logIn = (data: IUser) => (dispatch: Dispatch) =>
       dispatch({ type: LOG_IN, payload: res.data })
     });
 
-    // Написати нормальні логІн та гетЮзер
+// Написати нормальні логІн та гетЮзер
 
-export const deleteContact = (id: string) => () =>
+export const deleteContactSuccessfully = (id: string) => ({
+  type: DELETE_CONTACT_SUCCESSFULLY,
+  payload: id,
+})
+
+export const deleteContact = (id: string) => (dispatch: Dispatch) =>
   axios
     .delete<IUser[]>(`/api/v1/contacts/${id}`)
+    .then(() => {
+      dispatch(deleteContactSuccessfully(id))
+    })
 
-export const editContact = (data: IContact, id: any) => () =>
-  axios
-    .put<IUser[]>(`/api/v1/contacts/${id}`, data)
 
-export const createContact = (data: IContact) => () =>
+export const editContactSuccesfully = (contact: IContact) => ({
+  type: EDIT_CONTACT_SUCCESSFULLY,
+  payload: contact,
+})
+
+export const editContact = (contact: IContact, id?: string) => (dispatch: Dispatch) =>
   axios
-    .post<IUser[]>('/api/v1/contacts', data)
+    .put<IUser[]>(`/api/v1/contacts/${id}`, contact)
+    .then(() => {
+      dispatch(editContactSuccesfully(contact))
+    })
+
+
+export const createContactSuccesfully = (contact: IContact) => ({
+  type: CREATE_CONTACT_SUCCESSFULLY,
+  payload: contact,
+})
+
+export const createContact = (contact: IContact) => (dispatch: Dispatch) => {
+  // const id = Date.now().toString();
+  const avatar = 'http://placeimg.com/640/480/people';
+
+  return axios
+    .post<IUser[]>('/api/v1/contacts', contact)
+    .then(() => {
+      dispatch(createContactSuccesfully({...contact, avatar}))
+    })
+}
+

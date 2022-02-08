@@ -36,6 +36,8 @@ export const ContactEdit = () => {
   }, [dispatch]);
 
   const onUpdate = (values: IContact) => {
+    // eslint-disable-next-line no-console
+    console.log(values)
     dispatch(editContact(values, contactId));
     navigate('/contacts');
   };
@@ -60,7 +62,7 @@ export const ContactEdit = () => {
                 alignItems="center"
               >
                 <UserPageCard>
-                  <PageHeader title="Parker Rowe" />
+                  <PageHeader title={`${contact.firstName} ${contact.lastName}`} />
 
                   <CardContent>
                     <PageElementWrapper>
@@ -151,7 +153,7 @@ export const ContactEdit = () => {
                         {...label}
                         name="isFavourite"
                         onChange={handleChange}
-                        defaultChecked={Boolean(contact.isFavourite)}
+                        defaultChecked={contact.isFavourite}
                         sx={{
                           color: pink[800],
                           '&.Mui-checked': {
@@ -167,7 +169,7 @@ export const ContactEdit = () => {
                         {...label}
                         name="isBlocked"
                         onChange={handleChange}
-                        defaultChecked={Boolean(contact.isBlocked)}
+                        defaultChecked={!!contact.isBlocked}
                         sx={{
                           color: pink[800],
                           '&.Mui-checked': {
