@@ -1,11 +1,11 @@
-import React, { MouseEventHandler, useEffect }       from 'react';
+import React, { MouseEventHandler }                  from 'react';
 import { useDispatch }                               from 'react-redux';
 import { useNavigate }                               from 'react-router-dom';
 import styled                                        from 'styled-components';
 import { Card, CardContent, Grid }                   from '@material-ui/core/';
 import DeleteIcon                                    from '@mui/icons-material/Delete';
 import { ButtonWrapper, PageHeader, Btn }            from '../../../shared/styles';
-import { deleteContact, getContacts }                from '../../../../store/actions';
+import { deleteContact }                             from '../../../../store/actions/contactsEctions';
 
 const DeletePageCard = styled(Card)`&& {
   margin-top: 100px;
@@ -41,10 +41,6 @@ export const DeleteContactModal = ({
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getContacts());
-  }, [dispatch]);
 
   const onDelete: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();

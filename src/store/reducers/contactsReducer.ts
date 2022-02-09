@@ -4,14 +4,14 @@ import {
   EDIT_CONTACT_SUCCESSFULLY,
   CREATE_CONTACT_SUCCESSFULLY,
   GET_CONTACTS_SUCCESSFULLY
-}                                 from '../actions/types';
+}                                 from '../types';
 
 const initialState: IContactsState = {
   contacts: []
 };
 
 // eslint-disable-next-line default-param-last
-function contactsReducer(state = initialState, action: any) {
+export const contactsReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case DELETE_CONTACT_SUCCESSFULLY:
       return { ...state, contacts: state.contacts.filter(contact => contact.id !== action.payload) };
@@ -25,5 +25,3 @@ function contactsReducer(state = initialState, action: any) {
       return state;
   }
 }
-
-export default contactsReducer;

@@ -22,7 +22,12 @@ import {
   LikeBtn,
 }                                           from '../../shared/styles';
 import { IContact, IState }                 from '../../shared/interfaces';
-import { getContacts }                      from '../../../store/actions/index';
+import { getContacts }                      from '../../../store/actions/contactsEctions';
+import {
+  getFavoriteContacts,
+  getBlockedContacts,
+  getAllContacts,
+}                                           from '../../../store/actions/filterContactsActions';
 
 const AddUserContainer = styled(CardContent)`&& {
   display: flex;
@@ -89,17 +94,19 @@ const SelectInputsLabel = styled(InputLabel)`&& {
 }`;
 
 export const Contacts = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
   const [selectedContactId, setSelectedContactId] = useState<string>();
   const [modalOpen, setModalOpen] = useState(false);
   const [sortBy, setSortBy] = useState<string | number>('');
   const [selectOpen, setSelectOpen] = useState(false);
-  const navigate = useNavigate();
+  const contacts = useSelector((state: IState) => state.contactsReducer.contacts)
+
   const navigateToContact = (id: string) => navigate(`/contacts/${id}`);
   const navigateToContactEdit = (id: string) => {
     navigate(`/contacts/${id}/edit`);
   };
-  const dispatch = useDispatch();
-  const data = useSelector((state: IState) => state.contactsReducer.contacts);
 
   useEffect(() => {
     dispatch(getContacts());
@@ -124,6 +131,18 @@ export const Contacts = () => {
     setSelectedContactId('');
   };
 
+  const filterByFavorite = () => {
+    dispatch(getFavoriteContacts())
+  }
+
+  const filterByBlocked = () => {
+    dispatch(getBlockedContacts())
+  }
+
+  const contactsWothoutFilter = () => {
+    dispatch(getAllContacts())
+  }
+
   return (
     <>
       <MenuBlock />
@@ -143,9 +162,26 @@ export const Contacts = () => {
               label="Age"
               onChange={handleChange}
             >
-              <FlexItem value="all">All contacts</FlexItem>
-              <FlexItem value="favorites">Favorites contacts</FlexItem>
-              <FlexItem value="blocked">Blocked contacts</FlexItem>
+              <FlexItem
+                onClick={contactsWothoutFilter}
+                value="all"
+              >
+                All contacts
+              </FlexItem>
+
+              <FlexItem
+                onClick={filterByFavorite}
+                value="favorites"
+              >
+                Favorites contacts
+              </FlexItem>
+
+              <FlexItem
+                onClick={filterByBlocked}
+                value="blocked"
+              >
+                Blocked contacts
+              </FlexItem>
             </Select>
           </FormControl>
         </SelectWrapper>
@@ -161,7 +197,7 @@ export const Contacts = () => {
         </AddUser>
       </AddUserContainer>
 
-      {data?.map(
+      {contacts?.map(
         ({
           id,
           firstName,

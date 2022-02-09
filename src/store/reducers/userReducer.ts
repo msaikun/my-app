@@ -1,5 +1,5 @@
 import { IUserState }         from '../../app/shared/interfaces';
-import { GET_USER }           from '../actions/types';
+import { GET_USER }           from '../types';
 
 const initialState: IUserState = {
   user: {},

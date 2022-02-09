@@ -20,7 +20,7 @@ import {
 }                                              from '../../../shared/styles';
 import { TextInputField }                      from '../../../shared/formFields/TextInputField/TextInputField';
 import { IContact, IState }                    from '../../../shared/interfaces';
-import { editContact, getContacts }            from '../../../../store/actions';
+import { editContact, getContacts }            from '../../../../store/actions/contactsEctions';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -36,8 +36,6 @@ export const ContactEdit = () => {
   }, [dispatch]);
 
   const onUpdate = (values: IContact) => {
-    // eslint-disable-next-line no-console
-    console.log(values)
     dispatch(editContact(values, contactId));
     navigate('/contacts');
   };

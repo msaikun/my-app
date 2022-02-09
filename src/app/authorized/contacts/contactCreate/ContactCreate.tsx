@@ -1,4 +1,3 @@
-import { useEffect }                          from 'react';
 import { useNavigate }                        from 'react-router-dom';
 import { useDispatch }                        from 'react-redux';
 import { Formik }                             from 'formik';
@@ -20,7 +19,7 @@ import {
 }                                             from '../../../shared/styles';
 import { TextInputField }                     from '../../../shared/formFields/TextInputField/TextInputField';
 import { IContact }                           from '../../../shared/interfaces';
-import { createContact }         from '../../../../store/actions';
+import { createContact }                      from '../../../../store/actions/contactsEctions';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -31,16 +30,13 @@ const initialValues = {
   phone: '',
   description: '',
   isFavourite: false,
+  isBlocked: false,
   id: '',
 };
 
 export const ContactCreate = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // dispatch(getContacts());
-  }, [dispatch]);
 
   const onCreate = (values: IContact) => {
     dispatch(createContact(values));
@@ -168,6 +164,25 @@ export const ContactCreate = () => {
 
                     <p>Add To Favourites</p>
                   </PageCheckboxWrapper>
+
+                  {values.isBlocked && 
+                    <PageCheckboxWrapper>
+                      <CheckboxEl
+                        {...label}
+                        name="isBlocked"
+                        onChange={handleChange}
+                        value={values.isBlocked}
+                        sx={{
+                          color: pink[800],
+                          '&.Mui-checked': {
+                            color: pink[600],
+                          },
+                        }}
+                      />
+
+                      <p>Is Blocked</p>
+                  </PageCheckboxWrapper>
+                  }
                 </PageCheckBoxesWrapper>
 
                 <ButtonWrapper>

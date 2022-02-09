@@ -1,11 +1,13 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import thunkMiddleware                                            from 'redux-thunk';
-import contactsReducer                                            from './reducers/contactsReducer';
-import { userReducer }                                            from './reducers/userReducer';
+import thunkMiddleware from 'redux-thunk';
+import { contactsReducer } from './reducers/contactsReducer';
+import { filterContactsReducer } from './reducers/filterContactsReducer';
+import { userReducer } from './reducers/userReducer';
 
 const rootReducer = combineReducers({
   contactsReducer,
   userReducer,
+  filterContactsReducer
 });
 
 const composeEnhancers =
