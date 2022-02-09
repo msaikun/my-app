@@ -2,7 +2,7 @@ import { IContactsState }         from '../../app/shared/interfaces';
 import {
   FILTER_CONTACTS_BY_FAVORITE,
   FILTER_CONTACTS_BY_BLOCKED 
-}                                 from '../types';
+}                                 from '../Actions/types';
 
 const initialState: IContactsState = {
   contacts: []

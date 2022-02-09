@@ -4,7 +4,7 @@ import {
   EDIT_CONTACT_SUCCESSFULLY,
   CREATE_CONTACT_SUCCESSFULLY,
   GET_CONTACTS_SUCCESSFULLY
-}                                 from '../types';
+}                                 from '../Actions/types';
 
 const initialState: IContactsState = {
   contacts: []

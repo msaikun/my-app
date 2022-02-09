@@ -4,7 +4,7 @@ import { IUser }      from '../../app/shared/interfaces';
 import {
   GET_USER,
   LOG_IN,
-}                     from '../types';
+}                     from './types';
 
 export const getUser = () => (dispatch: Dispatch) =>
   axios

@@ -14,7 +14,7 @@ import {
   GET_CONTACTS_SUCCESSFULLY,
   GET_CONTACTS_FAILURE,
   GET_CONTACTS,
-}                               from '../types';
+}                               from './types';
 
 export const getContactsSuccesfully = (contacts: IContact[]) => ({
   type: GET_CONTACTS_SUCCESSFULLY,
@@ -33,6 +33,9 @@ export const getContacts = () => (dispatch: Dispatch) => {
     .get('/api/v1/contacts')
     .then((response) => {
       dispatch(getContactsSuccesfully(response.data))
+    })
+    .catch(() => {
+      dispatch(getContactsFailure(null))
     })
 }
 
@@ -54,6 +57,9 @@ export const deleteContact = (id: string) => (dispatch: Dispatch) => {
     .delete<IUser[]>(`/api/v1/contacts/${id}`)
     .then(() => {
       dispatch(deleteContactSuccessfully(id))
+    })
+    .catch(() => {
+      dispatch(deleteContactFailure(null))
     })
 }
 
@@ -80,6 +86,7 @@ export const editContact = (contact: IContact, id?: string) => (dispatch: Dispat
       dispatch(editContactFailure(null))
     })
 }
+
 
 export const createContactSuccesfully = (contact: IContact) => ({
   type: CREATE_CONTACT_SUCCESSFULLY,

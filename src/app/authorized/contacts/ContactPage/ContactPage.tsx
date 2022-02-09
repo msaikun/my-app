@@ -19,7 +19,7 @@ import {
   LikeBtn,
 }                                   from '../../../shared/styles';
 import { IState }                   from '../../../shared/interfaces';
-import { getContacts }              from '../../../../store/actions/contactsEctions';
+import { getContacts }              from '../../../../store/Actions/contactsEctions';
 
 const ElementsWrapper = styled(UserContainer)`&& {
   display: flex;
