@@ -1,21 +1,33 @@
-import axios          from 'axios';
-import { Dispatch }   from 'redux';
-import { IUser }      from '../../app/shared/interfaces';
+import axios                                     from 'axios';
+import { Dispatch }                              from 'redux';
+import { ILoginForm, IUserState }                from '../../app/shared/interfaces';
 import {
-  GET_USER,
-  LOG_IN,
-}                     from './types';
+  FETCH_USER,
+  FETCH_USER_SUCCESSFULLY,
+  FETCH_USER_FAILURE,
+}                                                from './types';
 
-export const getUser = () => (dispatch: Dispatch) =>
-  axios
-    .get<IUser[]>('/api/v1/contacts')
-    .then((res) => dispatch({ type: GET_USER, payload: res.data }));
+export const fetchUserSuccesfully = (data: IUserState) => ({
+  type: FETCH_USER_SUCCESSFULLY,
+  payload: data,
+})
 
-export const logIn = (data: IUser) => (dispatch: Dispatch) =>
-  axios
-    .post<IUser[]>('/api/v1/login', data)
-    .then((res) => {
-      dispatch({ type: LOG_IN, payload: res.data })
-    });
+export const fetchUserFailure = (error: any) => ({
+  type: FETCH_USER_FAILURE,
+  error,
+})
 
-// Написати нормальні логІн та гетЮзер
+export const fetchUser = (data: ILoginForm) => (dispatch: Dispatch) => {
+  dispatch({ type: FETCH_USER })
+
+  return axios
+    .post('/api/v1/login', data)
+    .then((response) => {
+      dispatch(fetchUserSuccesfully(response.data));
+
+      return response;
+    })
+    .catch(() => {
+      dispatch(fetchUserFailure(null))
+    })
+}

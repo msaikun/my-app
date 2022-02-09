@@ -17,22 +17,23 @@ import {
   PageCheckBoxesWrapper,
   UserPageCard,
   PageElementWrapper,
-}                                              from '../../../shared/styles';
-import { TextInputField }                      from '../../../shared/formFields/TextInputField/TextInputField';
-import { IContact, IState }                    from '../../../shared/interfaces';
-import { editContact, getContacts }            from '../../../../store/Actions/contactsEctions';
+}                                               from '../../../shared/styles';
+import { TextInputField }                       from '../../../shared/formFields/TextInputField/TextInputField';
+import { IContact }                             from '../../../shared/interfaces';
+import { editContact, fetchContacts }           from '../../../../store/actions/contactsActions';
+import { selectContacts }                       from '../../../../store/reducers/contactsReducer';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 export const ContactEdit = () => {
   const { contactId } = useParams();
-  const data = useSelector((state: IState) => state.contactsReducer.contacts)
+  const data = useSelector(selectContacts)
   const contact = data && data.find(item => item.id === contactId);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getContacts()) 
+    dispatch(fetchContacts()) 
   }, [dispatch]);
 
   const onUpdate = (values: IContact) => {

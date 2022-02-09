@@ -1,4 +1,5 @@
 import { useNavigate }                              from 'react-router-dom';
+import { useDispatch }                              from 'react-redux';
 import { FastField, Formik }                        from 'formik';
 import styled                                       from 'styled-components';
 import { CardContent, Card, Grid }                  from '@material-ui/core/';
@@ -6,7 +7,7 @@ import { ButtonWrapper, PageHeader, PageForm, Btn } from '../../shared/styles';
 import { ILoginForm }                               from '../../shared/interfaces';
 import { TextInputField }                           from '../../shared/formFields/TextInputField/TextInputField';
 import { signInFormSchema }                         from './validation';
-import { useSignIn }                                from './queries';
+import { fetchUser }                                from '../../../store/actions/userActions';
 
 const LoginPageCard = styled(Card)`&& {
   margin-top: 100px;
@@ -28,13 +29,12 @@ const PageInput = styled(FastField)`&& {
 }`;
 
 export const Login = () => {
-  const { mutate: login, isLoading } = useSignIn();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onSubmit = (values: ILoginForm) => {
-    login(values, {
-      onSuccess: () => navigate('/contacts'),
-    });
+    dispatch(fetchUser(values));
+    navigate('/contacts');
   };
 
   const initialValues = {
@@ -97,7 +97,7 @@ export const Login = () => {
                     <Btn
                       variant="contained"
                       fullWidth
-                      disabled={!isValid || !dirty || isLoading}
+                      disabled={!isValid || !dirty}
                       type="submit"
                     >
                       Log In

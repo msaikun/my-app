@@ -1,7 +1,7 @@
 import {
   FILTER_CONTACTS_BY_BLOCKED, 
   FILTER_CONTACTS_BY_FAVORITE,
-  GET_CONTACTS
+  FETCH_CONTACTS
 }                               from './types';
 
 export const getFavoriteContacts = () => ({
@@ -13,5 +13,5 @@ export const getBlockedContacts = () => ({
 })
 
 export const getAllContacts = () => ({
-  type: GET_CONTACTS
+  type: FETCH_CONTACTS
 })

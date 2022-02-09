@@ -1,10 +1,10 @@
-import { IContactsState }         from '../../app/shared/interfaces';
+import { IContactsState, IState }         from '../../app/shared/interfaces';
 import {
   DELETE_CONTACT_SUCCESSFULLY,
   EDIT_CONTACT_SUCCESSFULLY,
   CREATE_CONTACT_SUCCESSFULLY,
-  GET_CONTACTS_SUCCESSFULLY
-}                                 from '../Actions/types';
+  FETCH_CONTACTS_SUCCESSFULLY
+}                                         from '../actions/types';
 
 const initialState: IContactsState = {
   contacts: []
@@ -19,9 +19,11 @@ export const contactsReducer = (state = initialState, action: any) => {
       return { ...state, contacts: state.contacts.map(contact => contact.id === action.payload.id ? action.payload : contact) };
     case CREATE_CONTACT_SUCCESSFULLY:
       return { ...state, contacts: [...state.contacts, action.payload] };
-    case GET_CONTACTS_SUCCESSFULLY:
+    case FETCH_CONTACTS_SUCCESSFULLY:
       return { ...state, contacts: action.payload };
     default:
       return state;
   }
 }
+
+export const selectContacts = (state: IState) => state.contactsReducer.contacts;

@@ -13,7 +13,8 @@ import {
 }                                                       from '@mui/material';
 import PersonAdd                                        from '@mui/icons-material/PersonAdd';
 import Logout                                           from '@mui/icons-material/Logout';
-// import { getUser }                                      from '../../../store/actions';
+import { selectUser }                                   from '../../../store/reducers/userReducer';
+// import { fetchUser }                                    from '../../../store/actions/userActions';
 
 const MenuEl = styled(Box)`&& {
   height: 70px;
@@ -59,14 +60,16 @@ const MenuNameWrapper = styled(Typography)`&& {
 
 export const MenuBlock = () => {
   // const {firstName, lastName}: IUser = localStorage.user && JSON.parse(localStorage.user);
-  // Тут повинна спитати як правильно витягати юзера
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const data = useSelector(() => JSON.parse(localStorage.user));
+  const user = useSelector(selectUser);
+  // eslint-disable-next-line no-console
+  console.log(user);
   const dispatch = useDispatch();
   
   useEffect(() => {
-    // dispatch(getUser());
+    // dispatch(fetchUser());
   }, [dispatch]);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -91,7 +94,7 @@ export const MenuBlock = () => {
         >
           <UserAvatar />
         </IconButton>
-        <MenuNameWrapper sx={{ minWidth: 100 }}>{data.firstName} {data.lastName}</MenuNameWrapper>
+        <MenuNameWrapper sx={{ minWidth: 100 }}>{user.firstName} {user.lastName}</MenuNameWrapper>
       </MenuEl>
 
       <Menu

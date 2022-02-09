@@ -11,33 +11,34 @@ import {
   CREATE_CONTACT_SUCCESSFULLY,
   CREATE_CONTACT_FAILURE,
   CREATE_CONTACT,
-  GET_CONTACTS_SUCCESSFULLY,
-  GET_CONTACTS_FAILURE,
-  GET_CONTACTS,
+  FETCH_CONTACTS_SUCCESSFULLY,
+  FETCH_CONTACTS_FAILURE,
+  FETCH_CONTACTS,
 }                               from './types';
 
-export const getContactsSuccesfully = (contacts: IContact[]) => ({
-  type: GET_CONTACTS_SUCCESSFULLY,
+export const fetchContactsSuccesfully = (contacts: IContact[]) => ({
+  type: FETCH_CONTACTS_SUCCESSFULLY,
   payload: contacts,
 })
 
-export const getContactsFailure = (error: any) => ({
-  type: GET_CONTACTS_FAILURE,
+export const fetchContactsFailure = (error: any) => ({
+  type: FETCH_CONTACTS_FAILURE,
   error,
 })
 
-export const getContacts = () => (dispatch: Dispatch) => {
-  dispatch({ type: GET_CONTACTS })
+export const fetchContacts = () => (dispatch: Dispatch) => {
+  dispatch({ type: FETCH_CONTACTS })
 
   return axios
     .get('/api/v1/contacts')
     .then((response) => {
-      dispatch(getContactsSuccesfully(response.data))
+      dispatch(fetchContactsSuccesfully(response.data))
     })
     .catch(() => {
-      dispatch(getContactsFailure(null))
+      dispatch(fetchContactsFailure(null))
     })
 }
+
 
 
 export const deleteContactSuccessfully = (id: string) => ({
@@ -99,9 +100,7 @@ export const createContactFailure = (error: any) => ({
 })
 
 export const createContact = (contact: IContact) => (dispatch: Dispatch) => {
-  // const id = Date.now().toString();
   dispatch({ type: CREATE_CONTACT })
-  // const avatar = 'http://placeimg.com/640/480/people';
 
   return axios
     .post<IContact>('/api/v1/contacts', contact)

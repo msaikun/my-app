@@ -18,8 +18,8 @@ import {
   StyledModal,
   LikeBtn,
 }                                   from '../../../shared/styles';
-import { IState }                   from '../../../shared/interfaces';
-import { getContacts }              from '../../../../store/Actions/contactsEctions';
+import { fetchContacts }            from '../../../../store/actions/contactsActions';
+import { selectContacts }           from '../../../../store/reducers/contactsReducer';
 
 const ElementsWrapper = styled(UserContainer)`&& {
   display: flex;
@@ -75,12 +75,12 @@ const DeleteBtn = styled(Fab)`&& {
 export const ContactPage = () => {
   const [open, setOpen] = useState(false);
   const { contactId } = useParams();
-  const data = useSelector((state: IState) => state.contactsReducer.contacts);
+  const data = useSelector(selectContacts);
   const contact = data && data.find(item => item.id === contactId);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getContacts());
+    dispatch(fetchContacts());
   }, [dispatch]);
 
   const handleOpen = () => setOpen(true);

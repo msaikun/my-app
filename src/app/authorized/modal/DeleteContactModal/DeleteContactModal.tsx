@@ -5,7 +5,7 @@ import styled                                        from 'styled-components';
 import { Card, CardContent, Grid }                   from '@material-ui/core/';
 import DeleteIcon                                    from '@mui/icons-material/Delete';
 import { ButtonWrapper, PageHeader, Btn }            from '../../../shared/styles';
-import { deleteContact }                             from '../../../../store/Actions/contactsEctions';
+import { deleteContact }                             from '../../../../store/actions/contactsActions';
 
 const DeletePageCard = styled(Card)`&& {
   margin-top: 100px;

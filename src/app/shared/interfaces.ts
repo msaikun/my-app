@@ -46,7 +46,8 @@ export interface IState {
 }
 
 export interface IUserState {
-  user: IUser
+  user: IUser | any;
+  tokens: ITokens | any;
 }
 
 export interface IUserStates {

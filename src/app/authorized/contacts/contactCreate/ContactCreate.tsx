@@ -19,7 +19,7 @@ import {
 }                                             from '../../../shared/styles';
 import { TextInputField }                     from '../../../shared/formFields/TextInputField/TextInputField';
 import { IContact }                           from '../../../shared/interfaces';
-import { createContact }                      from '../../../../store/Actions/contactsEctions';
+import { createContact }                      from '../../../../store/actions/contactsActions';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 

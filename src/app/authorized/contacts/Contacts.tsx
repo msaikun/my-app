@@ -21,13 +21,14 @@ import {
   StyledModal,
   LikeBtn,
 }                                           from '../../shared/styles';
-import { IContact, IState }                 from '../../shared/interfaces';
-import { getContacts }                      from '../../../store/Actions/contactsEctions';
+import { IContact }                         from '../../shared/interfaces';
+import { fetchContacts }                    from '../../../store/actions/contactsActions';
 import {
   getFavoriteContacts,
   getBlockedContacts,
   getAllContacts,
-}                                           from '../../../store/Actions/filterContactsActions';
+}                                           from '../../../store/actions/filterContactsActions';
+import { selectContacts }                   from '../../../store/reducers/contactsReducer';
 
 const AddUserContainer = styled(CardContent)`&& {
   display: flex;
@@ -101,7 +102,7 @@ export const Contacts = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [sortBy, setSortBy] = useState<string | number>('');
   const [selectOpen, setSelectOpen] = useState(false);
-  const contacts = useSelector((state: IState) => state.contactsReducer.contacts)
+  const contacts = useSelector(selectContacts);
 
   const navigateToContact = (id: string) => navigate(`/contacts/${id}`);
   const navigateToContactEdit = (id: string) => {
@@ -109,7 +110,7 @@ export const Contacts = () => {
   };
 
   useEffect(() => {
-    dispatch(getContacts());
+    dispatch(fetchContacts());
   }, [dispatch, modalOpen]);
 
   const handleChange = (event: SelectChangeEvent<typeof sortBy>) => setSortBy(event.target.value);
