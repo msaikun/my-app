@@ -39,6 +39,7 @@ export interface IAuthResponse {
 
 export interface IContactsState {
   contacts: IContact[];
+  filterBy: string;
 }
 
 export interface IState {

@@ -6,14 +6,12 @@ import {
 }                                from 'redux';
 import thunkMiddleware           from 'redux-thunk';
 import { contactsReducer }       from './reducers/contactsReducer';
-import { filterContactsReducer } from './reducers/filterContactsReducer';
 import { userReducer }           from './reducers/userReducer';
 import { loggerMiddleware }      from './middlewares/loggerMiddleware';
 
 const rootReducer = combineReducers({
   contactsReducer,
   userReducer,
-  filterContactsReducer
 });
 
 const middlewareList = [thunkMiddleware, loggerMiddleware]

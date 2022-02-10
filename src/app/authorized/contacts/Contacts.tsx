@@ -22,12 +22,12 @@ import {
   LikeBtn,
 }                                           from '../../shared/styles';
 import { IContact }                         from '../../shared/interfaces';
-import { fetchContacts }                    from '../../../store/actions/contactsActions';
 import {
   getFavoriteContacts,
   getBlockedContacts,
   getAllContacts,
-}                                           from '../../../store/actions/filterContactsActions';
+  fetchContacts,
+}                                           from '../../../store/actions/contactsActions';
 import { selectContacts }                   from '../../../store/reducers/contactsReducer';
 
 const AddUserContainer = styled(CardContent)`&& {

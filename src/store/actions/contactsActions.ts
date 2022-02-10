@@ -14,6 +14,9 @@ import {
   FETCH_CONTACTS_SUCCESSFULLY,
   FETCH_CONTACTS_FAILURE,
   FETCH_CONTACTS,
+  FILTER_CONTACTS_BY_BLOCKED, 
+  FILTER_CONTACTS_BY_FAVORITE,
+  CONTACTS_WITHOUT_FILTER
 }                               from './types';
 
 export const fetchContactsSuccesfully = (contacts: IContact[]) => ({
@@ -38,7 +41,6 @@ export const fetchContacts = () => (dispatch: Dispatch) => {
       dispatch(fetchContactsFailure(null))
     })
 }
-
 
 
 export const deleteContactSuccessfully = (id: string) => ({
@@ -111,3 +113,15 @@ export const createContact = (contact: IContact) => (dispatch: Dispatch) => {
       dispatch(createContactFailure(null))
     })
 }
+
+export const getFavoriteContacts = () => ({
+  type: FILTER_CONTACTS_BY_FAVORITE,
+})
+
+export const getBlockedContacts = () => ({
+  type: FILTER_CONTACTS_BY_BLOCKED,
+})
+
+export const getAllContacts = () => ({
+  type: CONTACTS_WITHOUT_FILTER
+})

@@ -7,27 +7,25 @@ import {
   FETCH_USER_FAILURE,
 }                                                from './types';
 
-export const fetchUserSuccesfully = (data: IUserState) => ({
+export const loginSuccesfully = (data: IUserState) => ({
   type: FETCH_USER_SUCCESSFULLY,
   payload: data,
 })
 
-export const fetchUserFailure = (error: any) => ({
+export const loginFailure = (error: any) => ({
   type: FETCH_USER_FAILURE,
   error,
 })
 
-export const fetchUser = (data: ILoginForm) => (dispatch: Dispatch) => {
+export const login = (data: ILoginForm) => (dispatch: Dispatch) => {
   dispatch({ type: FETCH_USER })
 
   return axios
     .post('/api/v1/login', data)
     .then((response) => {
-      dispatch(fetchUserSuccesfully(response.data));
-
-      return response;
+      dispatch(loginSuccesfully(response.data));
     })
     .catch(() => {
-      dispatch(fetchUserFailure(null))
+      dispatch(loginFailure(null))
     })
 }

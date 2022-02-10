@@ -7,7 +7,7 @@ import { ButtonWrapper, PageHeader, PageForm, Btn } from '../../shared/styles';
 import { ILoginForm }                               from '../../shared/interfaces';
 import { TextInputField }                           from '../../shared/formFields/TextInputField/TextInputField';
 import { signInFormSchema }                         from './validation';
-import { fetchUser }                                from '../../../store/actions/userActions';
+import { login }                                    from '../../../store/actions/userActions';
 
 const LoginPageCard = styled(Card)`&& {
   margin-top: 100px;
@@ -33,7 +33,7 @@ export const Login = () => {
   const dispatch = useDispatch();
 
   const onSubmit = (values: ILoginForm) => {
-    dispatch(fetchUser(values));
+    dispatch(login(values));
     navigate('/contacts');
   };
 
