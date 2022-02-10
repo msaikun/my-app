@@ -255,7 +255,9 @@ export const Contacts = () => {
                 onClose={handleClose}
                 BackdropComponent={Backdrop}
               >
-                <div><DeleteContactModal id={id} onClose={handleClose} /></div>
+                <div>
+                  <DeleteContactModal id={id} onClose={handleClose} />
+                </div>
               </StyledModal>
             </div>
           </UserContainerStyled>

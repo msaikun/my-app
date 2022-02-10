@@ -14,7 +14,6 @@ import {
 import PersonAdd                                        from '@mui/icons-material/PersonAdd';
 import Logout                                           from '@mui/icons-material/Logout';
 import { selectUser }                                   from '../../../store/reducers/userReducer';
-// import { fetchUser }                                    from '../../../store/actions/userActions';
 
 const MenuEl = styled(Box)`&& {
   height: 70px;
@@ -59,13 +58,9 @@ const MenuNameWrapper = styled(Typography)`&& {
 }`;
 
 export const MenuBlock = () => {
-  // const {firstName, lastName}: IUser = localStorage.user && JSON.parse(localStorage.user);
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const user = useSelector(selectUser);
-  // eslint-disable-next-line no-console
-  console.log(user);
   const dispatch = useDispatch();
   
   useEffect(() => {
