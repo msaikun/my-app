@@ -1,3 +1,4 @@
+import { useCallback }                              from 'react';
 import { useNavigate }                              from 'react-router-dom';
 import { useDispatch }                              from 'react-redux';
 import { FastField, Formik }                        from 'formik';
@@ -32,10 +33,12 @@ export const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const onSubmit = (values: ILoginForm) => {
-    dispatch(login(values));
-    navigate('/contacts');
-  };
+  const onSubmit = useCallback(
+    (values: ILoginForm) => {
+      dispatch(login(values));
+      navigate('/contacts');
+    }, [login]
+  )
 
   const initialValues = {
     email: '',

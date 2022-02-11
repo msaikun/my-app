@@ -1,4 +1,5 @@
 import { useNavigate }                        from 'react-router-dom';
+import { useCallback }                        from 'react';
 import { useDispatch }                        from 'react-redux';
 import { Formik }                             from 'formik';
 import { pink }                               from '@mui/material/colors';
@@ -37,11 +38,13 @@ const initialValues = {
 export const ContactCreate = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const onCreate = (values: IContact) => {
-    dispatch(createContact(values));
-    navigate('/contacts');
-  };
+  
+  const onCreate = useCallback(
+    (values: IContact) => {
+      dispatch(createContact(values));
+      navigate('/contacts');
+    }, [createContact]
+  )
 
   return (
     <>

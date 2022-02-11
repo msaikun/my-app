@@ -1,13 +1,10 @@
 import { IContactsState, IState }         from '../../app/shared/interfaces';
-// import { getAllContacts } from '../actions/filterContactsActions';
 import {
   DELETE_CONTACT_SUCCESSFULLY,
   EDIT_CONTACT_SUCCESSFULLY,
   CREATE_CONTACT_SUCCESSFULLY,
   FETCH_CONTACTS_SUCCESSFULLY,
-  FILTER_CONTACTS_BY_FAVORITE,
-  FILTER_CONTACTS_BY_BLOCKED,
-  CONTACTS_WITHOUT_FILTER
+  FILTER_CONTACTS_BY,
 }                                         from '../actions/types';
 
 const initialState: IContactsState = {
@@ -26,13 +23,8 @@ export const contactsReducer = (state = initialState, action: any) => {
       return { ...state, contacts: [...state.contacts, action.payload] };
     case FETCH_CONTACTS_SUCCESSFULLY:
       return { ...state, contacts: action.payload };
-    case CONTACTS_WITHOUT_FILTER:
-      return { ...state, filterBy: 'all' }
-    case FILTER_CONTACTS_BY_FAVORITE:
-      return { ...state, filterBy: 'favorites' }
-    case FILTER_CONTACTS_BY_BLOCKED:
-     return { ...state, filterBy: 'blocked' }
-      
+    case FILTER_CONTACTS_BY: 
+      return { ...state, filterBy: action.payload};
     default:
       return state;
   }

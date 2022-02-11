@@ -1,4 +1,4 @@
-import React, { useState, useEffect }        from 'react';
+import React, { useCallback, useState }      from 'react';
 import { Link, useNavigate }                 from 'react-router-dom';
 import { useDispatch, useSelector }          from 'react-redux';
 import styled                                from 'styled-components';
@@ -22,12 +22,7 @@ import {
   LikeBtn,
 }                                           from '../../shared/styles';
 import { IContact }                         from '../../shared/interfaces';
-import {
-  getFavoriteContacts,
-  getBlockedContacts,
-  getAllContacts,
-  fetchContacts,
-}                                           from '../../../store/actions/contactsActions';
+import { getFiltredContacts }               from '../../../store/actions/contactsActions';
 import { selectContacts }                   from '../../../store/reducers/contactsReducer';
 
 const AddUserContainer = styled(CardContent)`&& {
@@ -100,7 +95,7 @@ export const Contacts = () => {
   
   const [selectedContactId, setSelectedContactId] = useState<string>();
   const [modalOpen, setModalOpen] = useState(false);
-  const [sortBy, setSortBy] = useState<string | number>('');
+  const [sortBy, setSortBy] = useState<string | number>('all');
   const [selectOpen, setSelectOpen] = useState(false);
   const contacts = useSelector(selectContacts);
 
@@ -108,10 +103,6 @@ export const Contacts = () => {
   const navigateToContactEdit = (id: string) => {
     navigate(`/contacts/${id}/edit`);
   };
-
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch, modalOpen]);
 
   const handleChange = (event: SelectChangeEvent<typeof sortBy>) => setSortBy(event.target.value);
   const handleSelectClose = () => setSelectOpen(false);
@@ -132,18 +123,12 @@ export const Contacts = () => {
     setSelectedContactId('');
   };
 
-  const filterByFavorite = () => {
-    dispatch(getFavoriteContacts())
-  }
-
-  const filterByBlocked = () => {
-    dispatch(getBlockedContacts())
-  }
-
-  const contactsWothoutFilter = () => {
-    dispatch(getAllContacts())
-  }
-
+  const filterContacts = useCallback(
+    (filterBy: string) => {
+      dispatch(getFiltredContacts(filterBy));
+    }, [getFiltredContacts]
+  )
+  
   return (
     <>
       <MenuBlock />
@@ -164,21 +149,21 @@ export const Contacts = () => {
               onChange={handleChange}
             >
               <FlexItem
-                onClick={contactsWothoutFilter}
+                onClick={() => filterContacts('all')}
                 value="all"
               >
                 All contacts
               </FlexItem>
 
               <FlexItem
-                onClick={filterByFavorite}
+                onClick={() => filterContacts('favorites')}
                 value="favorites"
               >
                 Favorites contacts
               </FlexItem>
 
               <FlexItem
-                onClick={filterByBlocked}
+                onClick={() => filterContacts('blocked')}
                 value="blocked"
               >
                 Blocked contacts

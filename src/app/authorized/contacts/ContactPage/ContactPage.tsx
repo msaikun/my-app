@@ -1,6 +1,7 @@
-import { useState, useEffect }      from 'react';
+
+import React, { useState }          from 'react';
 import { Link, useParams }          from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector }              from 'react-redux';
 import styled                       from 'styled-components';
 import { Box, CardContent, Fab }    from '@material-ui/core';
 import EditIcon                     from '@mui/icons-material/Edit';
@@ -18,7 +19,6 @@ import {
   StyledModal,
   LikeBtn,
 }                                   from '../../../shared/styles';
-import { fetchContacts }            from '../../../../store/actions/contactsActions';
 import { selectContacts }           from '../../../../store/reducers/contactsReducer';
 
 const ElementsWrapper = styled(UserContainer)`&& {
@@ -76,12 +76,7 @@ export const ContactPage = () => {
   const [open, setOpen] = useState(false);
   const { contactId } = useParams();
   const data = useSelector(selectContacts);
-  const contact = data && data.find(item => item.id === contactId);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
+  const contact = React.useMemo(() => (data && data.find(item => item.id === contactId)), [contactId, data]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
