@@ -27,8 +27,8 @@ export interface IContact {
   lastName: string;
   avatar?: string;
   description: string;
-  isFavourite?: boolean;
-  isBlocked?: boolean;
+  isFavourite: boolean;
+  isBlocked: boolean;
   email?: string;
 }
 
@@ -40,6 +40,7 @@ export interface IAuthResponse {
 export interface IContactsState {
   contacts: IContact[];
   filterBy: string;
+  sortBy: string;
 }
 
 export interface IState {

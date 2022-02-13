@@ -37,7 +37,8 @@ export const Login = () => {
     (values: ILoginForm) => {
       dispatch(login(values));
       navigate('/contacts');
-    }, [login]
+    },
+    [login]
   )
 
   const initialValues = {

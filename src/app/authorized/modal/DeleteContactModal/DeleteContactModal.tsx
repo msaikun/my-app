@@ -1,4 +1,4 @@
-import React, { MouseEventHandler }                  from 'react';
+import React, { MouseEventHandler, useCallback }     from 'react';
 import { useDispatch }                               from 'react-redux';
 import { useNavigate }                               from 'react-router-dom';
 import styled                                        from 'styled-components';
@@ -36,18 +36,20 @@ export const DeleteContactModal = ({
   onClose,
 }: {
   id: string;
-  // eslint-disable-next-line no-unused-vars
   onClose: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const onDelete: MouseEventHandler<HTMLButtonElement> = (event) => {
-    event.stopPropagation();
-    dispatch(deleteContact(id));
-    onClose(event);
-    navigate('/contacts');
-  };
+  const onDelete: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (event) => {
+      event.stopPropagation();
+      dispatch(deleteContact(id));
+      onClose(event);
+      navigate('/contacts');
+    },
+    [deleteContact],
+  )
 
   return (
     <Grid

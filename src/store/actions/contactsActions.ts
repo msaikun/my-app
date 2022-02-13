@@ -15,6 +15,7 @@ import {
   FETCH_CONTACTS_FAILURE,
   FETCH_CONTACTS,
   FILTER_CONTACTS_BY,
+  SORT_CONTACTS_BY,
 }                               from './types';
 
 export const fetchContactsSuccesfully = (contacts: IContact[]) => ({
@@ -112,7 +113,12 @@ export const createContact = (contact: IContact) => (dispatch: Dispatch) => {
     })
 }
 
-export const getFiltredContacts = (filterBy: string) => ({
+export const setContactsFilter = (filterBy: string) => ({
   type: FILTER_CONTACTS_BY,
   payload: filterBy,
+})
+
+export const setContactsSort = (sortBy: string) => ({
+  type: SORT_CONTACTS_BY,
+  payload: sortBy,
 })

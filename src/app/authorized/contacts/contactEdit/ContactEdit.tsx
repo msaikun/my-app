@@ -1,4 +1,4 @@
-import React, { useCallback }                   from 'react';
+import { useCallback, useMemo }                 from 'react';
 import { useNavigate, useParams }               from 'react-router-dom';
 import { useDispatch, useSelector }             from 'react-redux';
 import { Formik }                               from 'formik';
@@ -23,22 +23,22 @@ import { IContact }                             from '../../../shared/interfaces
 import { editContact }                          from '../../../../store/actions/contactsActions';
 import { selectContacts }                       from '../../../../store/reducers/contactsReducer';
 
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-
 export const ContactEdit = () => {
-  const { contactId } = useParams();
-  const data = useSelector(selectContacts);
-  const contact = React.useMemo(() => (data && data.find(item => item.id === contactId)), [contactId, data]);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { contactId } = useParams();
+  const data = useSelector(selectContacts);
 
+  const contact = useMemo(() => (data && data.find(item => item.id === contactId)), [data, contactId]);
   const onUpdate = useCallback(
     (values: IContact) => {
       dispatch(editContact(values, contactId));
       navigate('/contacts');
-    }, [editContact]
+    },
+    [editContact],
   )
+
+  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   
   return (
     <>

@@ -1,4 +1,4 @@
-import React                                            from 'react';
+import React, { useState }                              from 'react';
 import { Link }                                         from 'react-router-dom';
 import { useSelector }                                  from 'react-redux';
 import styled                                           from 'styled-components';
@@ -58,9 +58,9 @@ const MenuNameWrapper = styled(Typography)`&& {
 }`;
 
 export const MenuBlock = () => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
   const user = useSelector(selectUser);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

@@ -38,12 +38,13 @@ const initialValues = {
 export const ContactCreate = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const onCreate = useCallback(
     (values: IContact) => {
       dispatch(createContact(values));
       navigate('/contacts');
-    }, [createContact]
+    },
+    [createContact],
   )
 
   return (

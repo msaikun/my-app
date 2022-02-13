@@ -1,4 +1,4 @@
-import React, { useCallback, useState }      from 'react';
+import React, { useState }                   from 'react';
 import { Link, useNavigate }                 from 'react-router-dom';
 import { useDispatch, useSelector }          from 'react-redux';
 import styled                                from 'styled-components';
@@ -22,7 +22,10 @@ import {
   LikeBtn,
 }                                           from '../../shared/styles';
 import { IContact }                         from '../../shared/interfaces';
-import { getFiltredContacts }               from '../../../store/actions/contactsActions';
+import {
+  setContactsFilter,
+  setContactsSort,
+}                                           from '../../../store/actions/contactsActions';
 import { selectContacts }                   from '../../../store/reducers/contactsReducer';
 
 const AddUserContainer = styled(CardContent)`&& {
@@ -75,6 +78,10 @@ const UserContainerStyled = styled(UserContainer)`&& {
   }
 }`;
 
+const SelectsWrapper = styled.div`&& {
+  display: flex;
+}`;
+
 const SelectWrapper = styled.div`&& {
   display: flex;
   flex-direction: column;
@@ -92,21 +99,36 @@ const SelectInputsLabel = styled(InputLabel)`&& {
 export const Contacts = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const contacts = useSelector(selectContacts);
   
   const [selectedContactId, setSelectedContactId] = useState<string>();
   const [modalOpen, setModalOpen] = useState(false);
-  const [sortBy, setSortBy] = useState<string | number>('all');
-  const [selectOpen, setSelectOpen] = useState(false);
-  const contacts = useSelector(selectContacts);
+  const [filterContactsBy, setFilterContactsBy] = useState<string>('all');
+  const [sortContactsBy, setSortContactsBy] = useState<string>('byNone');
+  const [filterSelectOpen, setFilterSelectOpen] = useState(false);
+  const [sortSelectOpen, setSortSelectOpen] = useState(false);
 
   const navigateToContact = (id: string) => navigate(`/contacts/${id}`);
   const navigateToContactEdit = (id: string) => {
     navigate(`/contacts/${id}/edit`);
   };
 
-  const handleChange = (event: SelectChangeEvent<typeof sortBy>) => setSortBy(event.target.value);
-  const handleSelectClose = () => setSelectOpen(false);
-  const handleSelectOpen = () => setSelectOpen(true);
+  const handleFilterChange = (event: SelectChangeEvent<typeof filterContactsBy>) => {
+    const { value } = event.target;
+    setFilterContactsBy(value);
+    dispatch(setContactsFilter(value));
+  }
+  const handleSortChange = (event: SelectChangeEvent<typeof sortContactsBy>) => {
+    const { value } = event.target;
+    setSortContactsBy(value);
+    dispatch(setContactsSort(value));
+  }
+
+  const handleFilterSelectClose = () => setFilterSelectOpen(false);
+  const handleFilterSelectOpen = () => setFilterSelectOpen(true);
+
+  const handleSortSelectClose = () => setSortSelectOpen(false);
+  const handleSortSelectOpen = () => setSortSelectOpen(true);
 
   const handleOpen = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -122,55 +144,83 @@ export const Contacts = () => {
     setModalOpen(false);
     setSelectedContactId('');
   };
-
-  const filterContacts = useCallback(
-    (filterBy: string) => {
-      dispatch(getFiltredContacts(filterBy));
-    }, [getFiltredContacts]
-  )
   
   return (
     <>
       <MenuBlock />
 
       <AddUserContainer>
-        <SelectWrapper>
-          <FormControl sx={{ m: 1, minWidth: 150 }}>
-            <SelectInputsLabel id="demo-controlled-open-select-label">Show</SelectInputsLabel>
+          <SelectsWrapper>
+          <SelectWrapper>
+            <FormControl sx={{ m: 1, minWidth: 150 }}>
+              <SelectInputsLabel id="demo-controlled-open-select-label">Show</SelectInputsLabel>
 
-            <Select
-              labelId="demo-controlled-open-select-label"
-              id="demo-controlled-open-select"
-              open={selectOpen}
-              onClose={handleSelectClose}
-              onOpen={handleSelectOpen}
-              value={sortBy}
-              label="Age"
-              onChange={handleChange}
-            >
-              <FlexItem
-                onClick={() => filterContacts('all')}
-                value="all"
+              <Select
+                labelId="demo-controlled-open-select-label"
+                id="demo-controlled-open-select"
+                open={filterSelectOpen}
+                onClose={handleFilterSelectClose}
+                onOpen={handleFilterSelectOpen}
+                value={filterContactsBy}
+                label="Filter"
+                onChange={handleFilterChange}
               >
-                All contacts
-              </FlexItem>
+                <FlexItem
+                  value="all"
+                >
+                  All contacts
+                </FlexItem>
 
-              <FlexItem
-                onClick={() => filterContacts('favorites')}
-                value="favorites"
-              >
-                Favorites contacts
-              </FlexItem>
+                <FlexItem
+                  value="favourites"
+                >
+                  Favourites contacts
+                </FlexItem>
 
-              <FlexItem
-                onClick={() => filterContacts('blocked')}
-                value="blocked"
+                <FlexItem
+                  value="blocked"
+                >
+                  Blocked contacts
+                </FlexItem>
+              </Select>
+            </FormControl>
+          </SelectWrapper>
+
+          <SelectWrapper>
+            <FormControl sx={{ m: 1, minWidth: 150 }}>
+              <SelectInputsLabel id="demo-controlled-open-select-label">Sort By</SelectInputsLabel>
+
+              <Select
+                labelId="demo-controlled-open-select-label"
+                id="demo-controlled-open-select"
+                open={sortSelectOpen}
+                onClose={handleSortSelectClose}
+                onOpen={handleSortSelectOpen}
+                value={sortContactsBy}
+                label="Sort"
+                onChange={handleSortChange}
               >
-                Blocked contacts
-              </FlexItem>
-            </Select>
-          </FormControl>
-        </SelectWrapper>
+                <FlexItem
+                  value="byNone"
+                >
+                  None
+                </FlexItem>
+
+                <FlexItem
+                  value="byFirstName"
+                >
+                  First Name
+                </FlexItem>
+
+                <FlexItem
+                  value="byLastName"
+                >
+                  Last Name
+                </FlexItem>
+              </Select>
+            </FormControl>
+          </SelectWrapper>
+        </SelectsWrapper>
 
         <AddUser>
           <Link to="/contacts/create">

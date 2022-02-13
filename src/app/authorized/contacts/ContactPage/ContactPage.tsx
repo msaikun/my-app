@@ -1,5 +1,4 @@
-
-import React, { useState }          from 'react';
+import { useState, useMemo }        from 'react';
 import { Link, useParams }          from 'react-router-dom';
 import { useSelector }              from 'react-redux';
 import styled                       from 'styled-components';
@@ -73,10 +72,11 @@ const DeleteBtn = styled(Fab)`&& {
 }`;
 
 export const ContactPage = () => {
-  const [open, setOpen] = useState(false);
   const { contactId } = useParams();
   const data = useSelector(selectContacts);
-  const contact = React.useMemo(() => (data && data.find(item => item.id === contactId)), [contactId, data]);
+
+  const [open, setOpen] = useState(false);
+  const contact = useMemo(() => (data && data.find(item => item.id === contactId)), [data, contactId]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
