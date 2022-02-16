@@ -139,7 +139,7 @@ export const MenuBlock = () => {
           
           <MenuItem>
             <MenuSettingsIconWrapper>
-              <Link to="/">
+              <Link to="/login">
                 <Logout fontSize="small" />
               </Link>
             </MenuSettingsIconWrapper>

@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, useCallback }     from 'react';
-import { useDispatch }                               from 'react-redux';
 import { useNavigate }                               from 'react-router-dom';
+import { useDispatch }                               from 'react-redux';
 import styled                                        from 'styled-components';
 import { Card, CardContent, Grid }                   from '@material-ui/core/';
 import DeleteIcon                                    from '@mui/icons-material/Delete';
@@ -38,15 +38,15 @@ export const DeleteContactModal = ({
   id: string;
   onClose: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onDelete: MouseEventHandler<HTMLButtonElement> = useCallback(
     (event) => {
       event.stopPropagation();
       dispatch(deleteContact(id));
+      navigate('/contacts')
       onClose(event);
-      navigate('/contacts');
     },
     [deleteContact],
   )

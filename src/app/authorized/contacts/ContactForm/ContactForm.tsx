@@ -1,9 +1,15 @@
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+}                                           from 'react';
 import { useNavigate, useParams }           from 'react-router-dom';
-import { useCallback, useMemo }             from 'react';
 import { useDispatch, useSelector }         from 'react-redux';
 import { Formik }                           from 'formik';
 import { pink }                             from '@mui/material/colors';
 import { CardContent, Grid }                from '@material-ui/core';
+import debounce                             from '@mui/material/utils/debounce';
 import { contactFormSchema }                from './validation';
 import { MenuBlock }                        from '../../Menu/Menu';
 import {
@@ -28,11 +34,32 @@ export const ContactForm = () => {
   const navigate = useNavigate();
   const { contactId } = useParams();
   const data = useSelector(selectContacts);
+  const [backgroundColor, setBackgroundColor] = useState<string>('');
+
+  function getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i += 1) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  useEffect(() => {
+    // eslint-disable-next-line no-promise-executor-return
+    const timer = setInterval(() => new Promise((resolve) => setTimeout(() => resolve(getRandomColor()), 1000))
+    .then((color) => {
+      setBackgroundColor(color as string);
   
-  const contact = useMemo(
-    () => data && data.find((item) => item.id === contactId),
-    [data, contactId]
-  );
+      return color
+    }), 10000)
+  
+    return () => {
+      clearInterval(timer)
+    }
+  }, [])
+  
+  const contact = useMemo(() => data && data.find((item) => item.id === contactId), [data, contactId]);
 
   const onCreate = useCallback(
     (values: IContact) => {
@@ -41,6 +68,7 @@ export const ContactForm = () => {
     },
     [createContact]
   );
+  const debouncedContactCreate = debounce(onCreate, 2000);
 
   const onUpdate = useCallback(
     (values: IContact) => {
@@ -49,6 +77,7 @@ export const ContactForm = () => {
     },
     [editContact]
   );
+  const debouncedContactUpdate = debounce(onUpdate, 2000);
   
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const initialValues = {
@@ -69,7 +98,7 @@ export const ContactForm = () => {
       <Formik
         initialValues={contact || initialValues}
         validateOnBlur
-        onSubmit={contact ? onUpdate : onCreate}
+        onSubmit={contact ? debouncedContactUpdate : debouncedContactCreate}
         validationSchema={contactFormSchema}
       >
         {({ values, handleChange, isValid, handleSubmit, dirty }) => (
@@ -88,7 +117,11 @@ export const ContactForm = () => {
 
                 <CardContent>
                   <PageElementWrapper>
-                    <Grid item xs={12} lg={6}>
+                    <Grid
+                      item
+                      xs={12}
+                      lg={6}
+                    >
                       <PageInput
                         type="text"
                         name="firstName"
@@ -171,6 +204,7 @@ export const ContactForm = () => {
                       {...label}
                       name="isFavourite"
                       onChange={handleChange}
+                      value={values.isFavourite}
                       defaultChecked={contact ? contact.isFavourite : undefined}
                       sx={{
                         color: pink[800],
@@ -179,7 +213,7 @@ export const ContactForm = () => {
                         },
                       }}
                     />
-                    <p>Add To Favourites</p>
+                    <p style={{backgroundColor}}>Add To Favourites</p>
                   </PageCheckboxWrapper>
 
                   {contact && (
@@ -188,6 +222,7 @@ export const ContactForm = () => {
                         {...label}
                         name="isBlocked"
                         onChange={handleChange}
+                        value={values.isBlocked}
                         defaultChecked={contact.isBlocked}
                         sx={{
                           color: pink[800],
@@ -196,7 +231,7 @@ export const ContactForm = () => {
                           },
                         }}
                       />
-                      <p>Is Blocked</p>
+                      <p style={{backgroundColor}}>Is Blocked</p>
                     </PageCheckboxWrapper>
                   )}
                 </PageCheckBoxesWrapper>

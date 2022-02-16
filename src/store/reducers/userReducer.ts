@@ -1,7 +1,7 @@
 import { IUserState, IUserStates }         from '../../app/shared/interfaces';
 import { FETCH_USER_SUCCESSFULLY }         from '../actions/types';
 
-const initialState: IUserState = {
+export const initialState: IUserState = {
   user: {},
   tokens: {},
 };
@@ -17,3 +17,5 @@ export const userReducer = (state = initialState, action: any) => {
 }
 
 export const selectUser = (state: IUserStates) => state.userReducer.user;
+export const selectTokens = (state: IUserStates) => state.userReducer.tokens;
+

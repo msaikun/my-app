@@ -30,8 +30,8 @@ const PageInput = styled(FastField)`&& {
 }`;
 
 export const Login = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onSubmit = useCallback(
     (values: ILoginForm) => {
