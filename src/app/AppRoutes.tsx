@@ -8,7 +8,6 @@ import { Login }                     from './Unauthorized/Login/Login';
 import { selectTokens }              from '../store/reducers/userReducer';
 
 export const browserHistory = createBrowserHistory();
-
 export const AppRoutes = () => {
   const authToken = useSelector(selectTokens);
   const baseRoute = authToken ? '/contacts' : '/login';
