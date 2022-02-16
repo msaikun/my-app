@@ -1,6 +1,5 @@
 import axios                     from 'axios';
 import { Dispatch }              from 'redux';
-import { browserHistory }        from '../../app/AppRoutes';
 import { IContact, IUser }       from '../../app/shared/interfaces';
 import {
   DELETE_CONTACT_SUCCESSFULLY,
@@ -59,7 +58,6 @@ export const deleteContact = (id: string) => (dispatch: Dispatch) => {
   return axios
     .delete<IUser[]>(`/api/v1/contacts/${id}`)
     .then(() => {
-      browserHistory.push('/contacts');
       dispatch(deleteContactSuccessfully(id))
     })
     .catch(() => {
@@ -84,7 +82,6 @@ export const editContact = (contact: IContact, id?: string) => (dispatch: Dispat
   return axios
     .put<IUser[]>(`/api/v1/contacts/${id}`, contact)
     .then(() => {
-      browserHistory.push('/contacts');
       dispatch(editContactSuccesfully(contact))
     })
     .catch(() => {
@@ -109,7 +106,6 @@ export const createContact = (contact: IContact) => (dispatch: Dispatch) => {
   return axios
     .post<IContact>('/api/v1/contacts', contact)
     .then((response) => {
-      browserHistory.push('/contacts');
       dispatch(createContactSuccesfully(response.data))
     })
     .catch(() => {

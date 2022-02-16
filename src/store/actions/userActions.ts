@@ -1,6 +1,5 @@
 import axios                                     from 'axios';
 import { Dispatch }                              from 'redux';
-import { browserHistory }                        from '../../app/AppRoutes';
 import { ILoginForm, IUserState }                from '../../app/shared/interfaces';
 import {
   FETCH_USER,
@@ -24,8 +23,6 @@ export const login = (data: ILoginForm) => (dispatch: Dispatch) => {
   return axios
     .post('/api/v1/login', data)
     .then((response) => {
-      browserHistory.push('/contacts');
-
       dispatch(loginSuccesfully(response.data));
     })
     .catch(() => {

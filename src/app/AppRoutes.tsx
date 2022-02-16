@@ -1,13 +1,11 @@
 import { Route, Routes, Navigate }   from 'react-router-dom';
 import { useSelector }               from 'react-redux';
-import {createBrowserHistory}        from 'history'
 import { ContactForm }               from './Authorized/Contacts/ContactForm/ContactForm';
 import { ContactPage }               from './Authorized/Contacts/ContactPage/ContactPage';
 import { Contacts }                  from './Authorized/Contacts/Contacts';
 import { Login }                     from './Unauthorized/Login/Login';
 import { selectTokens }              from '../store/reducers/userReducer';
 
-export const browserHistory = createBrowserHistory();
 export const AppRoutes = () => {
   const authToken = useSelector(selectTokens);
   const baseRoute = authToken ? '/contacts' : '/login';
