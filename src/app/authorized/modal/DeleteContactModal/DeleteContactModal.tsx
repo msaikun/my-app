@@ -1,10 +1,11 @@
-import React, { MouseEventHandler }       from 'react';
-import { useNavigate }                    from 'react-router-dom';
-import styled                             from 'styled-components';
-import { Card, CardContent, Grid }        from '@material-ui/core/';
-import DeleteIcon                         from '@mui/icons-material/Delete';
-import { useContactDelete }               from '../../Contacts/queries';
-import { ButtonWrapper, PageHeader, Btn } from '../../../shared/styles';
+import React, { MouseEventHandler, useCallback }     from 'react';
+import { useNavigate }                               from 'react-router-dom';
+import { useDispatch }                               from 'react-redux';
+import styled                                        from 'styled-components';
+import { Card, CardContent, Grid }                   from '@material-ui/core/';
+import DeleteIcon                                    from '@mui/icons-material/Delete';
+import { ButtonWrapper, PageHeader, Btn }            from '../../../shared/styles';
+import { deleteContact }                             from '../../../../store/actions/contactsActions';
 
 const DeletePageCard = styled(Card)`&& {
   margin-top: 100px;
@@ -35,22 +36,20 @@ export const DeleteContactModal = ({
   onClose,
 }: {
   id: string;
-  // eslint-disable-next-line no-unused-vars
   onClose: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }) => {
-  const { mutate: deleteContact } = useContactDelete();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onDelete: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.stopPropagation();
-
-    deleteContact(id, {
-      onSuccess: () => {
-        navigate('/contacts');
-        onClose(e);
-      },
-    });
-  };
+  const onDelete: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (event) => {
+      event.stopPropagation();
+      dispatch(deleteContact(id));
+      navigate('/contacts')
+      onClose(event);
+    },
+    [deleteContact],
+  )
 
   return (
     <Grid

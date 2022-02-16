@@ -4,12 +4,12 @@ export interface ILoginForm {
 }
 
 export interface IUser {
-  id: string;
-  email: string;
-  role: string;
+  id?: string;
+  email?: string;
+  role?: string;
   accountType?: string;
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
 }
 
 export interface ITokens {
@@ -27,12 +27,31 @@ export interface IContact {
   lastName: string;
   avatar?: string;
   description: string;
-  isFavourite?: boolean;
-  isBlocked?: boolean;
+  isFavourite: boolean;
+  isBlocked: boolean;
   email?: string;
 }
 
 export interface IAuthResponse {
   user: IUser;
   tokens: ITokens;
+}
+
+export interface IContactsState {
+  contacts: IContact[];
+  filterBy: string;
+  sortBy: string;
+}
+
+export interface IState {
+  contactsReducer: IContactsState;
+}
+
+export interface IUserState {
+  user: IUser | any;
+  tokens: ITokens | any;
+}
+
+export interface IUserStates {
+  userReducer: IUserState;
 }

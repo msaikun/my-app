@@ -1,8 +1,9 @@
 import React, { useState }                   from 'react';
 import { Link, useNavigate }                 from 'react-router-dom';
-import AddIcon                               from '@mui/icons-material/Add';
+import { useDispatch, useSelector }          from 'react-redux';
 import styled                                from 'styled-components';
 import { CardContent, Fab }                  from '@material-ui/core';
+import AddIcon                               from '@mui/icons-material/Add';
 import EditIcon                              from '@mui/icons-material/Edit';
 import DeleteIcon                            from '@mui/icons-material/Delete';
 import BlockIcon                             from '@mui/icons-material/Block';
@@ -10,7 +11,6 @@ import { InputLabel, MenuItem, FormControl } from '@mui/material/';
 import Select, { SelectChangeEvent }         from '@mui/material/Select';
 import { MenuBlock }                         from '../Menu/Menu';
 import { DeleteContactModal }                from '../modal/DeleteContactModal/DeleteContactModal';
-import { useContactsInfo }                   from './queries';
 import {
   BaseRoundBtnStyles,
   UserContainer,
@@ -22,6 +22,11 @@ import {
   LikeBtn,
 }                                           from '../../shared/styles';
 import { IContact }                         from '../../shared/interfaces';
+import {
+  setContactsFilter,
+  setContactsSort,
+}                                           from '../../../store/actions/contactsActions';
+import { selectContacts }                   from '../../../store/reducers/contactsReducer';
 
 const AddUserContainer = styled(CardContent)`&& {
   display: flex;
@@ -73,6 +78,10 @@ const UserContainerStyled = styled(UserContainer)`&& {
   }
 }`;
 
+const SelectsWrapper = styled.div`&& {
+  display: flex;
+}`;
+
 const SelectWrapper = styled.div`&& {
   display: flex;
   flex-direction: column;
@@ -88,71 +97,130 @@ const SelectInputsLabel = styled(InputLabel)`&& {
 }`;
 
 export const Contacts = () => {
-  const [selectedContactId, setSelectedContactId] = useState<string>();
-  const [open, setOpen] = useState(false);
-  const [sortBy, setSortBy] = useState<string | number>('');
-  const [selectOpen, setSelectOpen] = useState(false);
-  const { data } = useContactsInfo();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const contacts = useSelector(selectContacts);
+  
+  const [selectedContactId, setSelectedContactId] = useState<string>();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [filterContactsBy, setFilterContactsBy] = useState<string>('all');
+  const [sortContactsBy, setSortContactsBy] = useState<string>('byNone');
+  const [filterSelectOpen, setFilterSelectOpen] = useState(false);
+  const [sortSelectOpen, setSortSelectOpen] = useState(false);
+
   const navigateToContact = (id: string) => navigate(`/contacts/${id}`);
   const navigateToContactEdit = (id: string) => {
     navigate(`/contacts/${id}/edit`);
   };
 
-  const handleChange = (event: SelectChangeEvent<typeof sortBy>) => setSortBy(event.target.value);
-  const handleSelectClose = () => setSelectOpen(false);
-  const handleSelectOpen = () => setSelectOpen(true);
+  const handleFilterChange = (event: SelectChangeEvent<typeof filterContactsBy>) => {
+    const { value } = event.target;
+    setFilterContactsBy(value);
+    dispatch(setContactsFilter(value));
+  }
+  const handleSortChange = (event: SelectChangeEvent<typeof sortContactsBy>) => {
+    const { value } = event.target;
+    setSortContactsBy(value);
+    dispatch(setContactsSort(value));
+  }
+
+  const handleFilterSelectClose = () => setFilterSelectOpen(false);
+  const handleFilterSelectOpen = () => setFilterSelectOpen(true);
+
+  const handleSortSelectClose = () => setSortSelectOpen(false);
+  const handleSortSelectOpen = () => setSortSelectOpen(true);
 
   const handleOpen = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     id: string
   ) => {
-    e.stopPropagation();
+    event.stopPropagation();
     setSelectedContactId(id);
-    setOpen(true);
+    setModalOpen(true);
   };
 
-  const handleClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.stopPropagation();
-    setOpen(false);
+  const handleClose = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.stopPropagation();
+    setModalOpen(false);
     setSelectedContactId('');
   };
   
-  // useEffect(() => {
-  //   // eslint-disable-next-line no-debugger
-  //   // debugger;
-  //   // eslint-disable-next-line no-console
-  //   console.log(data);
-  //   setUpdate(!update);
-  // }, [open]);
-
-  // Fix rerending contacts page after deleting contact!!!!! 
-  // Contact disappears only after the page is reloaded
-
   return (
     <>
       <MenuBlock />
-      <AddUserContainer>
-        <SelectWrapper>
-          <FormControl sx={{ m: 1, minWidth: 150 }}>
-            <SelectInputsLabel id="demo-controlled-open-select-label">Show</SelectInputsLabel>
 
-            <Select
-              labelId="demo-controlled-open-select-label"
-              id="demo-controlled-open-select"
-              open={selectOpen}
-              onClose={handleSelectClose}
-              onOpen={handleSelectOpen}
-              value={sortBy}
-              label="Age"
-              onChange={handleChange}
-            >
-              <FlexItem value="all">All contacts</FlexItem>
-              <FlexItem value="favorites">Favorites contacts</FlexItem>
-              <FlexItem value="blocked">Blocked contacts</FlexItem>
-            </Select>
-          </FormControl>
-        </SelectWrapper>
+      <AddUserContainer>
+          <SelectsWrapper>
+          <SelectWrapper>
+            <FormControl sx={{ m: 1, minWidth: 150 }}>
+              <SelectInputsLabel id="demo-controlled-open-select-label">Show</SelectInputsLabel>
+
+              <Select
+                labelId="demo-controlled-open-select-label"
+                id="demo-controlled-open-select"
+                open={filterSelectOpen}
+                onClose={handleFilterSelectClose}
+                onOpen={handleFilterSelectOpen}
+                value={filterContactsBy}
+                label="Filter"
+                onChange={handleFilterChange}
+              >
+                <FlexItem
+                  value="all"
+                >
+                  All contacts
+                </FlexItem>
+
+                <FlexItem
+                  value="favourites"
+                >
+                  Favourites contacts
+                </FlexItem>
+
+                <FlexItem
+                  value="blocked"
+                >
+                  Blocked contacts
+                </FlexItem>
+              </Select>
+            </FormControl>
+          </SelectWrapper>
+
+          <SelectWrapper>
+            <FormControl sx={{ m: 1, minWidth: 150 }}>
+              <SelectInputsLabel id="demo-controlled-open-select-label">Sort By</SelectInputsLabel>
+
+              <Select
+                labelId="demo-controlled-open-select-label"
+                id="demo-controlled-open-select"
+                open={sortSelectOpen}
+                onClose={handleSortSelectClose}
+                onOpen={handleSortSelectOpen}
+                value={sortContactsBy}
+                label="Sort"
+                onChange={handleSortChange}
+              >
+                <FlexItem
+                  value="byNone"
+                >
+                  None
+                </FlexItem>
+
+                <FlexItem
+                  value="byFirstName"
+                >
+                  First Name
+                </FlexItem>
+
+                <FlexItem
+                  value="byLastName"
+                >
+                  Last Name
+                </FlexItem>
+              </Select>
+            </FormControl>
+          </SelectWrapper>
+        </SelectsWrapper>
 
         <AddUser>
           <Link to="/contacts/create">
@@ -160,21 +228,20 @@ export const Contacts = () => {
               <AddIcon />
             </AddBtn>
           </Link>
+  
           <p>Add New</p>
         </AddUser>
       </AddUserContainer>
 
-{/* Fix the look of select on page, add functionality!!!! */}
-
-      {data?.map(
+      {contacts?.map(
         ({
           id,
           firstName,
           phone,
           lastName,
-          avatar,
           isFavourite,
           isBlocked,
+          avatar,
           email,
         }: IContact) => (
           <UserContainerStyled key={id} onClick={() => navigateToContact(id)}>
@@ -219,11 +286,13 @@ export const Contacts = () => {
               <StyledModal
                 aria-labelledby="unstyled-modal-title"
                 aria-describedby="unstyled-modal-description"
-                open={open && selectedContactId === id}
+                open={modalOpen && selectedContactId === id}
                 onClose={handleClose}
                 BackdropComponent={Backdrop}
               >
-                <div><DeleteContactModal id={id} onClose={handleClose} /></div>
+                <div>
+                  <DeleteContactModal id={id} onClose={handleClose} />
+                </div>
               </StyledModal>
             </div>
           </UserContainerStyled>

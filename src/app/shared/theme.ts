@@ -21,7 +21,6 @@ export type TThemeColor =
 
 export interface ITheme {
   colors: {
-    // eslint-disable-next-line no-unused-vars
     [key in TThemeColor]: string;
   };
 }
