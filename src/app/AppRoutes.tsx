@@ -1,10 +1,10 @@
 import { Route, Routes, Navigate }   from 'react-router-dom';
 import { useSelector }               from 'react-redux';
-import { ContactForm }               from './Authorized/Contacts/ContactForm/ContactForm';
-import { ContactPage }               from './Authorized/Contacts/ContactPage/ContactPage';
-import { Contacts }                  from './Authorized/Contacts/Contacts';
-import { Login }                     from './Unauthorized/Login/Login';
 import { selectTokens }              from '../store/reducers/userReducer';
+import { ContactForm }               from './authorized/contacts/ContactForm/ContactForm';
+import { ContactPage }               from './authorized/contacts/ContactPage/ContactPage';
+import { Contacts }                  from './authorized/contacts/Contacts';
+import { Login }                     from './unauthorized/Login/Login';
 
 export const AppRoutes = () => {
   const authToken = useSelector(selectTokens);

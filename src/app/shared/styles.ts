@@ -1,37 +1,25 @@
 import { FastField }                                          from 'formik';
 import styled, { css }                                        from 'styled-components';
-import { CardHeader, CardActions, Button, CardContent, Card } from '@material-ui/core/';
+import { CardActions, Button, CardContent, Card }             from '@material-ui/core/';
 import { Avatar }                                             from '@mui/material';
 import Checkbox                                               from '@mui/material/Checkbox';
 import { ModalUnstyled }                                      from '@mui/base/';
 import FavoriteIcon                                           from '@mui/icons-material/Favorite';
+import { Form, Button as AntBtn, Card as AntCard  }           from 'antd';
 
-export const ButtonWrapper = styled(CardActions)`&& {
-  justify-content: center;
-}`;
-
-export const PageHeader = styled(CardHeader)`&& {
+export const PageHeader = styled(AntCard)`&& {
   text-align: center;
   background-color: #000;
   color: #fff;
   text-transform: uppercase;
 }`;
 
-export const PageForm = styled.form`
+export const PageForm = styled(Form)`
   margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  background-color: beige;
 `;
-
-export const Btn = styled(Button)`&& {
-  margin-top: 15px;
-  margin-bottom: 40px;
-  background-color: #000;
-  color: #fff;
-
-  &:hover {
-    background-color: #e33141;
-    font-weight: 600;
-  }
-}`;
 
 export const BaseRoundBtnStyles = css`
   height: 40px;
@@ -77,12 +65,7 @@ export const TextInputWrapper = styled.div<{ hasLabel?: boolean, hasValue?: bool
 export const PageCheckboxWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 5px;
   margin-right: 10px;
-
-  ${({ theme: { breakpoints } }: any) => breakpoints.up('lg')} {
-    margin-left: 35px;
-  }
 `;
 
 export const CheckboxEl = styled(Checkbox)`&& {
@@ -90,7 +73,7 @@ export const CheckboxEl = styled(Checkbox)`&& {
 }`;
 
 export const PageInput = styled(FastField)`&& {
-  margin-top: 30px;
+  margin-top: 5px;
 }`;
 
 export const PageInputWrapper = styled(Avatar)`&& {
@@ -152,6 +135,44 @@ export const StyledModal = styled(ModalUnstyled)`
   align-items: center;
   justify-content: center;
 `;
+
+export const ButtonsWrapper = styled.div`&& {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px;
+}`;
+
+export const ButtonWrapper = styled(CardActions)`&& {
+  justify-content: center;
+}`;
+
+export const Btn = styled(Button)`&& {
+  margin-top: 15px;
+  margin-bottom: 40px;
+  background-color: #000;
+  color: #fff;
+
+  &:hover {
+    background-color: #e33141;
+    font-weight: 600;
+  }
+}`;
+
+export const AntButton = styled(AntBtn)`&& {
+  height: 40px;
+  min-width: 200px;
+  border-color: #000;
+  background-color: #000;
+  color: #fff;
+  text-transform: uppercase;
+
+  &:hover {
+    background-color: #e33141;
+    color: #fff;
+    font-weight: 600;
+  }
+}`;
 
 export const LikeBtn = styled(FavoriteIcon)`&& {
   padding-left: 5px;
