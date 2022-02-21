@@ -55,3 +55,9 @@ export interface IUserState {
 export interface IUserStates {
   userReducer: IUserState;
 }
+
+export interface FormikFieldProps {
+  name: string
+  validate?: (value: any) => undefined | string | Promise<any>
+  fast?: boolean
+}

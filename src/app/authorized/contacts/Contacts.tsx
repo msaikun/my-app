@@ -9,7 +9,7 @@ import DeleteIcon                            from '@mui/icons-material/Delete';
 import BlockIcon                             from '@mui/icons-material/Block';
 import { InputLabel, MenuItem, FormControl } from '@mui/material/';
 import Select, { SelectChangeEvent }         from '@mui/material/Select';
-import { MenuBlock }                         from '../Menu/Menu';
+import { MenuBlock }                         from '../menu/MenuBlock';
 import { DeleteContactModal }                from '../modal/DeleteContactModal/DeleteContactModal';
 import {
   BaseRoundBtnStyles,

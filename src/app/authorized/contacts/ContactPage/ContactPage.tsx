@@ -6,7 +6,7 @@ import { Box, CardContent, Fab }    from '@material-ui/core';
 import EditIcon                     from '@mui/icons-material/Edit';
 import DeleteIcon                   from '@mui/icons-material/Delete';
 import BlockIcon                    from '@mui/icons-material/Block';
-import { MenuBlock }                from '../../Menu/Menu';
+import { MenuBlock }                from '../../menu/MenuBlock';
 import { DeleteContactModal }       from '../../modal/DeleteContactModal/DeleteContactModal';
 import {
   BaseRoundBtnStyles,

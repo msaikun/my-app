@@ -15,19 +15,17 @@ import store, { persistor }                 from './store';
 axios.defaults.baseURL = 'https://61e029ae0f3bdb0017934e25.mockapi.io';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <MuiThemeProvider theme={muiTheme}>
-          <ThemeProvider theme={{ ...muiTheme, ...theme }}>
-            <BaseStyles />
-            <BrowserRouter>
-              <AppRoutes />
-            </BrowserRouter>
-          </ThemeProvider>
-        </MuiThemeProvider>
-      </PersistGate>
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <MuiThemeProvider theme={muiTheme}>
+        <ThemeProvider theme={{ ...muiTheme, ...theme }}>
+          <BaseStyles />
+          <BrowserRouter>
+            <AppRoutes />
+          </BrowserRouter>
+        </ThemeProvider>
+      </MuiThemeProvider>
+    </PersistGate>
+  </Provider>,
   document.getElementById('root')
 );
