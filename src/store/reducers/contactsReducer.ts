@@ -7,12 +7,14 @@ import {
   FETCH_CONTACTS_SUCCESSFULLY,
   FILTER_CONTACTS_BY,
   SORT_CONTACTS_BY,
+  CONTACTS_LOADER,
 }                                           from '../actions/types';
 
 const initialState: IContactsState = {
   contacts: [],
   filterBy: Filter.All,
   sortBy: Sort.None,
+  isLoading: false,
 };
 
 // eslint-disable-next-line default-param-last
@@ -26,6 +28,8 @@ export const contactsReducer = (state = initialState, action: any) => {
       return { ...state, contacts: [...state.contacts, action.payload] };
     case FETCH_CONTACTS_SUCCESSFULLY:
       return { ...state, contacts: action.payload };
+    case CONTACTS_LOADER:
+      return { ...state, isLoading: action.payload };
     case FILTER_CONTACTS_BY:
       return { ...state, filterBy: action.payload };
     case SORT_CONTACTS_BY:

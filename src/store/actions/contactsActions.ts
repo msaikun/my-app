@@ -14,6 +14,7 @@ import {
   FETCH_CONTACTS,
   FILTER_CONTACTS_BY,
   SORT_CONTACTS_BY,
+  CONTACTS_LOADER,
 }                               from './types';
 
 export const fetchContactsSuccesfully = (contacts: IContact[]) => ({
@@ -87,4 +88,9 @@ export const setContactsFilter = (filterBy: string) => ({
 export const setContactsSort = (sortBy: string) => ({
   type: SORT_CONTACTS_BY,
   payload: sortBy,
+})
+
+export const contactsLoader = (isLoading: boolean) => ({
+  type: CONTACTS_LOADER,
+  payload: isLoading,
 })

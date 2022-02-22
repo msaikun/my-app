@@ -9,6 +9,7 @@ import DeleteIcon                            from '@mui/icons-material/Delete';
 import BlockIcon                             from '@mui/icons-material/Block';
 import { InputLabel, MenuItem, FormControl } from '@mui/material/';
 import Select, { SelectChangeEvent }         from '@mui/material/Select';
+import { Spin, Space }                       from 'antd';
 import { MenuBlock }                         from '../menu/MenuBlock';
 import { DeleteContactModal }                from '../modal/DeleteContactModal/DeleteContactModal';
 import {
@@ -31,7 +32,7 @@ import { selectContacts }                   from '../../../store/reducers/contac
 const AddUserContainer = styled(CardContent)`&& {
   display: flex;
   justify-content: space-between;
-  align-items: center;  
+  align-items: center;
   padding: 10px;
   padding-left: 30px;
   margin: 15px;
@@ -90,7 +91,7 @@ const SelectWrapper = styled.div`&& {
 
 const FlexItem = styled(MenuItem)`&& {
   display: flex;
-}`
+}`;
 
 const SelectInputsLabel = styled(InputLabel)`&& {
   left: -4px;
@@ -100,7 +101,8 @@ export const Contacts = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const contacts = useSelector(selectContacts);
-  
+  const isLoading = useSelector((state) => state);
+
   const [selectedContactId, setSelectedContactId] = useState<string>();
   const [modalOpen, setModalOpen] = useState(false);
   const [filterContactsBy, setFilterContactsBy] = useState<string>('all');
@@ -113,16 +115,20 @@ export const Contacts = () => {
     navigate(`/contacts/${id}/edit`);
   };
 
-  const handleFilterChange = (event: SelectChangeEvent<typeof filterContactsBy>) => {
+  const handleFilterChange = (
+    event: SelectChangeEvent<typeof filterContactsBy>
+  ) => {
     const { value } = event.target;
     setFilterContactsBy(value);
     dispatch(setContactsFilter(value));
-  }
-  const handleSortChange = (event: SelectChangeEvent<typeof sortContactsBy>) => {
+  };
+  const handleSortChange = (
+    event: SelectChangeEvent<typeof sortContactsBy>
+  ) => {
     const { value } = event.target;
     setSortContactsBy(value);
     dispatch(setContactsSort(value));
-  }
+  };
 
   const handleFilterSelectClose = () => setFilterSelectOpen(false);
   const handleFilterSelectOpen = () => setFilterSelectOpen(true);
@@ -139,101 +145,88 @@ export const Contacts = () => {
     setModalOpen(true);
   };
 
-  const handleClose = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleClose = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.stopPropagation();
     setModalOpen(false);
     setSelectedContactId('');
   };
-  
+
+    // eslint-disable-next-line no-console
+    console.log(isLoading)
+
   return (
     <>
       <MenuBlock />
 
-      <AddUserContainer>
+      {!isLoading && (
+        <AddUserContainer>
           <SelectsWrapper>
-          <SelectWrapper>
-            <FormControl sx={{ m: 1, minWidth: 150 }}>
-              <SelectInputsLabel id="demo-controlled-open-select-label">Show</SelectInputsLabel>
+            <SelectWrapper>
+              <FormControl sx={{ m: 1, minWidth: 150 }}>
+                <SelectInputsLabel id="demo-controlled-open-select-label">
+                  Show
+                </SelectInputsLabel>
 
-              <Select
-                labelId="demo-controlled-open-select-label"
-                id="demo-controlled-open-select"
-                open={filterSelectOpen}
-                onClose={handleFilterSelectClose}
-                onOpen={handleFilterSelectOpen}
-                value={filterContactsBy}
-                label="Filter"
-                onChange={handleFilterChange}
-              >
-                <FlexItem
-                  value="all"
+                <Select
+                  labelId="demo-controlled-open-select-label"
+                  id="demo-controlled-open-select"
+                  open={filterSelectOpen}
+                  onClose={handleFilterSelectClose}
+                  onOpen={handleFilterSelectOpen}
+                  value={filterContactsBy}
+                  label="Filter"
+                  onChange={handleFilterChange}
                 >
-                  All contacts
-                </FlexItem>
+                  <FlexItem value="all">All contacts</FlexItem>
 
-                <FlexItem
-                  value="favourites"
+                  <FlexItem value="favourites">Favourites contacts</FlexItem>
+
+                  <FlexItem value="blocked">Blocked contacts</FlexItem>
+                </Select>
+              </FormControl>
+            </SelectWrapper>
+
+            <SelectWrapper>
+              <FormControl sx={{ m: 1, minWidth: 150 }}>
+                <SelectInputsLabel id="demo-controlled-open-select-label">
+                  Sort By
+                </SelectInputsLabel>
+
+                <Select
+                  labelId="demo-controlled-open-select-label"
+                  id="demo-controlled-open-select"
+                  open={sortSelectOpen}
+                  onClose={handleSortSelectClose}
+                  onOpen={handleSortSelectOpen}
+                  value={sortContactsBy}
+                  label="Sort"
+                  onChange={handleSortChange}
                 >
-                  Favourites contacts
-                </FlexItem>
+                  <FlexItem value="byNone">None</FlexItem>
 
-                <FlexItem
-                  value="blocked"
-                >
-                  Blocked contacts
-                </FlexItem>
-              </Select>
-            </FormControl>
-          </SelectWrapper>
+                  <FlexItem value="byFirstName">First Name</FlexItem>
 
-          <SelectWrapper>
-            <FormControl sx={{ m: 1, minWidth: 150 }}>
-              <SelectInputsLabel id="demo-controlled-open-select-label">Sort By</SelectInputsLabel>
+                  <FlexItem value="byLastName">Last Name</FlexItem>
+                </Select>
+              </FormControl>
+            </SelectWrapper>
+          </SelectsWrapper>
 
-              <Select
-                labelId="demo-controlled-open-select-label"
-                id="demo-controlled-open-select"
-                open={sortSelectOpen}
-                onClose={handleSortSelectClose}
-                onOpen={handleSortSelectOpen}
-                value={sortContactsBy}
-                label="Sort"
-                onChange={handleSortChange}
-              >
-                <FlexItem
-                  value="byNone"
-                >
-                  None
-                </FlexItem>
+          <AddUser>
+            <Link to="/contacts/create">
+              <AddBtn color="primary" aria-label="add">
+                <AddIcon />
+              </AddBtn>
+            </Link>
 
-                <FlexItem
-                  value="byFirstName"
-                >
-                  First Name
-                </FlexItem>
+            <p>Add New</p>
+          </AddUser>
+        </AddUserContainer>
+      )}
 
-                <FlexItem
-                  value="byLastName"
-                >
-                  Last Name
-                </FlexItem>
-              </Select>
-            </FormControl>
-          </SelectWrapper>
-        </SelectsWrapper>
-
-        <AddUser>
-          <Link to="/contacts/create">
-            <AddBtn color="primary" aria-label="add">
-              <AddIcon />
-            </AddBtn>
-          </Link>
-  
-          <p>Add New</p>
-        </AddUser>
-      </AddUserContainer>
-
-      {contacts?.map(
+      {!isLoading && contacts?.map(
         ({
           id,
           firstName,
@@ -250,8 +243,10 @@ export const Contacts = () => {
 
               <UserMainInfo>
                 <UserName>
-                  <h4>{firstName} {lastName}</h4>
-                  <span>{isFavourite && <LikeBtn fontSize="medium"/>}</span>
+                  <h4>
+                    {firstName} {lastName}
+                  </h4>
+                  <span>{isFavourite && <LikeBtn fontSize="medium" />}</span>
                   <span>{isBlocked && <BlockIcon fontSize="small" />}</span>
                 </UserName>
 
@@ -278,7 +273,7 @@ export const Contacts = () => {
                 color="primary"
                 aria-label="delete"
                 type="button"
-                onClick={(e) => handleOpen(e, id)}
+                onClick={(event) => handleOpen(event, id)}
               >
                 <DeleteIcon />
               </DeleteBtn>
@@ -297,6 +292,12 @@ export const Contacts = () => {
             </div>
           </UserContainerStyled>
         )
+      )}
+
+      {isLoading && (
+        <Space size="middle" style={{ display: 'flex', justifyContent: 'center', marginTop: 200}}>
+          <Spin size="large" />
+        </Space>
       )}
     </>
   );

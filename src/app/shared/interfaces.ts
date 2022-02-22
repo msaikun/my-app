@@ -41,6 +41,7 @@ export interface IContactsState {
   contacts: IContact[];
   filterBy: string;
   sortBy: string;
+  isLoading: boolean;
 }
 
 export interface IState {

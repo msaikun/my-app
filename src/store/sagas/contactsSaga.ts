@@ -1,6 +1,7 @@
 import axios                                         from 'axios';
 import { all, call, put, takeLatest }                from 'redux-saga/effects';
 import {
+  contactsLoader,
   createContact,
   createContactFailure,
   createContactSuccesfully,
@@ -21,14 +22,23 @@ import {
 }                                                    from '../actions/types';
 
 function* fetchContactsSaga(): any {
+  contactsLoader(true);
+
   try {
-    const response: { data: any} = yield call(axios.get, '/api/v1/contacts');
+    const response: { data: any } = yield call(axios.get, '/api/v1/contacts');
+
     yield put(
       fetchContactsSuccesfully(response.data)
-    );
+    ); 
+    yield put(
+      contactsLoader(false)
+    )
   } catch (event: any) {
     yield put(
       fetchContactsFailure(event.message)
+    )
+    yield put(
+      contactsLoader(false)
     )
   }
 }
@@ -80,9 +90,9 @@ function* contactCreateSaga(action: ReturnType<typeof createContact>): any {
     yield put(
       createContactSuccesfully(response.data)
     );
-  } catch (e: any) {
+  } catch (event: any) {
     yield put(
-      createContactFailure(e.message)
+      createContactFailure(event.message)
     )
   }
 }
