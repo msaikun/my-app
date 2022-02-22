@@ -19,7 +19,7 @@ import {
 
 export const fetchContactsSuccesfully = (contacts: IContact[]) => ({
   type: FETCH_CONTACTS_SUCCESSFULLY,
-  payload: contacts,
+  payload: {contacts, isLoading: false },
 })
 
 export const fetchContactsFailure = (error: any) => ({
@@ -29,6 +29,7 @@ export const fetchContactsFailure = (error: any) => ({
 
 export const fetchContacts = () => ({
   type: FETCH_CONTACTS,
+  payload: { isLoading: true },
 })
 
 

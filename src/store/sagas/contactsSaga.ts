@@ -22,7 +22,7 @@ import {
 }                                                    from '../actions/types';
 
 function* fetchContactsSaga(): any {
-  contactsLoader(true);
+  // yield contactsLoader(true);
 
   try {
     const response: { data: any } = yield call(axios.get, '/api/v1/contacts');

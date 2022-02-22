@@ -1,4 +1,4 @@
-import React, { useState }                   from 'react';
+import React, { useEffect, useState }                   from 'react';
 import { Link, useNavigate }                 from 'react-router-dom';
 import { useDispatch, useSelector }          from 'react-redux';
 import styled                                from 'styled-components';
@@ -24,6 +24,7 @@ import {
 }                                           from '../../shared/styles';
 import { IContact }                         from '../../shared/interfaces';
 import {
+  fetchContacts,
   setContactsFilter,
   setContactsSort,
 }                                           from '../../../store/actions/contactsActions';
@@ -101,7 +102,8 @@ export const Contacts = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const contacts = useSelector(selectContacts);
-  const isLoading = useSelector((state) => state);
+  // @ts-ignore
+  const isLoading = useSelector((state) => state.contactsReducer.isLoading);
 
   const [selectedContactId, setSelectedContactId] = useState<string>();
   const [modalOpen, setModalOpen] = useState(false);
@@ -153,8 +155,12 @@ export const Contacts = () => {
     setSelectedContactId('');
   };
 
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, []);
+
     // eslint-disable-next-line no-console
-    console.log(isLoading)
+    // console.log(contacts, isLoading)
 
   return (
     <>
