@@ -7,12 +7,15 @@ import {
   FETCH_CONTACTS_SUCCESSFULLY,
   FILTER_CONTACTS_BY,
   SORT_CONTACTS_BY,
+  CONTACTS_LOADER,
+  FETCH_CONTACTS,
 }                                           from '../actions/types';
 
 const initialState: IContactsState = {
   contacts: [],
   filterBy: Filter.All,
   sortBy: Sort.None,
+  isLoading: false,
 };
 
 // eslint-disable-next-line default-param-last
@@ -24,8 +27,12 @@ export const contactsReducer = (state = initialState, action: any) => {
       return { ...state, contacts: state.contacts.map(contact => contact.id === action.payload.id ? action.payload : contact) };
     case CREATE_CONTACT_SUCCESSFULLY:
       return { ...state, contacts: [...state.contacts, action.payload] };
+    case FETCH_CONTACTS:
+      return { ...state, ...action.payload };
     case FETCH_CONTACTS_SUCCESSFULLY:
-      return { ...state, contacts: action.payload };
+      return { ...state, ...action.payload };
+    case CONTACTS_LOADER:
+      return { ...state, isLoading: action.payload };
     case FILTER_CONTACTS_BY:
       return { ...state, filterBy: action.payload };
     case SORT_CONTACTS_BY:
@@ -37,11 +44,9 @@ export const contactsReducer = (state = initialState, action: any) => {
 
 export const selectContacts = (state: IState) => {
   const { contacts, filterBy, sortBy } = state.contactsReducer;
-  let selectedContacts: IContact[] = [];
+  let selectedContacts: IContact[] = [...contacts];
 
-  if (filterBy === Filter.All) {
-    selectedContacts = contacts;
-  } if (filterBy === Filter.Favourites) {
+  if (filterBy === Filter.Favourites) {
     selectedContacts = contacts.filter(contact => contact.isFavourite);
   } if (filterBy === Filter.Blocked) {
     selectedContacts = contacts.filter(contact => contact.isBlocked);

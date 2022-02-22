@@ -41,6 +41,7 @@ export interface IContactsState {
   contacts: IContact[];
   filterBy: string;
   sortBy: string;
+  isLoading: boolean;
 }
 
 export interface IState {
@@ -54,4 +55,10 @@ export interface IUserState {
 
 export interface IUserStates {
   userReducer: IUserState;
+}
+
+export interface FormikFieldProps {
+  name: string
+  validate?: (value: any) => undefined | string | Promise<any>
+  fast?: boolean
 }

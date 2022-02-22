@@ -1,33 +1,59 @@
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams }                    from 'react-router-dom';
+import { useDispatch, useSelector }                  from 'react-redux';
+import { Formik }                                    from 'formik';
+import styled                                        from 'styled-components';
+import debounce                                      from '@mui/material/utils/debounce';
+import { Form, Row, Card, Col, Checkbox }            from 'antd';
+import { contactFormSchema }                         from './validation';
+import { MenuBlock }                                 from '../../menu/MenuBlock';
+import { Input }                                     from '../../../shared/inputs/TextInput/TextInputAntD';
+import { IContact }                                  from '../../../shared/interfaces';
 import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState
-}                                           from 'react';
-import { useNavigate, useParams }           from 'react-router-dom';
-import { useDispatch, useSelector }         from 'react-redux';
-import { Formik }                           from 'formik';
-import { pink }                             from '@mui/material/colors';
-import { CardContent, Grid }                from '@material-ui/core';
-import debounce                             from '@mui/material/utils/debounce';
-import { contactFormSchema }                from './validation';
-import { MenuBlock }                        from '../../Menu/Menu';
-import {
-  ButtonWrapper,
-  PageHeader,
+  AntButton,
+  ButtonsWrapper,
   PageForm,
-  Btn,
-  PageCheckboxWrapper,
-  CheckboxEl,
-  PageInput,
-  PageCheckBoxesWrapper,
-  UserPageCard,
-  PageElementWrapper,
-}                                          from '../../../shared/styles';
-import { TextInputField }                  from '../../../shared/formFields/TextInputField/TextInputField';
-import { IContact }                        from '../../../shared/interfaces';
-import { createContact, editContact }      from '../../../../store/actions/contactsActions';
-import { selectContacts }                  from '../../../../store/reducers/contactsReducer';
+  PageHeader
+}                                                    from '../../../shared/styles';
+import {
+  createContact,
+  editContact,
+}                                                    from '../../../../store/actions/contactsActions';
+import { selectContacts }                            from '../../../../store/reducers/contactsReducer';
+
+const UserPageCard = styled.div`&& {
+  margin-top: 50px;
+
+  ${({ theme: { breakpoints } }: any) => breakpoints.up('xs')} {
+    width: 450px;
+    height: 670px;
+  }
+
+  ${({ theme: { breakpoints } }: any) => breakpoints.up('md')} {
+    width: 550px;
+  }
+
+  ${({ theme: { breakpoints } }: any) => breakpoints.up('lg')} {
+    width: 800px;
+    height: 500px;
+  }
+}`;
+
+const PageCheckBoxesWrapper = styled.div`&& {
+  display: flex;
+  margin-top: 10px;
+}`;
+
+const PageCheckboxWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 25px;
+`;
+
+const CheckboxText = styled.p`
+  margin-left: 10px;
+  font-size: 15px;
+`;
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
@@ -46,20 +72,28 @@ export const ContactForm = () => {
   }
 
   useEffect(() => {
-    // eslint-disable-next-line no-promise-executor-return
-    const timer = setInterval(() => new Promise((resolve) => setTimeout(() => resolve(getRandomColor()), 1000))
-    .then((color) => {
-      setBackgroundColor(color as string);
-  
-      return color
-    }), 10000)
-  
+    const timer = setInterval(
+      () =>
+        new Promise((resolve) =>
+          // eslint-disable-next-line no-promise-executor-return
+          setTimeout(() => resolve(getRandomColor()), 1000)
+        ).then((color) => {
+          setBackgroundColor(color as string);
+
+          return color;
+        }),
+      10000
+    );
+
     return () => {
-      clearInterval(timer)
-    }
-  }, [])
-  
-  const contact = useMemo(() => data && data.find((item) => item.id === contactId), [data, contactId]);
+      clearInterval(timer);
+    };
+  }, []);
+
+  const contact = useMemo(
+    () => data && data.find((item) => item.id === contactId),
+    [data, contactId]
+  );
 
   const onCreate = useCallback(
     (values: IContact) => {
@@ -78,8 +112,7 @@ export const ContactForm = () => {
     [editContact]
   );
   const debouncedContactUpdate = debounce(onUpdate, 2000);
-  
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
   const initialValues = {
     firstName: '',
     lastName: '',
@@ -101,160 +134,102 @@ export const ContactForm = () => {
         onSubmit={contact ? debouncedContactUpdate : debouncedContactCreate}
         validationSchema={contactFormSchema}
       >
-        {({ values, handleChange, isValid, handleSubmit, dirty }) => (
-          <PageForm onSubmit={handleSubmit}>
-            <Grid
-              container
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <UserPageCard>
-                <PageHeader title={contact 
+        {({ values, handleChange, isValid, handleSubmit }) => (
+          <PageForm onSubmitCapture={handleSubmit}>
+            <UserPageCard>
+              <PageHeader>
+                {contact
                   ? `${contact.firstName} ${contact.lastName}`
-                  : 'Create New Contact'} 
-                />
+                  : 'Create New Contact'}
+              </PageHeader>
 
-                <CardContent>
-                  <PageElementWrapper>
-                    <Grid
-                      item
-                      xs={12}
-                      lg={6}
-                    >
-                      <PageInput
-                        type="text"
-                        name="firstName"
-                        onChange={handleChange}
-                        value={values.firstName}
-                        placeholder="First Name"
-                        component={TextInputField}
-                      />
-                    </Grid>
+              <Card>
+                <Row
+                  gutter={24}
+                  align="middle"
+                  justify="center"
+                >
+                  <Col xs={{ span: 24 }} xl={{ span: 12 }}>
+                    <Input
+                      name="firstName"
+                      onChange={handleChange}
+                      value={values.firstName}
+                      placeholder="First Name"
+                    />
+                  </Col>
 
-                    <Grid item lg={1} />
+                  <Col xs={{ span: 24 }} xl={{ span: 12 }}>
+                    <Input
+                      name="lastName"
+                      onChange={handleChange}
+                      value={values.lastName}
+                      placeholder="Last Name"
+                    />
+                  </Col>
 
-                    <Grid
-                      item
-                      xs={12}
-                      lg={6}
-                    >
-                      <PageInput
-                        type="text"
-                        name="lastName"
-                        onChange={handleChange}
-                        value={values.lastName}
-                        placeholder="Last Name"
-                        component={TextInputField}
-                      />
-                    </Grid>
-                  </PageElementWrapper>
+                  <Col xs={{ span: 24 }} xl={{ span: 12 }}>
+                    <Input
+                      name="email"
+                      onChange={handleChange}
+                      value={values.email}
+                      placeholder="Email"
+                    />
+                  </Col>
 
-                  <PageElementWrapper>
-                    <Grid
-                      item
-                      xs={12}
-                      lg={6}
-                    >
-                      <PageInput
-                        type="email"
-                        name="email"
-                        onChange={handleChange}
-                        value={values.email}
-                        placeholder="Email"
-                        component={TextInputField}
-                      />
-                    </Grid>
+                  <Col xs={{ span: 24 }} xl={{ span: 12 }}>
+                    <Input
+                      name="phone"
+                      onChange={handleChange}
+                      value={values.phone}
+                      placeholder="Phone"
+                    />
+                  </Col>
 
-                    <Grid item lg={1} />
-
-                    <Grid
-                      item
-                      xs={12}
-                      lg={6}
-                    >
-                      <PageInput
-                        type="tel"
-                        name="phone"
-                        onChange={handleChange}
-                        value={values.phone}
-                        placeholder="Phone"
-                        component={TextInputField}
-                      />
-                    </Grid>
-                  </PageElementWrapper>
-
-                  <PageElementWrapper>
-                    <Grid item xs={12}>
-                      <PageInput
-                        type="text"
-                        name="description"
-                        onChange={handleChange}
-                        value={values.description}
-                        placeholder="Description"
-                        component={TextInputField}
-                      />
-                    </Grid>
-                  </PageElementWrapper>
-                </CardContent>
+                  <Col xs={{ span: 24 }}>
+                    <Input
+                      name="description"
+                      onChange={handleChange}
+                      value={values.description}
+                      placeholder="Description"
+                    />
+                  </Col>
+                </Row>
 
                 <PageCheckBoxesWrapper>
                   <PageCheckboxWrapper>
-                    <CheckboxEl
-                      {...label}
+                    <Checkbox
                       name="isFavourite"
                       onChange={handleChange}
-                      value={values.isFavourite}
                       defaultChecked={contact ? contact.isFavourite : undefined}
-                      sx={{
-                        color: pink[800],
-                        '&.Mui-checked': {
-                          color: pink[600],
-                        },
-                      }}
                     />
-                    <p style={{backgroundColor}}>Add To Favourites</p>
+                    <CheckboxText style={{ color: backgroundColor }}>
+                      Add To Favourites
+                    </CheckboxText>
                   </PageCheckboxWrapper>
 
                   {contact && (
                     <PageCheckboxWrapper>
-                      <CheckboxEl
-                        {...label}
+                      <Checkbox
                         name="isBlocked"
                         onChange={handleChange}
-                        value={values.isBlocked}
                         defaultChecked={contact.isBlocked}
-                        sx={{
-                          color: pink[800],
-                          '&.Mui-checked': {
-                            color: pink[600],
-                          },
-                        }}
                       />
-                      <p style={{backgroundColor}}>Is Blocked</p>
+                      <CheckboxText style={{ color: backgroundColor }}>
+                        Is Blocked
+                      </CheckboxText>
                     </PageCheckboxWrapper>
                   )}
                 </PageCheckBoxesWrapper>
 
-                <ButtonWrapper>
-                  <Grid
-                    item
-                    xs={4}
-                    lg={3}
-                  >
-                    <Btn
-                      variant="contained"
-                      fullWidth
-                      color="primary"
-                      disabled={!isValid && !dirty}
-                      type="submit"
-                    >
+                <ButtonsWrapper>
+                  <Form.Item>
+                    <AntButton htmlType="submit" disabled={!isValid}>
                       {contact ? 'Save' : 'Submit'}
-                    </Btn>
-                  </Grid>
-                </ButtonWrapper>
-              </UserPageCard>
-            </Grid>
+                    </AntButton>
+                  </Form.Item>
+                </ButtonsWrapper>
+              </Card>
+            </UserPageCard>
           </PageForm>
         )}
       </Formik>

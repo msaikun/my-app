@@ -10,6 +10,10 @@ label, footer, header, menu, nav, section {
   box-sizing: border-box;
 }
 
+body {
+  background-color: beige;
+}
+
 ol, ul {
 	list-style: none;
 }
