@@ -1,6 +1,4 @@
-import axios                     from 'axios';
-import { Dispatch }              from 'redux';
-import { IContact, IUser }       from '../../app/shared/interfaces';
+import { IContact }              from '../../app/shared/interfaces';
 import {
   DELETE_CONTACT_SUCCESSFULLY,
   DELETE_CONTACT_FAILURE,
@@ -28,18 +26,9 @@ export const fetchContactsFailure = (error: any) => ({
   error,
 })
 
-export const fetchContacts = () => (dispatch: Dispatch) => {
-  dispatch({ type: FETCH_CONTACTS })
-
-  return axios
-    .get('/api/v1/contacts')
-    .then((response) => {
-      dispatch(fetchContactsSuccesfully(response.data))
-    })
-    .catch(() => {
-      dispatch(fetchContactsFailure(null))
-    })
-}
+export const fetchContacts = () => ({
+  type: FETCH_CONTACTS,
+})
 
 
 export const deleteContactSuccessfully = (id: string) => ({
@@ -52,18 +41,10 @@ export const deleteContactFailure = (error: any) => ({
   error,
 })
 
-export const deleteContact = (id: string) => (dispatch: Dispatch) => {
-  dispatch({ type: DELETE_CONTACT })
-
-  return axios
-    .delete<IUser[]>(`/api/v1/contacts/${id}`)
-    .then(() => {
-      dispatch(deleteContactSuccessfully(id))
-    })
-    .catch(() => {
-      dispatch(deleteContactFailure(null))
-    })
-}
+export const deleteContact = (id: string) => ({
+  type: DELETE_CONTACT,
+  payload: id,
+})
 
 
 export const editContactSuccesfully = (contact: IContact) => ({
@@ -76,18 +57,10 @@ export const editContactFailure = (error: any) => ({
   error
 })
 
-export const editContact = (contact: IContact, id?: string) => (dispatch: Dispatch) => {
-  dispatch({ type: EDIT_CONTACT })
-
-  return axios
-    .put<IUser[]>(`/api/v1/contacts/${id}`, contact)
-    .then(() => {
-      dispatch(editContactSuccesfully(contact))
-    })
-    .catch(() => {
-      dispatch(editContactFailure(null))
-    })
-}
+export const editContact = (contact: IContact, id?: string) => ({
+  type: EDIT_CONTACT,
+  payload: {contact, id},
+})
 
 
 export const createContactSuccesfully = (contact: IContact) => ({
@@ -100,18 +73,11 @@ export const createContactFailure = (error: any) => ({
   error,
 })
 
-export const createContact = (contact: IContact) => (dispatch: Dispatch) => {
-  dispatch({ type: CREATE_CONTACT })
+export const createContact = (contact: IContact) => ({
+  type: CREATE_CONTACT,
+  payload: contact,
+})
 
-  return axios
-    .post<IContact>('/api/v1/contacts', contact)
-    .then((response) => {
-      dispatch(createContactSuccesfully(response.data))
-    })
-    .catch(() => {
-      dispatch(createContactFailure(null))
-    })
-}
 
 export const setContactsFilter = (filterBy: string) => ({
   type: FILTER_CONTACTS_BY,

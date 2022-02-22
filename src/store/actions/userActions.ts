@@ -1,5 +1,3 @@
-import axios                                     from 'axios';
-import { Dispatch }                              from 'redux';
 import { ILoginForm, IUserState }                from '../../app/shared/interfaces';
 import {
   FETCH_USER,
@@ -17,15 +15,7 @@ export const loginFailure = (error: any) => ({
   error,
 })
 
-export const login = (data: ILoginForm) => (dispatch: Dispatch) => {
-  dispatch({ type: FETCH_USER })
-
-  return axios
-    .post('/api/v1/login', data)
-    .then((response) => {
-      dispatch(loginSuccesfully(response.data));
-    })
-    .catch(() => {
-      dispatch(loginFailure(null))
-    })
-}
+export const login = (data: ILoginForm) => ({
+  type: FETCH_USER,
+  payload: data,
+})
